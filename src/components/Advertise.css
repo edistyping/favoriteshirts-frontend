@@ -1,0 +1,13 @@
+
+
+.RequestAdvertise {
+    border: 10px solid red;
+    background-color: lightblue;
+    height: 80vh;
+    width: 100%;
+}
+
+.form__advertise {
+    background-color: grey;
+
+}

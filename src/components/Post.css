@@ -1,0 +1,73 @@
+
+  .form__container {
+    display: flex;
+    min-height: 90vh;
+  }
+
+  .form__post {
+    background-color: blue;
+  }
+
+  .form__list {
+    background-color: aquamarine;
+    border: solid 5px black;
+    padding: 15px;
+    height: auto;
+  }
+  .form__list__top {
+    display: flex;
+    width: auto;
+    height: auto;
+    background-color: greenyellow;
+  }
+  .form__list__top h3 {
+    width: auto;
+    font-size: 2.5em;
+    height: auto;
+    background-color: green;
+    margin: 0;
+
+  }
+  .form__list__top button{
+    background-color: red;
+    height: 50px;
+    width: 100px;
+  
+    margin: auto 0 auto 15px;
+  }
+  .form__list ul{
+    background-color: red;
+    width: 800px;
+    padding: 15px;
+  }
+  .form__list input[type=text] {
+    width: 80%;
+    padding: 15px;
+    font-size: 1.5em;
+  }
+
+  .form__list__item {
+    padding: 15px;
+    background-color: rgb(190, 115, 115);
+  }
+
+  .form__list__item input[type=text] {
+    width: 80%;
+    padding: 15px;
+  }
+  .form__list__item button {
+    background-color: yellow;
+    margin-left: 1%;
+    height: 50px;
+  }
+
+  .post__denied {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    align-items: center;
+    
+  }
+  .post__denied p {
+    font-size: 3em;
+  }
