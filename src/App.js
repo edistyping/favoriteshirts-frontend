@@ -1,7 +1,9 @@
 import './App.css';
 import { useEffect, useState } from 'react'
 import  { useDispatch } from 'react-redux'
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { HashRouter } from 'react-router-dom';
 
 import Navbar from './components/Navbar'
 
@@ -40,7 +42,7 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Router>
+    <HashRouter>
       <Navbar/>
 
       <main>
@@ -53,7 +55,7 @@ function App() {
 
         </Routes>
       </main>
-    </Router>
+    </HashRouter>
   );
 }
 
