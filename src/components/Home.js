@@ -110,7 +110,7 @@ const Home = () => {
                               <Product
                                 key={product.id}
                                 id={product.id}
-                                description={product.description ? products[favorite].description : ""}
+                                description={product.description ? product.description : ""}
                                 name={product.name}
                                 price={product.price}
                                 pack={product.pack}

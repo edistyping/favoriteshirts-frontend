@@ -46,7 +46,6 @@ const Product = ( props ) => {
   const [comments, setComments] = useState([])
   const [postComment, setPostComment] = useState(''); // Declare a state variable...
 
-  console.log(comments)
   const fetchData = async (id) => {
     const {statusCode, data} = await api.getRequest('/api/comment/' + id)
     if(statusCode === 200)
