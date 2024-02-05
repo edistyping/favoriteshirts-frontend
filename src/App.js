@@ -36,7 +36,7 @@ function App() {
   useEffect(() => {
     console.log('App() useEffect....')
     // dispatch(fetchCart())
-    dispatch(setUserDetails())
+    // dispatch(setUserDetails())
   }, [dispatch]);
 
   return (

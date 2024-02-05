@@ -1,9 +1,6 @@
 
-console.log('wowowowowo')
-console.log(process.env)
-
 const devConfig = {
-    baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:4000",
+    baseURL: process.env.NODE_ENV !== 'development' ? "https://favoriteshirts.azurewebsites.net" : "http://localhost:4000",
   };
   
   const prodConfig = {

@@ -4,6 +4,7 @@ import { getToken } from "./localstorage";
 console.log('hello')
 console.log(process.env)
 console.log(config)
+console.log('hello2')
 
 const getRequest = async (path) => {
   try {
@@ -13,6 +14,7 @@ const getRequest = async (path) => {
         Authorization: "Bearer " + getToken(),
       },
     };
+
     const res = await fetch(config.baseURL + path, params);
     const data = await res.text();
     return { statusCode: res.status, data };
