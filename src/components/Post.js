@@ -8,8 +8,11 @@ import { Link } from "react-router-dom";
 import LockIcon from '../assets/images/lock_icon.jpg'
 
 const Post = ({ props }) => {
-    const user = useSelector(state => state.user)
-    
+    console.log('Post')
+
+    // Issue here: When refresh, this becomes not logged in
+    const user = useSelector(state => state.user) 
+
     const [name, setName] = useState("")
     const [brand, setBrand] = useState("")
     const [description, setDescription] = useState("")
@@ -26,12 +29,6 @@ const Post = ({ props }) => {
     
     const [moreDetails, setMoreDetails] = useState("");
     const [uploadedImages, setUploadedImages] = useState([]);
-
-    /*
-        Need to Update for Images: 
-            1. Upload the function to Azure Storage
-            2. Get the URLs and post it to DB 
-    */
 
     const updateFieldChanged = index => e => {
         let newArr = [...productUrls]; // copying the old datas array

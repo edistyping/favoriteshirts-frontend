@@ -8,6 +8,8 @@ import { HashRouter } from 'react-router-dom';
 import Navbar from './components/Navbar'
 
 import Home from './components/Home'
+import White from './components/White'
+
 import ProductDetail from './components/ProductDetail'
 import Advertise from './components/Advertise'
 import Recommendation from './components/Recommendation'
@@ -48,6 +50,9 @@ function App() {
       <main>
         <Routes>
           <Route exact path="/" element={ <Home/> } />
+
+          <Route exact path="/white" element={ <White /> } />
+
           <Route exact path="/product/:id" element={ <ProductDetail/> } />
           <Route exact path="/post" element={ <Post/> } />
           {/*<Route exact path="/advertise" element={ <Advertise/> } />*/}

@@ -3,6 +3,14 @@
     - Membership 
     - Sponsor
 
+# ISSUE
+    1. For Navigation, change it to Routes instead of array.filter()
+        Everytime new Route is selected, load products again 
+            Q. Do I load setUserDetails again too?
+            1. use Route->Loader() to update data
+            2. use useEffect() 
+                - Does this run everytime a new Route is selected? 
+
 
 frontend
     - limit post
@@ -75,4 +83,10 @@ frontend
     https://medium.com/@rachealkuranchie/node-js-authentication-with-postgresql-sequelize-and-express-js-20ae773da4c9
 
 
+
+====================================================================
+-- working 
+pg_dump --dbname=postgres --host=localhost --table=product --username=postgres --encoding=utf8 --no-owner  --password > server1_db.sql
+psql --host=heffalump.db.elephantsql.com --username=ajftcpaw --dbname=ajftcpaw --password -f "server1_db.sql"
+====================================================================
 

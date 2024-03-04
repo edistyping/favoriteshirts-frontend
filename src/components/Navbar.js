@@ -59,9 +59,14 @@ const Navbar = ({click}) => {
   return (
     <nav className="navbar">
 
+      <Link className="navbar__logo" to="/white">
+        <p>hahahaha</p>
+      </Link>
+
       <Link className="navbar__logo" to="/">
         <img height={60} src={home_logo} alt="home logo" />
       </Link>
+  
   
       <ul className="navbar__category">
         <li><p><a onClick={() => {dispatch(updateCategory("WHITE")); navigate('/') }}>WHITESHIRT</a></p></li>
