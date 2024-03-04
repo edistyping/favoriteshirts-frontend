@@ -96,7 +96,7 @@ const Home = () => {
           <h2>{error}</h2>
         ) : (
           <div>
-
+            <h1>This is home fam</h1>
             <h2 className="homescreen__title">Stay Fresh {selectedCategory} </h2>
               {selectedCategory === 'FAVORITES' ? 
                 <div className='homescreen__products'>

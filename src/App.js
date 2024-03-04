@@ -8,7 +8,12 @@ import { HashRouter } from 'react-router-dom';
 import Navbar from './components/Navbar'
 
 import Home from './components/Home'
-import White from './components/White'
+
+import White from './components/displays/White'
+import Logo from './components/displays/Logo'
+import NoLogo from './components/displays/NoLogo'
+import Special from './components/displays/Special'
+
 
 import ProductDetail from './components/ProductDetail'
 import Advertise from './components/Advertise'
@@ -52,6 +57,10 @@ function App() {
           <Route exact path="/" element={ <Home/> } />
 
           <Route exact path="/white" element={ <White /> } />
+          <Route exact path="/no-logo" element={ <NoLogo /> } />
+          <Route exact path="/logo" element={ <Logo /> } />
+          <Route exact path="/special" element={ <Special /> } />
+
 
           <Route exact path="/product/:id" element={ <ProductDetail/> } />
           <Route exact path="/post" element={ <Post/> } />
