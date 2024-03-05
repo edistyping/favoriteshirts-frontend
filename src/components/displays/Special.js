@@ -11,6 +11,12 @@ const Special = ({  }) => {
             <p>{JSON.stringify(user)}</p>
 
             <p>This will be available in future</p>
+
+            popular items?
+                - This goes home
+            
+            anything non t-shirts go here 
+
         </div>
 
     );

@@ -59,12 +59,14 @@ const Product = ( props ) => {
   function handleClose(e) {
     setOpen(false);
   }
+  
   // For handling Favorite/Unfavorite  
   function handleFavorite(e) {
     console.log('hi there')
     const selectedFavorite = props.id;
     props.handleFavorite(selectedFavorite);   
   }
+  
   async function handleAddComment() {
     console.log('   handleAddComment()....')
     const user = props.user
@@ -82,35 +84,31 @@ const Product = ( props ) => {
     }
 
   }
+
   // fixing
   async function handleRemoveComment(id) {
     console.log('   handleRemoveComment()..')
     const user = props.user
-    console.log(user)
-    // remove comment
+
     const {statusCode, data} = await api.deleteRequest('/api/comment/delete', {
       id: id,
       user_id: user.userInfo.details.id
     })
     
     if ( statusCode === 200 ) {
-      console.log('AYYYYYYYYYYYYYYYY')
       const updatedComments = [...comments].filter((comment) => comment.id !== id)
       setComments(updatedComments);
       setPostComment('')
     } else if ( statusCode === 500 ) {
-      alert('error1')
+      alert('ERROR removing comment')
     }
   }
 
-  
+  // IP
   async function handleScore(id, e) {
     console.log('   handleScore()..')
-
-
     const user = props.user
     const newValue = e.target.name === 'upvote' ? 1 : -1
-    console.log(user)
 
     // remove comment
     const {statusCode, data} = await api.putRequest('/api/comment/score', {
@@ -118,12 +116,9 @@ const Product = ( props ) => {
       user_id: user.userInfo.details.id,
       value: newValue
     })
-    
     if ( statusCode === 200 ) {
       console.log('AYYYYYYYYYYYYYYYY')
       // get the comment using 'id' and update the score 
-
-
     } else if ( statusCode === 500 ) {
       alert('error1')
     }

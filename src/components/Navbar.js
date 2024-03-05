@@ -59,25 +59,30 @@ const Navbar = ({click}) => {
   return (
     <nav className="navbar">
 
-      <Link className="navbar__logo" to="/white">
-        <p>hahahaha</p>
-      </Link>
-
       <Link className="navbar__logo" to="/">
         <img height={60} src={home_logo} alt="home logo" />
       </Link>
   
-  
+      {/*
       <ul className="navbar__category">
         <li><p><a onClick={() => {dispatch(updateCategory("WHITE")); navigate('/') }}>WHITESHIRT</a></p></li>
         <li><p><a onClick={() => {dispatch(updateCategory("NO LOGO")); navigate('/') }}>LOGO FREE</a></p></li>
         <li><p><a onClick={() => {dispatch(updateCategory("LOGO")); navigate('/') }}>LOGO</a></p></li>
         <li><p><a onClick={() => {dispatch(updateCategory("CUSTOM")); navigate('/') }}>CUSTOM</a></p></li>
         <li><p><a onClick={() => {dispatch(updateCategory("FAVORITES")); dispatch(updateFavorite(user.userInfo.details.favorites)); navigate('/') }}>FAVORITES</a></p></li>
-      
         <li><Link to="/post">Post a Deal</Link></li>
       </ul>
+      */}
       
+      <ul className="navbar__category" style={{background: "green" }}>
+        <Link to="/white">White</Link>
+        <Link to="/logo">Logo</Link>
+        <Link to="/nologo">No Logo</Link>
+        <Link to="/special">Special</Link>
+      </ul>
+      
+      <Link to="/favorite">Favorites</Link>
+
 
       <ul className='navbar__links'>
         {!user.userInfo.isLogin ? (
@@ -89,18 +94,18 @@ const Navbar = ({click}) => {
             <p onClick={_handleLogout}>Logout</p>
           </li>
         )}
-
         {/*
-        <li>
-          <Link to="/advertise">Advertise Your Shirt</Link>
-        </li>
-      
-        <li className='navbar__recommendation'>
-          <Link to="/recommendation">Click for Recommendation!</Link>
-        </li>
-      */}
+          <li>
+            <Link to="/advertise">Advertise Your Shirt</Link>
+          </li>
+        
+          <li className='navbar__recommendation'>
+            <Link to="/recommendation">Click for Recommendation!</Link>
+          </li>
+        */}
       </ul>
 
+      <Link to="/post">Post a Deal</Link>
 
     </nav>
   )

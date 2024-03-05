@@ -46,6 +46,7 @@ const Home = () => {
   const selectedCategory = useSelector((state) => state.category.value)
   const currentFavorites = useSelector((state) => state.favorites.value)
 
+
   useEffect(() => {
     console.log('   Home() useEffect...')
     dispatch(listProducts())
@@ -96,7 +97,58 @@ const Home = () => {
         ) : (
           <div>
             <h1>This is home fam</h1>
-            
+            <h2 className="homescreen__title">Stay Fresh {selectedCategory} </h2>
+              {selectedCategory === 'FAVORITES' ? 
+                <div className='homescreen__products'>
+                  {/* TO DO: using id from favorites[], get products that match */  }
+                  { currentFavorites === null || currentFavorites.length === 0 ? 
+                    <p>Empty!</p> 
+                    :
+                    <div>
+                      {currentFavorites.map((favorite) => 
+                          products.filter( product => Number(product.id) === favorite).map( product => (
+                              <Product
+                                key={product.id}
+                                id={product.id}
+                                description={product.description ? product.description : ""}
+                                name={product.name}
+                                price={product.price}
+                                pack={product.pack}
+                                imageUrls={product.imageUrls}
+                                productUrls={product.productUrls}
+                                features={product.features}
+                                maintenance={product.maintenance}
+                                tags={product.tag}
+                                uploadedBy={product.uploadedBy}
+                                user={user}
+                                handleFavorite={handleFavorite}
+                              />
+                        )))}
+                    </div>
+                  }   
+                </div> 
+              : 
+                <div className='homescreen__products'>
+                  {products.filter(product => product.category === selectedCategory).map(product => (
+                    <Product
+                        key={product.id}
+                        id={product.id}
+                        description={product.description ? product.description : ""}
+                        name={product.name}
+                        price={product.price}
+                        pack={product.pack}
+                        imageUrls={product.imageUrls}
+                        productUrls={product.productUrls}
+                        features={product.features}
+                        maintenance={product.maintenance}
+                        tags={product.tag}
+                        uploadedBy={product.uploadedBy}
+                        user={user}
+                        handleFavorite={handleFavorite}
+                        />
+                    ))}
+                </div>             
+              }
           </div>
         )}
 

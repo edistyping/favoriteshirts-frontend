@@ -55,17 +55,16 @@ function App() {
       <main>
         <Routes>
           <Route exact path="/" element={ <Home/> } />
-
           <Route exact path="/white" element={ <White /> } />
-          <Route exact path="/no-logo" element={ <NoLogo /> } />
+          <Route exact path="/nologo" element={ <NoLogo /> } />
           <Route exact path="/logo" element={ <Logo /> } />
           <Route exact path="/special" element={ <Special /> } />
-
+          <Route exact path="/post" element={ <Post/> } />
 
           <Route exact path="/product/:id" element={ <ProductDetail/> } />
-          <Route exact path="/post" element={ <Post/> } />
-          {/*<Route exact path="/advertise" element={ <Advertise/> } />*/}
           <Route exact path="/recommendation" element={ <Recommendation/> } />
+          
+          {/*<Route exact path="/advertise" element={ <Advertise/> } />*/}
 
         </Routes>
       </main>
