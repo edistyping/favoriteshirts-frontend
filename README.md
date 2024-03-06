@@ -4,14 +4,11 @@
     - Sponsor
 
 # To Fix
-    1. Implement adding/removing from favorites via Products
-        - Needs a way to update 'LocalStorage' and 'State' 
-            - For state, we use redux so not bad
+    - (WHITE first) Favorites
 
-        Q1. Can we move handleFavorites to Products?
-            If so, can handleFavorites check and update Faovirtes state? Instead of us doing in Product.js 
-
-            Should it be moved to a database call? 
+        Synchro
+            - Listen for changes in Local Storage using the 'storage' event
+            - When a change occurs, dispatch an action to update the cart. Other tabs will receive this update via the 'storage' event listener
 
 # Resources
     ## Sequlize stuff

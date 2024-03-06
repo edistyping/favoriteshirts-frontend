@@ -18,18 +18,13 @@ export const favoritesSlice = createSlice({
       }
     },
 
+    // Just simple update using a provided array
     updateFavorites: (state, action) => {
-      // const { payload } = param;
-      // state.location = [...state.location, payload];
-      console.log('   updateFavorite() in redux slice')
-      console.log(action.payload)
-      
       let currentFavorites = action.payload
-      console.log(currentFavorites)
-      console.log('-------------------')
       state.value = currentFavorites
     },
 
+    // Advanced: Just get the selectedFavorite then add/remove after checking 
     updateFavorites2: (state, action) => {
       console.log('   updateFavorites2() in redux slice')
       console.log('selected: ' + action.payload)

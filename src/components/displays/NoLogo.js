@@ -40,6 +40,8 @@ const NoLogo = ({ }) => {
                         tags={product.tag}
                         uploadedBy={product.uploadedBy}
                         // handleFavorite={handleFavorite}
+                        user={user}
+
                     />
                 ))}
             </div>

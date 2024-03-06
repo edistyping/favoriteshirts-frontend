@@ -62,7 +62,6 @@ const Product = ( props ) => {
   
   // For handling Favorite/Unfavorite  
   function handleFavorite(e) {
-    console.log('hi there')
     const selectedFavorite = props.id;
     props.handleFavorite(selectedFavorite);   
   }
@@ -174,7 +173,7 @@ const Product = ( props ) => {
   return (
     <div>
         <div className="proudct__container">
-            
+          {props.id}
           <div className="product__header">
             <p>Uplaoded By <span>{props.uploadedBy}</span></p>
             <button onClick={handleFavorite}>Favorite</button>
@@ -249,11 +248,13 @@ const Product = ( props ) => {
             name="postComment" 
             placeholder="Please share your comments :D" row={4} cols={40} />
           <button onClick={handleAddComment}>Add New Comment</button>
+          
 
           { !comments.length ? <p>NO COMMENTS</p> :
           (
             <div className="product__comments__container">
-                            <h4>COMMENTS HERE ({comments.length})</h4>
+
+              <h4>COMMENTS HERE ({comments.length})</h4>
               {comments.map((comment) => 
                 <div className="product__comment">
 
@@ -261,14 +262,20 @@ const Product = ( props ) => {
                   <button name='upvote' onClick={(e) => handleScore(comment.id, e)}>+</button>
                   <button name='downvote' onClick={(e) => handleScore(comment.id, e)}>-</button>
                    */}
-                  <p> By {comment.username}: {comment.comment}</p>
-                  { comment.user_id === props.user.userInfo.details.id ? 
-                  <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
-                    : 
+
+                  <p>By {comment.username}: {comment.comment}</p>
+                  
+                  { props.user.userInfo.isLogin ? 
                     <></>
-                }
-                  </div>
-                )}        
+                    : 
+                   comment.user_id === props.user.userInfo.details.id ? 
+                    <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
+                    :
+                    <></>
+                  }
+
+                </div>
+              )}        
             </div>
           )
           } 

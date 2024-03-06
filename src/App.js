@@ -8,19 +8,18 @@ import { HashRouter } from 'react-router-dom';
 import Navbar from './components/Navbar'
 
 import Home from './components/Home'
-
 import White from './components/displays/White'
 import Logo from './components/displays/Logo'
 import NoLogo from './components/displays/NoLogo'
 import Special from './components/displays/Special'
 
-
 import ProductDetail from './components/ProductDetail'
+
 import Advertise from './components/Advertise'
 import Recommendation from './components/Recommendation'
 import Post from './components/Post'
 
-
+import { updateFavorites } from './redux/counter/favoritesSlice'
 import {setUserDetails} from './redux/actions/userAction'
 
 /* To Do
@@ -44,6 +43,10 @@ function App() {
 
   useEffect(() => {
     console.log('App() useEffect....')
+
+    const localFavorites = window.localStorage.getItem('favorites')
+    dispatch(updateFavorites(JSON.parse(localFavorites)))   
+
     // dispatch(fetchCart())
     // dispatch(setUserDetails())
   }, [dispatch]);
