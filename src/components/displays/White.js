@@ -15,6 +15,7 @@ const White = ({}) => {
     const user = useSelector(state => state.user)
     const response = useSelector(state => state.products)
     const {products, loading, error} = response
+    const favorites = useSelector((state) => state.favorites.value)
 
     useEffect(() => {
         dispatch(getProductsByCategory('WHITE'))
@@ -40,7 +41,6 @@ const White = ({}) => {
       }, []);
 
 
-    const favorites = useSelector((state) => state.favorites.value)
     
     async function handleFavorite(selectedFavorite) {
         // Update localStorage and Redux/State

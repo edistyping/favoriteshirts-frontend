@@ -44,3 +44,25 @@ export const getProductsByCategory = (category) => async dispatch => {
     })
   }
 }
+
+export const getProductsByFavorites = (favorites) => async dispatch => {
+  console.log('   getProductsByCategory() called...')
+  try {
+    dispatch({type: actionTypes.GET_PRODUCTS_REQUEST})
+    const {data} = await api.getRequest('/api/product/favorites/') // pass in favorite array
+    console.log(data)
+
+    dispatch({
+      type: actionTypes.GET_PRODUCTS_SUCCESS,
+      payload: JSON.parse(data),
+    })
+  } catch (error) {
+    dispatch({
+      type: actionTypes.GET_PRODUCTS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}

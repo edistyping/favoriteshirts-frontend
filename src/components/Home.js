@@ -100,7 +100,6 @@ const Home = () => {
           </div>
         )}
 
-
     </div>
   )
 }

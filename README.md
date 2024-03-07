@@ -4,11 +4,13 @@
     - Sponsor
 
 # To Fix
-    - (WHITE first) Favorites
-
-        Synchro
-            - Listen for changes in Local Storage using the 'storage' event
-            - When a change occurs, dispatch an action to update the cart. Other tabs will receive this update via the 'storage' event listener
+    1. How should products be loaded?
+        - Maybe each time a new Category is opened?
+            - What about favorite?
+        - Can App.js call all products?
+            => Not wise because App.js only re-render
+            - Then inside each component, just filter it accordingly to its state? 
+        
 
 # Resources
     ## Sequlize stuff
