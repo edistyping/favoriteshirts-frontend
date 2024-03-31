@@ -180,8 +180,8 @@ const Product = ( props ) => {
           </div>
 
           <div className="product__body" onClick={() => handleOpen(props.id)}>
-            <img src={props.imageUrls.length === 0 ? default_shirt : props.imageUrls[0]} alt="main" />
-            
+            <img loading="lazy" src={props.imageUrls.length === 0 ? default_shirt : props.imageUrls[0]} alt="main" />
+
             <div className="product__body__container">
                 <p>RATES  COMMENTS</p>
             </div>
@@ -213,7 +213,7 @@ const Product = ( props ) => {
       <Box sx={ModalStyle}>
         
         {props.imageUrls ? props.imageUrls.map( (imageUrl, i) => {
-          return <img key={i} src={imageUrl} style={{ height: "100px", width: "100px"}}/>
+          return <img loading="lazy" key={i} src={imageUrl} style={{ height: "100px", width: "100px"}} alt="additional_images" />
         }) 
         : <p>Hey</p>}
 

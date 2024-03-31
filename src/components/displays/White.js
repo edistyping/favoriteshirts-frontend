@@ -40,11 +40,9 @@ const White = ({}) => {
         };
       }, []);
 
-
-    
     async function handleFavorite(selectedFavorite) {
         // Update localStorage and Redux/State
-        console.log('   handleFavorite3()...')
+        console.log('   handleFavorite()...')
         selectedFavorite = Number(selectedFavorite)
 
         const isFound = favorites.find((item) => item === selectedFavorite);
@@ -62,7 +60,7 @@ const White = ({}) => {
 
     async function handleFavorite2(selectedFavorite) {
         // Update localStorage and Redux/State
-        console.log('           handleFavorite()...')
+        console.log('           handleFavorite2()...')
         selectedFavorite = Number(selectedFavorite)
         
         // do separaetly here or update in updateFavorites at the same time?  
@@ -71,7 +69,7 @@ const White = ({}) => {
     
     async function handleFavorite3(selectedFavorite) {
         // Update localStorage and Redux/State
-        console.log('   handleFavorite2()...')
+        console.log('   handleFavorite3()...')
         selectedFavorite = Number(selectedFavorite)
         console.log(selectedFavorite)
         console.log(favorites)
@@ -102,10 +100,6 @@ const White = ({}) => {
 
     return (
         <div>
-            <p>{JSON.stringify(user)}</p>
-            <p>White here</p>
-            <p>This will be available in future</p>
-            Here: {JSON.stringify(favorites)}
             <div className='homescreen__products'>
                 {products.map(product => (
                     <Product

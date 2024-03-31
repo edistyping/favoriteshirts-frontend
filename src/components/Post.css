@@ -1,64 +1,75 @@
+  p {
+    margin: 0;
+  }
 
   .form__container {
+    
     display: flex;
     min-height: 90vh;
+ 
   }
 
   .form__post {
-    background-color: blue;
+    display: flex;
+    flex-direction: column;
+
+    border: 5px solid blueviolet;
   }
 
   .form__list {
     background-color: aquamarine;
     border: solid 5px black;
-    padding: 15px;
     height: auto;
+
   }
   .form__list__top {
     display: flex;
     width: auto;
-    height: auto;
     background-color: greenyellow;
-  }
-  .form__list__top h3 {
-    width: auto;
-    font-size: 2.5em;
-    height: auto;
-    background-color: green;
-    margin: 0;
 
+  }
+  .form__list__top label {
+    width: auto;
+    font-size: 1.3em;
+    height: auto;
+    margin: 0;
   }
   .form__list__top button{
     background-color: red;
-    height: 50px;
-    width: 100px;
+    width: 64px;
   
     margin: auto 0 auto 15px;
   }
   .form__list ul{
     background-color: red;
     width: 800px;
-    padding: 15px;
+    margin: 0;
+
   }
   .form__list input[type=text] {
     width: 80%;
-    padding: 15px;
-    font-size: 1.5em;
+    font-size: 1em;
   }
 
   .form__list__item {
-    padding: 15px;
-    background-color: rgb(190, 115, 115);
+    border: 3px yellow solid;
   }
-
   .form__list__item input[type=text] {
     width: 80%;
-    padding: 15px;
+    height: 24px;
   }
   .form__list__item button {
     background-color: yellow;
     margin-left: 1%;
     height: 50px;
+  }
+  .form__post button[type=submit] {
+    border: solid 4px black;
+    height: 60px;
+    width: 200px;
+    font-size: 24px;
+    margin: auto;
+
   }
 
   .post__denied {

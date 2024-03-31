@@ -8,7 +8,6 @@ import { Link } from "react-router-dom";
 import LockIcon from '../assets/images/lock_icon.jpg'
 
 const Post = ({ props }) => {
-    console.log('Post')
 
     // Issue here: When refresh, this becomes not logged in
     const user = useSelector(state => state.user) 
@@ -20,11 +19,12 @@ const Post = ({ props }) => {
     const [pack, setPack] = useState("")
     const [discount, setDiscount] = useState("")
     const [sku, setSku] = useState("")
-    const [imageUrls, setImageUrls] = useState([]);
+    const [imageUrls, setImageUrls] = useState(["", ""]);
     const [productUrls, setProductUrls] = useState(["", ""]);
-    const [features, setFeatures] = useState([]);
-    const [maintenance, setMaintenance] = useState([]);
-    const [category, setCategory] = useState("CUSTOM");
+    const [features, setFeatures] = useState(["", ""]);
+    const [maintenance, setMaintenance] = useState(["", ""]);
+    const [category, setCategory] = useState("WHITE");
+
     const [tag, setTag] = useState([]);
     
     const [moreDetails, setMoreDetails] = useState("");
@@ -36,61 +36,138 @@ const Post = ({ props }) => {
         setProductUrls(newArr);
     }
 
-    function handleProductLinks(e) {
+    /*
+        Add or Remove from a List. 
+        If it's already at size 1, it does nothing. 
+     */
+    function handleList(e, val1) {
         // Add and Delete
         e.preventDefault()
-        if (e.target.name === "delete-productlinks" && productUrls.length === 1) {
-            return
+        
+        let current
+        switch(val1) {
+            case 'features':
+                if (e.target.name === "delete" && features.length === 1) {
+                    return
+                } else {
+                    current = [...features]
+                }
+                break
+            case 'productUrls':
+                if (e.target.name === "delete" && productUrls.length === 1) {
+                    return
+                } else {
+                    current = [...productUrls]
+                }                break
+            case 'imageUrls':
+                if (e.target.name === "delete" && imageUrls.length === 1) {
+                    return
+                } else {
+                    current = [...imageUrls]
+                }                break
+            case 'maintenance':
+                if (e.target.name === "delete" && maintenance.length === 1) {
+                    return
+                } else {
+                    current = [...maintenance]
+                }                break
+            default: 
+                break
         }
 
-        let current = [...productUrls]
-        if (e.target.name === "add-productlinks") {
+        // Increment/Decrement the List depending on whether User clicked +/-
+        if (e.target.name === "add") {
             current.push("")
-        } else if (e.target.name === "delete-productlinks") {
+        } else if (e.target.name === "delete") {
             current.splice(e.target.id, 1)
         }
-        setProductUrls(current)
+
+        // Update the State variable 
+        switch(val1) {
+            case 'features':
+                setFeatures(current)
+                break
+            case 'productUrls':
+                setProductUrls(current)
+                break
+            case 'imageUrls':
+                setImageUrls(current)
+                break
+            case 'maintenance':
+                setMaintenance(current)
+                break
+            default: 
+                break
+        }
     }
 
-    async function handleSubmit(e) {
-        e.preventDefault()
+    const handleSubmit = async (formData) => {
+        // e.preventDefault()
         console.log('    Your Post is Submitted');
-        console.log(user)
 
         if (user.userInfo.isLogin) { 
             const user_id = user.userInfo.details.id
             const user_type = user.userInfo.details.type_id
-            
+
             console.log("       handleSubmit()...")
+            // outputFormData()
 
-            // TO DO
-            // 1. Need to upload this Azure Storage 
-            // 2. Get the links and attach it
-
-            // TEST
-            console.log(uploadedImages)
-            if (uploadedImages.length > 3) {
-                alert("Files selected are greater than 3")
-                return
+            const validationResult = validateSubmit()  
+            
+            if (validationResult === true) {
+                const newPostData = { 
+                    brand, name, description, price, pack, discount, sku, 
+                    imageUrls, productUrls, features, maintenance, category, tag,
+                    user_id
+                }
+            
+                const {statusCode, data} = await api.postRequest('/api/product/upload', 
+                    newPostData
+                )
+                
+                alert(statusCode) 
+                
+                if (statusCode === 400 || statusCode === 500) {
+                    console.log("       There was an error submitting the post")
+                    alert(`There was an error! ${statusCode}` )
+                    return
+                } 
+                
+                alert("Your Post was successfully uploaded!")
             }
-
-            if (name === "" || brand === "") {
-                alert("Name and/or Brand is not provided!")
-                return
-            } 
-
-            const {statusCode, data} = await api.postRequest('/api/product/upload', 
-                { user_id, user_type, name, brand, description, price, pack, discount, sku, imageUrls, productUrls, features, maintenance, category, tag, moreDetails }
-            )
-
-            if (statusCode === 500) {
-                console.log("       There was an error submitting the post")
-            } 
-
-            alert("Your Post was successfully uploaded!")
         } else {
             console.log('       User is not logged in!')
         }
+    }
+
+    function validateSubmit(data) {
+        // const newPostData = {
+        //     user_id, user_type, 
+        //     name, brand, description, price, pack, discount, sku, imageUrls, productUrls, features, maintenance, category, tag, moreDetails
+        // }
+        // user.userInfo.isLogin
+
+        if (name === "" || brand === "" || description === "" || price === null || imageUrls.length === 0 || productUrls.length === 0) {
+            // alert("Name and/or Brand is not provided!")
+            return true
+        } 
+
+        return true
+    }
+
+    function outputFormData() {
+        console.log('name: ' +name)
+        console.log('brand: ' +brand)
+        console.log('description: ' +description)
+        console.log('price: ' +price)
+        console.log('pack: ' +pack)
+        console.log('discount: ' +discount)
+        console.log('sku: ' +sku)
+        console.log('imageUrls: ' +imageUrls)
+        console.log('productUrls: ' +productUrls)
+        console.log('features: ' +features)
+        console.log('maintenance: ' +maintenance)
+        console.log('category: ' +category)
     }
 
     return (
@@ -98,55 +175,96 @@ const Post = ({ props }) => {
 
             { user.userInfo.isLogin  ? 
 
-                <form className="form__post" encType='multipart/form-data'>
-                    <label>
-                        Product Name:
-                        <input value={name} type="text" name="name" onChange={e => setName(e.target.value)} />
-                    </label>
+                <form className="form__post" encType='multipart/form-data' onSubmit={handleSubmit}>
+                    
+                    <label> Product Name: </label>
+                    <input value={name} type="text" name="productName" onChange={e => setName(e.target.value)} />
 
-                    <label>
-                        Brand:
-                        <input value={brand} type="text" name="name" onChange={e => setBrand(e.target.value)} />
-                    </label>
+                    <label> Brand: </label>
+                    <input value={brand} type="text" name="brand" onChange={e => setBrand(e.target.value)} />
 
-                    <label>
-                        <div className="form__list">
-                            <div className="form__list__top">
-                                <h3>Link to Product</h3>
-                                <button name="add-productlinks" onClick={handleProductLinks}>+</button>
-                            </div>
+                    <label> Description (Optional): </label>
+                    <textarea value={description} name="description" onChange={e => setDescription(e.target.value)} />
 
-                            <ul>
-                                <p><b>Ex</b>: https://www.amazon.com/Gildan-Mens-T-Shirt-Assortment-Large..... </p>
-                                {
-                                    productUrls.map((productUrl, index) => 
-                                        <li className="form__list__item" key={index} >
-                                            {index} <input type="text" name="name" value={productUrl} onChange={updateFieldChanged(index)}  />
-                                            <button id={index} name="delete-productlinks" onClick={handleProductLinks}>DELETE</button>
-                                        </li>
-                                    )
-                                }
-                            </ul>
+                    <label> Price: </label>
+                    <input value={price} type="text" name="price" onChange={e => setPrice(e.target.value)} />
+
+                    <div className="form__list">
+                        <div className="form__list__top">
+                            <label> Link to Product </label>
+                            <button name="add" onClick={(e => handleList(e, 'productUrls'))}>+</button>
                         </div>
-                    </label>
 
-                    <label>
-                        Description (Optional):
-                        <textarea value={description} name="description" onChange={e => setDescription(e.target.value)} />
-                    </label>
+                        <ul>
+                            <p><b>Ex</b>: https://www.amazon.com/Gildan-Mens-T-Shirt-Assortment-Large..... </p>
+                            {
+                                productUrls.map((productUrl, index) => 
+                                    <li className="form__list__item" key={index} >
+                                        <input type="text" name="productUrl" value={productUrl} onChange={updateFieldChanged(index)}  />
+                                        <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
+                                    </li>
+                                )
+                            }
+                        </ul>
+                    </div>
 
-                    <label>
-                        Images: Use li here (Files or URL; Optional) 
-                        <input type="text" name="imageUrl" />
-                        <input type="file" multiple name="uplaodedImages" accept="image/png, image/jpg, image/jpeg" onChange={(e)=> setUploadedImages(e.target.files)} />
-                    </label>
-                            
-                    <label>
-                        Features (Optional): Use li here 
-                        <input type="text" name="features" />
-                    </label>
+                    <div className="form__list">
+                        <div className="form__list__top">
+                            <label> Images </label>
+                            <button name="add" onClick={(e => handleList(e, 'imageUrls'))}>+</button>
+                        </div>
+                        <ul>
+                            <p><b>Ex</b>: https://amazon.com/.../...png</p>
+                            {
+                                imageUrls.map((image, index) => 
+                                    <li className="form__list__item" key={index} >
+                                        {index} <input type="text" name="name" value={image} onChange={updateFieldChanged(index)}  />
+                                        <button id={index} name="delete" onClick={(e => handleList(e, 'imageUrls'))}>DELETE</button>
+                                    </li>
+                                )
+                            }
+                        </ul>
+                    </div>
 
-                    <input type="submit" value="Submit" onClick={handleSubmit} />
+                    <div className="form__list">
+                        <div className="form__list__top">
+                            <label> Features </label>
+                            <button name="add" onClick={(e => handleList(e, 'features'))}>+</button>
+                        </div>
+
+                        <ul>
+                            <p><b>Ex</b>: Wash Cold</p>
+                            {
+                                features.map((feature, index) => 
+                                    <li className="form__list__item" key={index} >
+                                        {index} <input type="text" name="name" value={feature} onChange={updateFieldChanged(index)}  />
+                                        <button id={index} name="delete" onClick={(e => handleList(e, 'features'))}>DELETE</button>
+                                    </li>
+                                )
+                            }
+                        </ul>
+                    </div>
+
+                    <div className="form__list">
+                        <div className="form__list__top">
+                            <label> Maintenance </label>
+                            <button name="add" onClick={(e => handleList(e, 'maintenance'))}>+</button>
+                        </div>
+
+                        <ul>
+                            <p><b>Ex</b>: https://amazon.com/.../...png</p>
+                            {
+                                maintenance.map((item, index) => 
+                                    <li className="form__list__item" key={index} >
+                                        {index} <input type="text" name="name" value={item} onChange={updateFieldChanged(index)}  />
+                                        <button id={index} name="delete" onClick={(e => handleList(e, 'maintenance'))}>DELETE</button>
+                                    </li>
+                                )
+                            }
+                        </ul>
+                    </div>
+
+                    <button type="submit" >Submit </button>
                 </form>
                 :
                 <div className="post__denied">

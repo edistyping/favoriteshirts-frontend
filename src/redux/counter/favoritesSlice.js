@@ -1,6 +1,6 @@
 import { createSlice, current } from '@reduxjs/toolkit'
 
-import { getDefaultFavorites } from '../../utils/localstorage'
+import { loadFavorites } from '../../utils/localstorage'
 
 export const favoritesSlice = createSlice({
   name: 'favorites',
@@ -10,7 +10,7 @@ export const favoritesSlice = createSlice({
   reducers: {
     setInitialFavorites: (state) => {
       console.log('   setInitialFavorites() in redux')
-      var data = getDefaultFavorites()
+      var data = loadFavorites()
       if (Array.isArray(data)) {
         state.value = data
       } else {

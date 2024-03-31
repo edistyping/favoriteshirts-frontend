@@ -12,12 +12,12 @@ import Modal from '@mui/material/Modal';
 import { decrement, increment } from '../redux/counter/counterSlice'
 import { getProducts as listProducts } from '../redux/actions/productActions'
 import { setUserDetails } from '../redux/actions/userAction'
-import { setInitialFavorites, updateFavorites } from '../redux/counter/favoritesSlice'
+import { updateFavorites } from '../redux/counter/favoritesSlice'
 
 import { api } from '../utils/api'
 import { current } from '@reduxjs/toolkit'
 
-import { getDefaultFavorites, setFavorites} from '../utils/localstorage'
+import { loadFavorites, setFavorites} from '../utils/localstorage'
 
 const ModalStyle = {
   position: 'absolute',
@@ -42,22 +42,20 @@ const Home = () => {
   const {products, loading, error} = response
 
   const user = useSelector(state => state.user)
-  const count = useSelector((state) => state.counter.value)
-  const selectedCategory = useSelector((state) => state.category.value)
-  const currentFavorites = useSelector((state) => state.favorites.value)
+  const favorites = useSelector((state) => state.favorites.value)
 
   useEffect(() => {
     console.log('   Home() useEffect...')
     dispatch(listProducts())
-    dispatch(setUserDetails())
-    dispatch(setInitialFavorites())
+    // dispatch(setUserDetails())
+    // dispatch(setInitialFavorites())
   }, [dispatch])
 
   useEffect(() => {
     const interval = setInterval(async () => {
       if (user.userInfo.isLogin) {
         const user_id = user.userInfo.details.id
-        const favorites = getDefaultFavorites() // ISSUE: 'currentFavorites' stays on as the old/original data
+        const favorites = loadFavorites() // ISSUE: 'currentFavorites' stays on as the old/original data
         const {statusCode, data} = await api.postRequest('/api/user/updatefavorites', {user_id, favorites })
       }
     }, 30000);
@@ -67,23 +65,22 @@ const Home = () => {
   }, [user]);
 
   async function handleFavorite(selectedFavorite) {
-      // Update localStorage and User.favorites redux
-      // 1. check if selectedFavorite is included in Userfavorites. 
+    // Update localStorage and Redux/State
+    console.log('   handleFavorite()...')
     selectedFavorite = Number(selectedFavorite)
-    let new_favorites = [...currentFavorites]
-    if (currentFavorites.length === 0) {
-      new_favorites.push(selectedFavorite)
+
+    const isFound = favorites.find((item) => item === selectedFavorite);
+    let newFavorites = []
+
+    if (isFound) {
+        newFavorites = favorites.filter(favorite => favorite !== selectedFavorite)
     } else {
-      let index = new_favorites.findIndex((element) => element === selectedFavorite)
-      if (index === -1) {
-        new_favorites.push(selectedFavorite)
-      } else {
-        new_favorites = new_favorites.filter(new_favorite => new_favorite !== selectedFavorite)
-      }
+        newFavorites = [...favorites]
+        newFavorites.push(selectedFavorite)
     }
-    setFavorites(JSON.stringify(new_favorites))
-    dispatch(updateFavorites(new_favorites))
-  }
+    window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
+    dispatch(updateFavorites(newFavorites)) 
+}
 
   return (
     <div className="homescreen">
@@ -95,9 +92,28 @@ const Home = () => {
           <h2>{error}</h2>
         ) : (
           <div>
-            <h1>This is home fam</h1>
-            
-          </div>
+            <p>Welcome to my website! {favorites}</p>
+            <div className='homescreen__products'>
+              {products.map(product => (
+                <Product
+                    key={product.id}
+                    id={product.id}
+                    description={product.description ? product.description : ""}
+                    name={product.name}
+                    price={product.price}
+                    pack={product.pack}
+                    imageUrls={product.imageUrls}
+                    productUrls={product.productUrls}
+                    features={product.features}
+                    maintenance={product.maintenance}
+                    tags={product.tag}
+                    uploadedBy={product.uploadedBy}
+                    handleFavorite={handleFavorite}
+                    user={user}
+                />
+              ))}
+            </div>
+        </div>
         )}
 
     </div>

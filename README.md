@@ -4,13 +4,20 @@
     - Sponsor
 
 # To Fix
-    1. How should products be loaded?
-        - Maybe each time a new Category is opened?
-            - What about favorite?
-        - Can App.js call all products?
-            => Not wise because App.js only re-render
-            - Then inside each component, just filter it accordingly to its state? 
-        
+    1. Fixed Favorites
+    2. Updating Post page 
+        Add imageUrl
+        Add Files
+            If image files
+                1. Send it to Azure Storage
+                2. Update database 
+
+
+// TO DO
+// 1. Add capabiltiy for users to user their image file
+    - Condense, add to Storageaccount, get the id and add to database 
+// 2. Fix Favorites workflow (syncing)
+    - localStorage vs Database 
 
 # Resources
     ## Sequlize stuff

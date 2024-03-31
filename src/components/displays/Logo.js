@@ -5,6 +5,7 @@ import { api } from '../../utils/api'
 import Product from '../Product'
 
 import { getProductsByCategory } from '../../redux/actions/productActions'
+import { updateFavorites } from '../../redux/counter/favoritesSlice'
 
 const Logo = ({  }) => {
     console.log('Logo here')
@@ -12,16 +13,33 @@ const Logo = ({  }) => {
     const user = useSelector(state => state.user)
     const response = useSelector(state => state.products)
     const {products, loading, error} = response
+    const favorites = useSelector((state) => state.favorites.value)
 
     useEffect(() => {
         dispatch(getProductsByCategory('LOGO'))
     }, [dispatch])
     
+    
+    async function handleFavorite(selectedFavorite) {
+        // Update localStorage and Redux/State
+        console.log('   handleFavorite()...')
+        selectedFavorite = Number(selectedFavorite)
+
+        const isFound = favorites.find((item) => item === selectedFavorite);
+        let newFavorites = []
+
+        if (isFound) {
+            newFavorites = favorites.filter(favorite => favorite !== selectedFavorite)
+        } else {
+            newFavorites = [...favorites]
+            newFavorites.push(selectedFavorite)
+        }
+        window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
+        dispatch(updateFavorites(newFavorites)) 
+    }
+
     return (
         <div >
-            <p>{JSON.stringify(user)}</p>
-            <p>LOGO here</p>
-            <p>This will be available in future</p>
             <div className='homescreen__products'>
             {products.map(product => (
                 <Product
@@ -37,9 +55,8 @@ const Logo = ({  }) => {
                     maintenance={product.maintenance}
                     tags={product.tag}
                     uploadedBy={product.uploadedBy}
-                    // handleFavorite={handleFavorite}
+                    handleFavorite={handleFavorite}
                     user={user}
-
                 />
             ))}
           </div>

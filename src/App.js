@@ -20,8 +20,8 @@ import Advertise from './components/Advertise'
 import Recommendation from './components/Recommendation'
 import Post from './components/Post'
 
-import { updateFavorites } from './redux/counter/favoritesSlice'
-import {setUserDetails} from './redux/actions/userAction'
+import { setInitialFavorites, updateFavorites } from './redux/counter/favoritesSlice'
+import { setUserDetails } from './redux/actions/userAction'
 
 /* To Do
   1. Create navs 
@@ -42,11 +42,13 @@ function App() {
   console.log('App()...');
   const dispatch = useDispatch()
 
+  // Initialize user and favorites whenever the app is loaded
+  // products will be loaded when each page is loaded  
   useEffect(() => {
     console.log('App() useEffect....')
-    const localFavorites = window.localStorage.getItem('favorites')
-    dispatch(updateFavorites(JSON.parse(localFavorites)))   
-    // dispatch(setUserDetails()) // Do I need this? 
+
+    dispatch(setInitialFavorites())
+    dispatch(setUserDetails()) // Do I need this? 
   }, [dispatch]);
 
   return (

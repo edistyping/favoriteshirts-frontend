@@ -25,7 +25,8 @@ export const setFavorites = favorites => {
   window.localStorage.setItem('favorites', favorites)
 }
 
-export const getDefaultFavorites = () => {
+export const loadFavorites = () => {
+  console.log('   loadingFavorite from localStorage')
   let favorites = window.localStorage.getItem('favorites')
   if (!!favorites) {
     let result = JSON.parse(favorites)
