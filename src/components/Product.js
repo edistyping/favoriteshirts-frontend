@@ -69,37 +69,52 @@ const Product = ( props ) => {
   async function handleAddComment() {
     console.log('   handleAddComment()....')
     const user = props.user
-    const {statusCode, data} = await api.postRequest('/api/comment/post', {
-      user_id: user.userInfo.details.id,
-      username: user.userInfo.details.username,
-      product_id: props.id,
-      comment: postComment
-    })
-    if ( statusCode === 200 ) {
-      setComments(oldComments => [...oldComments, JSON.parse(data)] );
-      setPostComment('')
-    } else if ( statusCode === 500 ) {
-      alert('error1')
-    }
 
+    if (props.user.userInfo.isLogin) {
+      const {statusCode, data} = await api.postRequest('/api/comment/post', {
+        user_id: user.userInfo.details.id,
+        username: user.userInfo.details.username,
+        product_id: props.id,
+        comment: postComment
+      })
+      if ( statusCode === 200 ) {
+        setComments(oldComments => [...oldComments, JSON.parse(data)] );
+        setPostComment('')
+      } else if ( statusCode === 500 ) {
+        alert('There was an issue when adding a comment... (Code 500)')
+      }  
+    }
+    else {
+      alert('There was an issue when adding a comment... (Not Logged In)')
+    }
   }
 
-  // fixing
+  // Fixing
+  // Check if User matches the comment's user_id
+  // If so, send it
   async function handleRemoveComment(id) {
     console.log('   handleRemoveComment()..')
-    const user = props.user
 
-    const {statusCode, data} = await api.deleteRequest('/api/comment/delete', {
-      id: id,
-      user_id: user.userInfo.details.id
-    })
-    
-    if ( statusCode === 200 ) {
-      const updatedComments = [...comments].filter((comment) => comment.id !== id)
-      setComments(updatedComments);
-      setPostComment('')
-    } else if ( statusCode === 500 ) {
-      alert('ERROR removing comment')
+    // input variable 'id' is comment_id, not user_id
+    if (props.user.userInfo.isLogin) {
+
+      const {statusCode, data} = await api.deleteRequest('/api/comment/delete', {
+        id: id,
+        user_id: props.user.userInfo.details.id
+      })
+      
+      if ( statusCode === 200 ) {
+        const updatedComments = [...comments].filter((comment) => comment.id !== id)
+        console.log('howdare you')
+        console.log(updatedComments.length)
+        setComments(updatedComments);
+        setPostComment('')
+      } else if ( statusCode === 500 ) {
+        alert('ERROR removing comment')
+      }
+
+    } else {
+      alert('not your comment')
     }
   }
 
@@ -254,24 +269,16 @@ const Product = ( props ) => {
           (
             <div className="product__comments__container">
 
-              <h4>COMMENTS HERE ({comments.length})</h4>
+              <h4>COMMENTS HERE ({comments.length}) </h4>
               {comments.map((comment) => 
                 <div className="product__comment">
 
-                  {/*
-                  <button name='upvote' onClick={(e) => handleScore(comment.id, e)}>+</button>
-                  <button name='downvote' onClick={(e) => handleScore(comment.id, e)}>-</button>
-                   */}
+                  <p>{comment.comment}</p>
 
-                  <p>By {comment.username}: {comment.comment}</p>
-                  
-                  { props.user.userInfo.isLogin ? 
-                    <></>
-                    : 
-                   comment.user_id === props.user.userInfo.details.id ? 
-                    <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
-                    :
-                    <></>
+                  { props.user.userInfo.isLogin && Number(comment.user_id) === Number(props.user.userInfo.details.id) ? 
+                      <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
+                      :
+                      <></>
                   }
 
                 </div>

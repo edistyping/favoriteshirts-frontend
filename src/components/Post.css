@@ -12,20 +12,26 @@
   .form__post {
     display: flex;
     flex-direction: column;
-
     border: 5px solid blueviolet;
   }
 
+  .form__post__section {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 20px;
+  }
+
   .form__list {
-    background-color: aquamarine;
     border: solid 5px black;
     height: auto;
+
+    margin-bottom: 20px;
 
   }
   .form__list__top {
     display: flex;
     width: auto;
-    background-color: greenyellow;
 
   }
   .form__list__top label {
@@ -35,13 +41,11 @@
     margin: 0;
   }
   .form__list__top button{
-    background-color: red;
     width: 64px;
   
     margin: auto 0 auto 15px;
   }
   .form__list ul{
-    background-color: red;
     width: 800px;
     margin: 0;
 
@@ -52,16 +56,15 @@
   }
 
   .form__list__item {
-    border: 3px yellow solid;
   }
   .form__list__item input[type=text] {
     width: 80%;
     height: 24px;
   }
   .form__list__item button {
-    background-color: yellow;
+    background-color: lightskyblue;
     margin-left: 1%;
-    height: 50px;
+    height: 24px;
   }
   .form__post button[type=submit] {
     border: solid 4px black;

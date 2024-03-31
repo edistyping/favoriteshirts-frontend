@@ -23,7 +23,7 @@ const Post = ({ props }) => {
     const [productUrls, setProductUrls] = useState(["", ""]);
     const [features, setFeatures] = useState(["", ""]);
     const [maintenance, setMaintenance] = useState(["", ""]);
-    const [category, setCategory] = useState("WHITE");
+    const [category, setCategory] = useState("NO LOGO");
 
     const [tag, setTag] = useState([]);
     
@@ -101,19 +101,19 @@ const Post = ({ props }) => {
         }
     }
 
-    const handleSubmit = async (formData) => {
-        // e.preventDefault()
-        console.log('    Your Post is Submitted');
+    // To Do
+    // How to solve Choice thing 
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        console.log("       handleSubmit()...")
+        console.log(category)
 
         if (user.userInfo.isLogin) { 
             const user_id = user.userInfo.details.id
-            const user_type = user.userInfo.details.type_id
+            const user_type = user.userInfo.details.type_id // for future conditions
 
-            console.log("       handleSubmit()...")
-            // outputFormData()
+            const validationResult = validateSubmit()              
 
-            const validationResult = validateSubmit()  
-            
             if (validationResult === true) {
                 const newPostData = { 
                     brand, name, description, price, pack, discount, sku, 
@@ -125,37 +125,28 @@ const Post = ({ props }) => {
                     newPostData
                 )
                 
-                alert(statusCode) 
-                
                 if (statusCode === 400 || statusCode === 500) {
                     console.log("       There was an error submitting the post")
                     alert(`There was an error! ${statusCode}` )
                     return
                 } 
-                
                 alert("Your Post was successfully uploaded!")
+            } else {
+                alert("     Not enough info provided to post a product...")
             }
         } else {
-            console.log('       User is not logged in!')
+            alert('       Please login in order to post :D')
         }
     }
 
-    function validateSubmit(data) {
-        // const newPostData = {
-        //     user_id, user_type, 
-        //     name, brand, description, price, pack, discount, sku, imageUrls, productUrls, features, maintenance, category, tag, moreDetails
-        // }
-        // user.userInfo.isLogin
-
+    function validateSubmit() {
         if (name === "" || brand === "" || description === "" || price === null || imageUrls.length === 0 || productUrls.length === 0) {
-            // alert("Name and/or Brand is not provided!")
-            return true
+            return false
         } 
-
         return true
     }
 
-    function outputFormData() {
+    function printFormData() {
         console.log('name: ' +name)
         console.log('brand: ' +brand)
         console.log('description: ' +description)
@@ -174,20 +165,41 @@ const Post = ({ props }) => {
         <div className="form__container" >
 
             { user.userInfo.isLogin  ? 
-
                 <form className="form__post" encType='multipart/form-data' onSubmit={handleSubmit}>
-                    
-                    <label> Product Name: </label>
-                    <input value={name} type="text" name="productName" onChange={e => setName(e.target.value)} />
+                    <h2>Share your own or favorite shirt! </h2>
 
-                    <label> Brand: </label>
-                    <input value={brand} type="text" name="brand" onChange={e => setBrand(e.target.value)} />
+                    <div className="form__post__section">
+                        <label> Product Name: </label>
+                        <input value={name} type="text" name="productName" onChange={e => setName(e.target.value)} />
+                    </div>
 
-                    <label> Description (Optional): </label>
-                    <textarea value={description} name="description" onChange={e => setDescription(e.target.value)} />
+                    <div className="form__post__section">
+                        <label> Brand: </label>
+                        <input value={brand} type="text" name="brand" onChange={e => setBrand(e.target.value)} />
+                    </div>
 
-                    <label> Price: </label>
-                    <input value={price} type="text" name="price" onChange={e => setPrice(e.target.value)} />
+                    <div className="form__post__section">
+                        <label> Description (Optional): </label>
+                        <textarea value={description} name="description" onChange={e => setDescription(e.target.value)} />
+                    </div>
+
+                    <div className="form__post__section">
+                        <label> Price: </label>
+                        <input value={price} type="number" name="price" onChange={e => setPrice(e.target.value)} />
+                    </div>
+
+                    <div className="form__post__section">
+                        <div className="form__select">
+                            <label> Category {category} </label> 
+                            <div>
+                                <select name="category" value={category} onChange={e => setCategory(e.target.value)} >
+                                    <option value="WHITE">WHITE</option>
+                                    <option value="NO LOGO">NO LOGO</option>
+                                    <option value="LOGO">LOGO</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="form__list">
                         <div className="form__list__top">
@@ -196,7 +208,7 @@ const Post = ({ props }) => {
                         </div>
 
                         <ul>
-                            <p><b>Ex</b>: https://www.amazon.com/Gildan-Mens-T-Shirt-Assortment-Large..... </p>
+                            <p><b>Ex</b>: https://www.amazon.com/T-Shirt-Assortments..... </p>
                             {
                                 productUrls.map((productUrl, index) => 
                                     <li className="form__list__item" key={index} >
@@ -214,7 +226,7 @@ const Post = ({ props }) => {
                             <button name="add" onClick={(e => handleList(e, 'imageUrls'))}>+</button>
                         </div>
                         <ul>
-                            <p><b>Ex</b>: https://amazon.com/.../...png</p>
+                            <p><b>Ex</b>: https://m.media-amazon.com/images/...png</p>
                             {
                                 imageUrls.map((image, index) => 
                                     <li className="form__list__item" key={index} >
@@ -233,7 +245,7 @@ const Post = ({ props }) => {
                         </div>
 
                         <ul>
-                            <p><b>Ex</b>: Wash Cold</p>
+                            <p><b>Ex:</b> Soft, breathable cotton </p>
                             {
                                 features.map((feature, index) => 
                                     <li className="form__list__item" key={index} >
@@ -252,7 +264,7 @@ const Post = ({ props }) => {
                         </div>
 
                         <ul>
-                            <p><b>Ex</b>: https://amazon.com/.../...png</p>
+                            <p><b>Ex:</b> Cold Wash Only</p>
                             {
                                 maintenance.map((item, index) => 
                                     <li className="form__list__item" key={index} >
