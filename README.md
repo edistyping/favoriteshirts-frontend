@@ -1,7 +1,5 @@
-# Frontend
-To re-deploy to github (static website), run the following two
-    npm run build
-    npm run deploy
+# TO DO 
+    - Look into how resetting JWT works once we recevie it .
 
 # HOW TO MONETIZE?
     - Donation (please help me)
@@ -16,9 +14,11 @@ To re-deploy to github (static website), run the following two
     3. Admin page 
     4. Home page update 
 
-# TO DO 
-    1. Add capabiltiy for users to user their image file
-        - Condense, add to Storageaccount, get the id and add to database 
+
+# COMMMANDS
+To re-deploy to github (static website), run the following two
+    npm run build
+    npm run deploy
 
 
 # Resources

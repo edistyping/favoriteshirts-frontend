@@ -101,7 +101,8 @@ const White = ({}) => {
     return (
         <div>
             <div className='homescreen__products'>
-                {products.map(product => (
+                <p>{products.length}</p>sdfsfsf
+                { products ? products.map(product => (
                     <Product
                         key={product.id}
                         id={product.id}
@@ -117,8 +118,12 @@ const White = ({}) => {
                         uploadedBy={product.uploadedBy}
                         handleFavorite={handleFavorite}
                         user={user}
-                    />
-                ))}
+                    /> ))
+                    :
+                    <>
+                        LOADING HERE
+                    </>
+                }
             </div>
         </div>
     );

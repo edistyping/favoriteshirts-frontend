@@ -1,6 +1,6 @@
 
 const devConfig = {
-    baseURL: process.env.NODE_ENV !== 'development' ? "https://favoriteshirts.azurewebsites.net" : "http://localhost:4000",
+    baseURL: process.env.NODE_ENV !== 'development' ? "http://localhost:5167" : "http://localhost:5167",
   };
   
   const prodConfig = {

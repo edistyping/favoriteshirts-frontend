@@ -45,8 +45,6 @@ function App() {
   // Initialize user and favorites whenever the app is loaded
   // products will be loaded when each page is loaded  
   useEffect(() => {
-    console.log('App() useEffect....')
-
     dispatch(setInitialFavorites())
     dispatch(setUserDetails()) // Do I need this? 
   }, [dispatch]);

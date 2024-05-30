@@ -22,26 +22,33 @@ function LoginSignUp() {
   const [signUp, setSignUp] = useState(false) 
 
   const _handleSignIn = useCallback(async () => {
-    if (email.length > 2 && password.length > 2) {
+    if (username.length > 2 && password.length > 2) {
       setLoading(true)
 
+      console.log('handlesignin')
       const {statusCode, data} = await api.postRequest('/api/user/signin', {
-        email,
-        password,
+        Email: "",
+        Username: username,
+        Password: password,
       })
+
+      console.log(statusCode)
+      console.log(data)
+      console.log('aaaaaaaaaaaaaaaa')
+
 
       setLoading(false)
       if (statusCode === 400 || statusCode === 500 || statusCode === 403) {
         setLoading(false)
-        alert(data)
         return
       }
       
-      const {token} = JSON.parse(data)
+      const token = data
+      alert('Token received is ' + token)
       setToken(token)
       dispatch(setUserDetails())
     }
-  }, [email, password, navigate])
+  }, [username, password, navigate])
 
   if (loading) return <h1>Loading.....</h1>
   return (
@@ -51,12 +58,12 @@ function LoginSignUp() {
             :
             <>
               <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Your email.."
-              value={email}
-              onChange={e => setEmail(e.target.value)}
+              type="username"
+              id="username"
+              name="username"
+              placeholder="Your username.."
+              value={username}
+              onChange={e => setUsername(e.target.value)}
               />
               <input
                 type="password"

@@ -1,11 +1,6 @@
 import { config } from "./config";
 import { getToken } from "./localstorage";
 
-console.log('hello')
-console.log(process.env)
-console.log(config)
-console.log('hello2')
-
 const getRequest = async (path) => {
   try {
     const params = {
@@ -14,13 +9,24 @@ const getRequest = async (path) => {
         Authorization: "Bearer " + getToken(),
       },
     };
-
+    console.log("getRequest() called...")
     const res = await fetch(config.baseURL + path, params);
-    const data = await res.text();
+    
+    
+    const data = await res.json();
+
+    console.log('fetched data below');
+    console.log(params);
+    console.log(res);
+    console.log(data);
+  
+    console.log("-------------")
+
     return { statusCode: res.status, data };
   } catch (e) {
     console.error(`error in get Request (${path}) :- `, e);
-    return { statusCode: 400, data: [] };
+    return { statusCode: 400, data: [
+    ] };
   }
 };
 

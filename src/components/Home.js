@@ -12,7 +12,7 @@ import Modal from '@mui/material/Modal';
 import { decrement, increment } from '../redux/counter/counterSlice'
 import { getProducts as listProducts } from '../redux/actions/productActions'
 import { setUserDetails } from '../redux/actions/userAction'
-import { updateFavorites } from '../redux/counter/favoritesSlice'
+import { setInitialFavorites, updateFavorites } from '../redux/counter/favoritesSlice'
 
 import { api } from '../utils/api'
 import { current } from '@reduxjs/toolkit'

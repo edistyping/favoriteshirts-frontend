@@ -8,9 +8,10 @@ export const getProducts = () => async dispatch => {
   try {
     dispatch({type: actionTypes.GET_PRODUCTS_REQUEST})
     const {data} = await api.getRequest('/api/product')
+    console.log(data);
     dispatch({
       type: actionTypes.GET_PRODUCTS_SUCCESS,
-      payload: JSON.parse(data),
+      payload: data,
     })
   } catch (error) {
     dispatch({

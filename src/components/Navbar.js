@@ -44,8 +44,8 @@ const Navbar = ({click}) => {
 
   const _handleLogout = () => {
     dispatch(setInitialState())
-    dispatch(setInitialFavorites())
     logout()
+    //dispatch(setInitialFavorites())
     // history.push('/')
   }
   
