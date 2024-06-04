@@ -32,10 +32,6 @@ function LoginSignUp() {
         Password: password,
       })
 
-      console.log(statusCode)
-      console.log(data)
-      console.log('aaaaaaaaaaaaaaaa')
-
 
       setLoading(false)
       if (statusCode === 400 || statusCode === 500 || statusCode === 403) {

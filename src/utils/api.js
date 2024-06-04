@@ -12,7 +12,6 @@ const getRequest = async (path) => {
     console.log("getRequest() called...")
     const res = await fetch(config.baseURL + path, params);
     
-    
     const data = await res.json();
 
     console.log('fetched data below');
