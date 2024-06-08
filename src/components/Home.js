@@ -47,16 +47,16 @@ const Home = () => {
   useEffect(() => {
     console.log('   Home() useEffect...')
     dispatch(listProducts())
-    // dispatch(setUserDetails())
-    // dispatch(setInitialFavorites())
   }, [dispatch])
 
   useEffect(() => {
     const interval = setInterval(async () => {
       if (user.userInfo.isLogin) {
+        console.log('ayo')
+        console.log(user);
         const user_id = user.userInfo.details.id
         const favorites = loadFavorites() // ISSUE: 'currentFavorites' stays on as the old/original data
-        const {statusCode, data} = await api.postRequest('/api/user/updatefavorites', {user_id, favorites })
+        // const {statusCode, data} = await api.postRequest('/api/user/updatefavorites', {user_id, favorites })
       }
     }, 30000);
     return () => {
@@ -109,7 +109,6 @@ const Home = () => {
                     tags={product.tag}
                     uploadedBy={product.uploadedBy}
                     handleFavorite={handleFavorite}
-                    user={user}
                 />
               ))}
             </div>

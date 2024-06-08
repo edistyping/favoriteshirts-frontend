@@ -42,9 +42,10 @@ const Product = ( props ) => {
   console.log('Product')
   
   const [open, setOpen] = useState(false)
-  
   const [comments, setComments] = useState([])
   const [postComment, setPostComment] = useState(''); // Declare a state variable...
+
+  const user = useSelector(state => state.user)
 
   const fetchData = async (id) => {
     const {statusCode, data} = await api.getRequest('/api/comment/' + id)
@@ -53,7 +54,7 @@ const Product = ( props ) => {
   }
 
   async function handleOpen(product_id) {
-    await fetchData(product_id);;
+    await fetchData(product_id);
     setOpen(true);
   }
   function handleClose(e) {
@@ -68,7 +69,7 @@ const Product = ( props ) => {
   
   async function handleAddComment() {
     console.log('   handleAddComment()....')
-    const user = props.user
+    const user = user.userInfo.details.id
 
     if (props.user.userInfo.isLogin) {
       const {statusCode, data} = await api.postRequest('/api/comment/post', {
@@ -96,11 +97,11 @@ const Product = ( props ) => {
     console.log('   handleRemoveComment()..')
 
     // input variable 'id' is comment_id, not user_id
-    if (props.user.userInfo.isLogin) {
+    if (user.userInfo.isLogin) {
 
       const {statusCode, data} = await api.deleteRequest('/api/comment/delete', {
         id: id,
-        user_id: props.user.userInfo.details.id
+        user_id: user.userInfo.details.id
       })
       
       if ( statusCode === 200 ) {
@@ -121,7 +122,6 @@ const Product = ( props ) => {
   // IP
   async function handleScore(id, e) {
     console.log('   handleScore()..')
-    const user = props.user
     const newValue = e.target.name === 'upvote' ? 1 : -1
 
     // remove comment
@@ -275,7 +275,7 @@ const Product = ( props ) => {
 
                   <p>{comment.comment}</p>
 
-                  { props.user.userInfo.isLogin && Number(comment.user_id) === Number(props.user.userInfo.details.id) ? 
+                  { user.userInfo.isLogin && Number(comment.user_id) === Number(user.userInfo.details.id) ? 
                       <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
                       :
                       <></>

@@ -9,7 +9,7 @@ import SignUp from './SignUp'
 import './LoginSignUp.css'
 
 import { useDispatch } from 'react-redux'
-import { setUserDetails } from '../../redux/actions/userAction'
+import { setUserDetails, setUserSignIn } from '../../redux/actions/userAction'
 
 function LoginSignUp() {
   const navigate = useNavigate();
@@ -25,24 +25,19 @@ function LoginSignUp() {
     if (username.length > 2 && password.length > 2) {
       setLoading(true)
 
-      console.log('handlesignin')
       const {statusCode, data} = await api.postRequest('/api/user/signin', {
         Email: "",
         Username: username,
         Password: password,
       })
 
-
       setLoading(false)
       if (statusCode === 400 || statusCode === 500 || statusCode === 403) {
-        setLoading(false)
         return
       }
       
-      const token = data
-      alert('Token received is ' + token)
-      setToken(token)
-      dispatch(setUserDetails())
+      const data2 = JSON.parse(data)
+      dispatch(setUserSignIn(data2))
     }
   }, [username, password, navigate])
 

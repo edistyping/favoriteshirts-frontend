@@ -1,6 +1,6 @@
 import './Navbar.css'
 import { useState } from "react"
-import {Link, useNavigate} from 'react-router-dom'
+import {Link, json, useNavigate} from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {useMemo} from 'react'
 
@@ -56,6 +56,7 @@ const Navbar = ({click}) => {
   function handleClose(e) {
     setOpen(false);
   }
+  
   return (
     <nav className="navbar">
 
@@ -79,6 +80,7 @@ const Navbar = ({click}) => {
           </li>
         ) : (
           <li>
+            <p>{JSON.stringify(user)}</p>
             <p onClick={_handleLogout}>Logout</p>
           </li>
         )}

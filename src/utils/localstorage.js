@@ -10,6 +10,12 @@ export const getToken = () => {
   return ""
 }
 
+export const removeToken = () => {
+  window.localStorage.removeItem(token_key);
+  return ""
+}
+
+
 export const isLogin = () => {
   if (!!getToken()) {
     return true

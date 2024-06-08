@@ -9,17 +9,8 @@ const getRequest = async (path) => {
         Authorization: "Bearer " + getToken(),
       },
     };
-    console.log("getRequest() called...")
     const res = await fetch(config.baseURL + path, params);
-    
     const data = await res.json();
-
-    console.log('fetched data below');
-    console.log(params);
-    console.log(res);
-    console.log(data);
-  
-    console.log("-------------")
 
     return { statusCode: res.status, data };
   } catch (e) {
