@@ -44,13 +44,16 @@ const Product = ( props ) => {
   const [open, setOpen] = useState(false)
   const [comments, setComments] = useState([])
   const [postComment, setPostComment] = useState(''); // Declare a state variable...
-
+  const [imageSrc, setImageSrc] = useState(props.imageUrls.length === 0 ? default_shirt : props.imageUrls[0]); // Declare a state variable...
+  const [imageSrcs, setImageSrcs] = useState(props.imageUrls); // Declare a state variable...
+  
   const user = useSelector(state => state.user)
 
   const fetchData = async (id) => {
     const {statusCode, data} = await api.getRequest('/api/comment/' + id)
-    if(statusCode === 200)
-      setComments(JSON.parse(data))   
+    if(statusCode === 200) {
+      setComments(data);
+    }
   }
 
   async function handleOpen(product_id) {
@@ -69,16 +72,23 @@ const Product = ( props ) => {
   
   async function handleAddComment() {
     console.log('   handleAddComment()....')
-    const user = user.userInfo.details.id
+    console.log(user.userInfo)
+    console.log(props)
+    console.log(user.userInfo.details.user.id)
+    console.log(typeof(user.userInfo.details.user.id))
+    console.log(typeof(props.id))
 
-    if (props.user.userInfo.isLogin) {
-      const {statusCode, data} = await api.postRequest('/api/comment/post', {
-        user_id: user.userInfo.details.id,
-        username: user.userInfo.details.username,
-        product_id: props.id,
-        comment: postComment
+    console.log('---------------------')
+    if (user.userInfo.isLogin) {
+      const {statusCode, data0} = await api.postRequest('/api/comment', {
+        ProductId: props.id,
+        Description: postComment,
+        Username: 'fix this',
+        Score: 1
       })
+
       if ( statusCode === 200 ) {
+        const data = JSON.parse(data0)
         setComments(oldComments => [...oldComments, JSON.parse(data)] );
         setPostComment('')
       } else if ( statusCode === 500 ) {
@@ -90,9 +100,6 @@ const Product = ( props ) => {
     }
   }
 
-  // Fixing
-  // Check if User matches the comment's user_id
-  // If so, send it
   async function handleRemoveComment(id) {
     console.log('   handleRemoveComment()..')
 
@@ -106,8 +113,6 @@ const Product = ( props ) => {
       
       if ( statusCode === 200 ) {
         const updatedComments = [...comments].filter((comment) => comment.id !== id)
-        console.log('howdare you')
-        console.log(updatedComments.length)
         setComments(updatedComments);
         setPostComment('')
       } else if ( statusCode === 500 ) {
@@ -119,7 +124,6 @@ const Product = ( props ) => {
     }
   }
 
-  // IP
   async function handleScore(id, e) {
     console.log('   handleScore()..')
     const newValue = e.target.name === 'upvote' ? 1 : -1
@@ -131,7 +135,6 @@ const Product = ( props ) => {
       value: newValue
     })
     if ( statusCode === 200 ) {
-      console.log('AYYYYYYYYYYYYYYYY')
       // get the comment using 'id' and update the score 
     } else if ( statusCode === 500 ) {
       alert('error1')
@@ -185,6 +188,18 @@ const Product = ( props ) => {
 
   }
 
+  const handleImageError = (index) => {
+    console.log('error here ')
+    console.log(props.brand)
+    console.log(props.imageUrls)
+
+    setImageSrcs((prevImageSrcs) => {
+      const newImageSrcs = [...prevImageSrcs];
+      newImageSrcs[index] = default_shirt;
+      return newImageSrcs;
+    });
+  }
+
   return (
     <div>
         <div className="proudct__container">
@@ -195,8 +210,7 @@ const Product = ( props ) => {
           </div>
 
           <div className="product__body" onClick={() => handleOpen(props.id)}>
-            <img loading="lazy" src={props.imageUrls.length === 0 ? default_shirt : props.imageUrls[0]} alt="main" />
-
+            <img loading="lazy" src={imageSrcs.length > 0 ? imageSrcs[0] : default_shirt} onError={() => handleImageError(0)}  alt="main" />
             <div className="product__body__container">
                 <p>RATES  COMMENTS</p>
             </div>
@@ -227,10 +241,9 @@ const Product = ( props ) => {
         >
       <Box sx={ModalStyle}>
         
-        {props.imageUrls ? props.imageUrls.map( (imageUrl, i) => {
-          return <img loading="lazy" key={i} src={imageUrl} style={{ height: "100px", width: "100px"}} alt="additional_images" />
-        }) 
-        : <p>Hey</p>}
+        {imageSrcs.map((image, i) => {
+          return <img loading="lazy" key={i} src={image} onError={() => handleImageError(i)} style={{ height: "100px", width: "100px"}} alt="additional_images" />
+        })}
 
         <p>Tags: {props.tags ? props.tags.map( (tag, i) => <div key={i}>{tag}</div> ) : ""} </p>
 
@@ -272,10 +285,8 @@ const Product = ( props ) => {
               <h4>COMMENTS HERE ({comments.length}) </h4>
               {comments.map((comment) => 
                 <div className="product__comment">
-
-                  <p>{comment.comment}</p>
-
-                  { user.userInfo.isLogin && Number(comment.user_id) === Number(user.userInfo.details.id) ? 
+                  <p>{comment.description} BY {comment.username}</p>
+                  { user.userInfo.isLogin && Number(comment.username) === Number(user.userInfo.details.username) ? 
                       <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
                       :
                       <></>

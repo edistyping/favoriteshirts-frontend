@@ -49,20 +49,20 @@ const Home = () => {
     dispatch(listProducts())
   }, [dispatch])
 
-  useEffect(() => {
-    const interval = setInterval(async () => {
-      if (user.userInfo.isLogin) {
-        console.log('ayo')
-        console.log(user);
-        const user_id = user.userInfo.details.id
-        const favorites = loadFavorites() // ISSUE: 'currentFavorites' stays on as the old/original data
-        // const {statusCode, data} = await api.postRequest('/api/user/updatefavorites', {user_id, favorites })
-      }
-    }, 30000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, [user]);
+  // useEffect(() => {
+  //   const interval = setInterval(async () => {
+  //     if (user.userInfo.isLogin) {
+  //       console.log('ayo')
+  //       console.log(user);
+  //       const user_id = user.userInfo.details.id
+  //       const favorites = loadFavorites() // ISSUE: 'currentFavorites' stays on as the old/original data
+  //       // const {statusCode, data} = await api.postRequest('/api/user/updatefavorites', {user_id, favorites })
+  //     }
+  //   }, 30000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, [user]);
 
   async function handleFavorite(selectedFavorite) {
     // Update localStorage and Redux/State
@@ -93,11 +93,13 @@ const Home = () => {
         ) : (
           <div>
             <p>Welcome to my website! {favorites}</p>
+            {JSON.stringify(user)}
             <div className='homescreen__products'>
               {products.map(product => (
                 <Product
                     key={product.id}
-                    id={product.id}
+                    id={product.id} 
+                    brand={product.brand}
                     description={product.description ? product.description : ""}
                     name={product.name}
                     price={product.price}

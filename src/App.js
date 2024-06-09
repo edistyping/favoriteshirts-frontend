@@ -45,14 +45,13 @@ function App() {
   // Initialize user and favorites whenever the app is loaded
   // products will be loaded when each page is loaded  
   useEffect(() => {
-    dispatch(setInitialFavorites())
     dispatch(setUserDetails()) // Do I need this? 
+    dispatch(setInitialFavorites())
   }, [dispatch]);
 
   return (
     <HashRouter>
       <Navbar/>
-
       <main>
         <Routes>
           <Route exact path="/" element={ <Home/> } />

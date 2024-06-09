@@ -1,5 +1,16 @@
 # TO DO 
-    - Look into how resetting JWT works once we recevie it .
+    - Fix this
+        - { user } data being returned from backend is different for Sign In vs Validate
+            => This causes error when posting Comment. (I think it works for one right now)
+            => Regardless, why is postRequest in api.js failing? token should still be correct 
+
+        - Fix Favorites too 
+
+        - Error when second (id 3) item is clicked
+            - Issue: ImageUrls having a valid image i think, not empty array
+
+        Q. Should the app reload after User signs in (not validate but sign in button)? 
+            - Just window.reload(). JWT will be used to validate and re-sign in again 
 
 # HOW TO MONETIZE?
     - Donation (please help me)

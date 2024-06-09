@@ -11,7 +11,7 @@ const getRequest = async (path) => {
     };
     const res = await fetch(config.baseURL + path, params);
     const data = await res.json();
-
+    console.log(data);
     return { statusCode: res.status, data };
   } catch (e) {
     console.error(`error in get Request (${path}) :- `, e);
@@ -23,6 +23,9 @@ const getRequest = async (path) => {
 const postRequest = async (path, body) => {
   console.log('   postRequest() called....')
   console.log(body)
+  console.log(getToken())
+  console.log(config.baseURL + path)
+  console.log("----------------------------")
   try {
     const params = {
       method: "POST",
@@ -33,6 +36,7 @@ const postRequest = async (path, body) => {
       body: JSON.stringify(body),
     };
     const res = await fetch(config.baseURL + path, params);
+    console.log(res)
     const data = await res.text();
     return { statusCode: res.status, data };
   } catch (e) {
