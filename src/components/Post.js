@@ -6,6 +6,7 @@ import { api } from '../utils/api'
 import { Link } from "react-router-dom";
 
 import LockIcon from '../assets/images/lock_icon.jpg'
+import { yellow } from "@mui/material/colors";
 
 const Post = ({ props }) => {
 
@@ -24,9 +25,11 @@ const Post = ({ props }) => {
     const [features, setFeatures] = useState(["", ""]);
     const [maintenance, setMaintenance] = useState(["", ""]);
     const [category, setCategory] = useState("NO LOGO");
-
     const [tag, setTag] = useState([]);
     
+    const [productUrls2, setProductUrls2] = useState([{brand: "", name: "", url: ""}]);
+
+
     const [moreDetails, setMoreDetails] = useState("");
     const [uploadedImages, setUploadedImages] = useState([]);
 
@@ -36,6 +39,11 @@ const Post = ({ props }) => {
         setProductUrls(newArr);
     }
 
+    const updateFieldChanged2 = index => e => {
+        let newArr = [...productUrls2]; // copying the old datas array
+        newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
+        setProductUrls2(newArr);
+    }
     /*
         Add or Remove from a List. 
         If it's already at size 1, it does nothing. 
@@ -58,19 +66,29 @@ const Post = ({ props }) => {
                     return
                 } else {
                     current = [...productUrls]
-                }                break
+                }   
+                break
+            case 'productUrls2':
+                if (e.target.name === "delete" && productUrls2.length === 1) {
+                    return
+                } else {
+                    current = [...productUrls2]
+                }   
+                break
             case 'imageUrls':
                 if (e.target.name === "delete" && imageUrls.length === 1) {
                     return
                 } else {
                     current = [...imageUrls]
-                }                break
+                }                
+                break
             case 'maintenance':
                 if (e.target.name === "delete" && maintenance.length === 1) {
                     return
                 } else {
                     current = [...maintenance]
-                }                break
+                }                
+                break
             default: 
                 break
         }
@@ -89,6 +107,9 @@ const Post = ({ props }) => {
                 break
             case 'productUrls':
                 setProductUrls(current)
+                break
+            case 'productUrls2':
+                setProductUrls2(current)
                 break
             case 'imageUrls':
                 setImageUrls(current)
@@ -146,6 +167,16 @@ const Post = ({ props }) => {
         return true
     }
 
+    // Handler to handle select change
+    const handleSelectChange = (index, event) => {
+        const value = event.target.value;
+        alert(value);
+        const newProductUrls2 = [...productUrls2];
+        // newProductUrls2[index].isOthers = value === 'Others';
+        newProductUrls2[index].brand = value;
+        setProductUrls2(newProductUrls2);
+    };
+
     function printFormData() {
         console.log('name: ' +name)
         console.log('brand: ' +brand)
@@ -169,12 +200,12 @@ const Post = ({ props }) => {
                     <h2>Share your own or favorite shirt! </h2>
 
                     <div className="form__post__section">
-                        <label> Product Name: </label>
+                        <label> <b>Product Name</b>: </label>
                         <input value={name} type="text" name="productName" onChange={e => setName(e.target.value)} />
                     </div>
 
                     <div className="form__post__section">
-                        <label> Brand: </label>
+                        <label> <b>Brand</b>: </label>
                         <input value={brand} type="text" name="brand" onChange={e => setBrand(e.target.value)} />
                     </div>
 
@@ -184,7 +215,7 @@ const Post = ({ props }) => {
                     </div>
 
                     <div className="form__post__section">
-                        <label> Price: </label>
+                        <label> <b>Price</b>: </label>
                         <input value={price} type="number" name="price" onChange={e => setPrice(e.target.value)} />
                     </div>
 
@@ -203,7 +234,44 @@ const Post = ({ props }) => {
 
                     <div className="form__list">
                         <div className="form__list__top">
-                            <label> Link to Product </label>
+                            <label><b>Links to Product2</b></label>
+                            <button name="add" onClick={(e => handleList(e, 'productUrls2'))}>+</button>
+                        </div>
+
+                        <ul>
+                            <p><b>Ex</b>: https://www.amazon.com/T-Shirt-Assortments..... </p>
+                            {
+                                productUrls2.map((productUrl2, index) => 
+                                    <li className="form__list__item" key={index} >
+                                        
+                                        {/* IP HERE 
+                                           -> productUrls
+                                           Each should include a 
+                                                
+                                        */}
+                                        <div style={{background: "yellow"}}>
+                                            <select id="select-brand" name="selectedBrand" onChange={(e) => handleSelectChange(index, e)}>
+                                                <option value="amazon">AMAZON</option>
+                                                <option value="costco">COSTCO</option>
+                                                <option value="walmart">WALMART</option>
+                                                <option value="others">OTHERS</option>
+                                            </select>
+                                            {productUrl2 === "others" && <input type="text" value={productUrl2.name} onChange={updateFieldChanged2(index)}  placeholder="Please specify" />}
+
+                                        </div>
+                                        
+                                        <input type="text" name="productUrl" value={productUrl2.url} onChange={updateFieldChanged2(index)}  />
+                                        <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls2'))}>DELETE</button>
+                                    </li>
+                                )
+                            }
+                        </ul>
+                    </div>
+
+
+                    <div className="form__list">
+                        <div className="form__list__top">
+                            <label><b>Links to Product</b></label>
                             <button name="add" onClick={(e => handleList(e, 'productUrls'))}>+</button>
                         </div>
 
@@ -212,6 +280,23 @@ const Post = ({ props }) => {
                             {
                                 productUrls.map((productUrl, index) => 
                                     <li className="form__list__item" key={index} >
+                                        
+                                        {/* IP HERE 
+                                           -> productUrls
+                                           Each should include a 
+                                                
+                                        */}
+                                        <div style={{background: "yellow"}}>
+                                            <select id="select-brand" name="selectedBrand">
+                                                <option value="amazon">AMAZON</option>
+                                                <option value="costco">COSTCO</option>
+                                                <option value="walmart">WALMART</option>
+                                                <option value="others">OTHERS</option>
+                                            </select>
+                                            
+                                            <input type="text" name="productUrl" value={productUrl} onChange={updateFieldChanged(index)}  />
+                                        </div>
+                                        
                                         <input type="text" name="productUrl" value={productUrl} onChange={updateFieldChanged(index)}  />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
                                     </li>
@@ -222,7 +307,7 @@ const Post = ({ props }) => {
 
                     <div className="form__list">
                         <div className="form__list__top">
-                            <label> Images </label>
+                            <label><b>Images</b></label>
                             <button name="add" onClick={(e => handleList(e, 'imageUrls'))}>+</button>
                         </div>
                         <ul>

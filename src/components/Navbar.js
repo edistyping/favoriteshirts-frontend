@@ -66,6 +66,7 @@ const Navbar = ({click}) => {
       </Link>
   
       <ul className="navbar__category" style={{background: "green" }}>
+        <Link to="/">All</Link>
         <Link to="/white">White</Link>
         <Link to="/logo">Logo</Link>
         <Link to="/nologo">No Logo</Link>

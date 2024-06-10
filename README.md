@@ -4,11 +4,18 @@
             - Review 
 
         - Post needs update
-            - Mark Required fields and/or update Database requirement
+            - ProductUrls
+                - Add a dropdown option to select a company
+                - Add Others to customize
 
         - Issue with second product images (id 3) item when it's clicked
+            - check ImageUrls
+                - Show first item or default_image if error
+                - loop the next to see 
 
         - Implement window.location.reload() when a user sign in. 
+
+        - Work on UX/UI diagram 
 
 # HOW TO MONETIZE?
     - Donation (please help me)
