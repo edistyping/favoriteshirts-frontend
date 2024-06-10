@@ -121,10 +121,10 @@ const Post = ({ props }) => {
                     user_id
                 }
             
-                const {statusCode, data} = await api.postRequest('/api/product/upload', 
+                const {statusCode, data} = await api.postRequest('/api/product', 
                     newPostData
                 )
-                
+
                 if (statusCode === 400 || statusCode === 500) {
                     console.log("       There was an error submitting the post")
                     alert(`There was an error! ${statusCode}` )

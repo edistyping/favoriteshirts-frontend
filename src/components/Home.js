@@ -93,7 +93,9 @@ const Home = () => {
         ) : (
           <div>
             <p>Welcome to my website! {favorites}</p>
-            {JSON.stringify(user)}
+            
+            <p>{JSON.stringify(user)}</p>
+            
             <div className='homescreen__products'>
               {products.map(product => (
                 <Product

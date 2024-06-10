@@ -1,16 +1,14 @@
 # TO DO 
     - Fix this
-        - { user } data being returned from backend is different for Sign In vs Validate
-            => This causes error when posting Comment. (I think it works for one right now)
-            => Regardless, why is postRequest in api.js failing? token should still be correct 
-
         - Fix Favorites too 
+            - Review 
 
-        - Error when second (id 3) item is clicked
-            - Issue: ImageUrls having a valid image i think, not empty array
+        - Post needs update
+            - Mark Required fields and/or update Database requirement
 
-        Q. Should the app reload after User signs in (not validate but sign in button)? 
-            - Just window.reload(). JWT will be used to validate and re-sign in again 
+        - Issue with second product images (id 3) item when it's clicked
+
+        - Implement window.location.reload() when a user sign in. 
 
 # HOW TO MONETIZE?
     - Donation (please help me)

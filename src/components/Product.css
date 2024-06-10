@@ -100,9 +100,24 @@
     background-color: red;
   }
 
-  .product__comment {
+  .product__comments__container {
+    background-color: yellow;
     display: flex;
-  }
+    flex-direction: column;
+    max-height: 400px;
+    
+    }
+    
+    .product__comments {
+      overflow: scroll;
+    }
+
+    .product__comment {
+      display: flex;
+      background-color: yellowgreen;
+    }
+
+
 
   @media (max-width: 1232px) {
     .product {

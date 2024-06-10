@@ -25,15 +25,19 @@ export const getProducts = () => async dispatch => {
 }
 
 export const getProductsByCategory = (category) => async dispatch => {
-  console.log('   getProductsByCategory() called...')
+  console.log('   getProductsByCategory() called...');
+  console.log(`   category: ${category}`);
+
   try {
     dispatch({type: actionTypes.GET_PRODUCTS_REQUEST})
-    const {data} = await api.getRequest('/api/product/category/' + category)
-    console.log(data)
+    const {statusCode, data} = await api.getRequest('/api/product/' + category)
+
+    console.log(statusCode);
+    console.log(data);
 
     dispatch({
       type: actionTypes.GET_PRODUCTS_SUCCESS,
-      payload: JSON.parse(data),
+      payload: data,
     })
   } catch (error) {
     dispatch({

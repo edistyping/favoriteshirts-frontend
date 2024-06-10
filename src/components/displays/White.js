@@ -101,7 +101,6 @@ const White = ({}) => {
     return (
         <div>
             <div className='homescreen__products'>
-                <p>{products.length}</p>sdfsfsf
                 { products ? products.map(product => (
                     <Product
                         key={product.id}

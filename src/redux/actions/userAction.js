@@ -43,7 +43,7 @@ export const setUserSignIn = (data) => async dispatch => {
     type: actionTypes.SET_USER,
     payload: {
       isLogin: true,
-      details: {...user}
+      details: {...data}
     },
   })
 }

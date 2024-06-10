@@ -45,6 +45,7 @@ const Navbar = ({click}) => {
   const _handleLogout = () => {
     dispatch(setInitialState())
     logout()
+    window.location.reload();
     //dispatch(setInitialFavorites())
     // history.push('/')
   }
@@ -69,9 +70,12 @@ const Navbar = ({click}) => {
         <Link to="/logo">Logo</Link>
         <Link to="/nologo">No Logo</Link>
         <Link to="/special">Special</Link>
+        <Link to="/favorite">Favorites</Link>
       </ul>
-      
-      <Link to="/favorite">Favorites</Link>
+
+      <ul className="navbar__category" style={{background: "lightblue" }}>
+        <Link to="/post">Post a Deal</Link>
+      </ul>
 
       <ul className='navbar__links'>
         {!user.userInfo.isLogin ? (
@@ -80,8 +84,7 @@ const Navbar = ({click}) => {
           </li>
         ) : (
           <li>
-            <p>{JSON.stringify(user)}</p>
-            <p onClick={_handleLogout}>Logout</p>
+            <button onClick={_handleLogout}>Logout</button>
           </li>
         )}
         {/*
@@ -95,7 +98,6 @@ const Navbar = ({click}) => {
         */}
       </ul>
 
-      <Link to="/post">Post a Deal</Link>
 
     </nav>
   )

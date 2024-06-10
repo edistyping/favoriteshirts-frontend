@@ -35,7 +35,6 @@ function LoginSignUp() {
       if (statusCode === 400 || statusCode === 500 || statusCode === 403) {
         return
       }
-      
       const data2 = JSON.parse(data)
       dispatch(setUserSignIn(data2))
     }

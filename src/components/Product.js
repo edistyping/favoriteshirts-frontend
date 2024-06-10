@@ -44,7 +44,6 @@ const Product = ( props ) => {
   const [open, setOpen] = useState(false)
   const [comments, setComments] = useState([])
   const [postComment, setPostComment] = useState(''); // Declare a state variable...
-  const [imageSrc, setImageSrc] = useState(props.imageUrls.length === 0 ? default_shirt : props.imageUrls[0]); // Declare a state variable...
   const [imageSrcs, setImageSrcs] = useState(props.imageUrls); // Declare a state variable...
   
   const user = useSelector(state => state.user)
@@ -72,25 +71,21 @@ const Product = ( props ) => {
   
   async function handleAddComment() {
     console.log('   handleAddComment()....')
-    console.log(user.userInfo)
-    console.log(props)
-    console.log(user.userInfo.details.user.id)
-    console.log(typeof(user.userInfo.details.user.id))
-    console.log(typeof(props.id))
 
-    console.log('---------------------')
     if (user.userInfo.isLogin) {
-      const {statusCode, data0} = await api.postRequest('/api/comment', {
+      console.log(props)
+      console.log(user)
+      const {statusCode, data} = await api.postRequest('/api/comment', {
         ProductId: props.id,
         Description: postComment,
-        Username: 'fix this',
+        Username: user.userInfo.details.user.username,
         Score: 1
       })
 
-      if ( statusCode === 200 ) {
-        const data = JSON.parse(data0)
-        setComments(oldComments => [...oldComments, JSON.parse(data)] );
+      if ( statusCode === 200 || statusCode === 201) {
+        const data0 = JSON.parse(data)
         setPostComment('')
+        setComments(oldComments => [...oldComments, data0] );
       } else if ( statusCode === 500 ) {
         alert('There was an issue when adding a comment... (Code 500)')
       }  
@@ -106,12 +101,12 @@ const Product = ( props ) => {
     // input variable 'id' is comment_id, not user_id
     if (user.userInfo.isLogin) {
 
-      const {statusCode, data} = await api.deleteRequest('/api/comment/delete', {
+      const {statusCode, data} = await api.deleteRequest('/api/comment/' + id, {
         id: id,
         user_id: user.userInfo.details.id
       })
-      
-      if ( statusCode === 200 ) {
+
+      if ( statusCode === 200 || statusCode === 204 ) {
         const updatedComments = [...comments].filter((comment) => comment.id !== id)
         setComments(updatedComments);
         setPostComment('')
@@ -278,22 +273,25 @@ const Product = ( props ) => {
           <button onClick={handleAddComment}>Add New Comment</button>
           
 
+
           { !comments.length ? <p>NO COMMENTS</p> :
           (
             <div className="product__comments__container">
 
               <h4>COMMENTS HERE ({comments.length}) </h4>
+              <div className="product__comments">
               {comments.map((comment) => 
-                <div className="product__comment">
-                  <p>{comment.description} BY {comment.username}</p>
-                  { user.userInfo.isLogin && Number(comment.username) === Number(user.userInfo.details.username) ? 
-                      <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
-                      :
-                      <></>
-                  }
-
-                </div>
-              )}        
+                  <div className="product__comment">
+                    <p>{comment.description} BY {comment.username}</p>
+                    { user.userInfo.isLogin && comment.username === user.userInfo.details.user.username ? 
+                        <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
+                        :
+                        <></>
+                    }
+                  </div>
+              )}     
+              </div>
+   
             </div>
           )
           } 

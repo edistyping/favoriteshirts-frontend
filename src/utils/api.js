@@ -58,6 +58,9 @@ const deleteRequest = async (path, body) => {
     };
     const res = await fetch(config.baseURL + path, params);
     const data = await res.text();
+    
+    console.log(data)
+
     return { statusCode: res.status, data };
   } catch (e) {
     console.log(`error in post Request (${path}) :- `, e);
