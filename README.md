@@ -3,7 +3,7 @@
         - Fix Favorites too 
             - Review 
 
-        - Post needs update
+        - Post needs update (Submission error. 400 not usre why)
             - ProductUrls
                 - Add a dropdown option to select a company
                 - Add Others to customize

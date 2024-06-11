@@ -9,6 +9,11 @@ const getRequest = async (path) => {
         Authorization: "Bearer " + getToken(),
       },
     };
+    console.log('   getRequest() called....')
+    console.log(getToken())
+    console.log(config.baseURL + path)
+    console.log("----------------------------")
+
     const res = await fetch(config.baseURL + path, params);
     const data = await res.json();
     console.log(data);
@@ -25,8 +30,10 @@ const postRequest = async (path, body) => {
   console.log(body)
   console.log(getToken())
   console.log(config.baseURL + path)
+  console.log(JSON.stringify(body))
   console.log("----------------------------")
   try {
+    console.log(" try()")
     const params = {
       method: "POST",
       headers: {
@@ -35,6 +42,7 @@ const postRequest = async (path, body) => {
       },
       body: JSON.stringify(body),
     };
+
     const res = await fetch(config.baseURL + path, params);
     console.log(res)
     const data = await res.text();

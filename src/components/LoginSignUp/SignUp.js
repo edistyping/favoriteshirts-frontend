@@ -16,11 +16,16 @@ function SignUp( props ) {
   const _handleSubmit = useCallback(async () => {
     if (username.length > 1 && email.length > 2 && password.length > 1) {
       setLoading(true)
-      const {statusCode, data} = await api.postRequest('/api/user/signup', {
-        email,
-        username,
-        password,
-      })
+      // const {statusCode, data} = await api.postRequest('/api/user/signup', {
+      //   email,
+      //   username,
+      //   password,
+      // })
+      const {statusCode, data} = await api.postRequest('/api/user', {
+          email,
+          username,
+          password,
+      })  
       if (statusCode === 400 || statusCode === 500 || statusCode === 403) {
         setLoading(false)
         return

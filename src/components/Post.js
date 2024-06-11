@@ -13,10 +13,10 @@ const Post = ({ props }) => {
     // Issue here: When refresh, this becomes not logged in
     const user = useSelector(state => state.user) 
 
-    const [name, setName] = useState("")
-    const [brand, setBrand] = useState("")
-    const [description, setDescription] = useState("")
-    const [price, setPrice] = useState("")
+    const [name, setName] = useState("TEST")
+    const [brand, setBrand] = useState("TEST")
+    const [description, setDescription] = useState("TEST")
+    const [price, setPrice] = useState(1)
     const [pack, setPack] = useState("")
     const [discount, setDiscount] = useState("")
     const [sku, setSku] = useState("")
@@ -40,9 +40,19 @@ const Post = ({ props }) => {
     }
 
     const updateFieldChanged2 = index => e => {
-        let newArr = [...productUrls2]; // copying the old datas array
-        newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
-        setProductUrls2(newArr);
+        if (e.target.name === 'productUrl_name') {
+            let newArr = [...productUrls2]; // copying the old datas array
+            newArr[index].name = e.target.value; // replace e.target.value with whatever you want to change it to
+            setProductUrls2(newArr);    
+        } else if (e.target.name === 'productUrl_url') {
+            let newArr = [...productUrls2]; // copying the old datas array
+            newArr[index].url = e.target.value; // replace e.target.value with whatever you want to change it to
+            setProductUrls2(newArr);    
+        } else {
+            let newArr = [...productUrls2]; // copying the old datas array
+            newArr[index].name = e.target.value; // replace e.target.value with whatever you want to change it to
+            setProductUrls2(newArr);
+        }
     }
     /*
         Add or Remove from a List. 
@@ -136,17 +146,46 @@ const Post = ({ props }) => {
             const validationResult = validateSubmit()              
 
             if (validationResult === true) {
+                // const newPostData = { 
+                //     Brand: brand, 
+                //     Name: name, 
+                //     Description: description, 
+                //     Price: price, 
+                //     Pack: pack, 
+                //     Discount: discount, 
+                //     Sku: sku, 
+                //     ImageUrls: imageUrls, 
+                //     ProductUrls: productUrls, 
+                //     Features: features, 
+                //     Maintenance: maintenance, 
+                //     Category: category, 
+                //     Tag: tag,
+                //     UploadedBy: "0"
+                // }
+                
+                
                 const newPostData = { 
-                    brand, name, description, price, pack, discount, sku, 
-                    imageUrls, productUrls, features, maintenance, category, tag,
-                    user_id
+                    Brand: "WOW", 
+                    Name: "WOWNAME", 
+                    Description: "description", 
+                    Price: 1.99, 
+                    Pack: "1", 
+                    Discount: "discount", 
+                    Sku: "sku", 
+                    ImageUrls: ["1", "2"], 
+                    ProductUrls: ["1", "2"], 
+                    Features: ["1", "2"], 
+                    Maintenance: ["1", "2"], 
+                    Category: "WHITE", 
+                    Tag: ["1", "2"],
+                    UploadedBy: "0"
                 }
-            
+                
                 const {statusCode, data} = await api.postRequest('/api/product', 
                     newPostData
                 )
 
-                if (statusCode === 400 || statusCode === 500) {
+                if (statusCode === 400 || statusCode === 401 || statusCode === 500) {
                     console.log("       There was an error submitting the post")
                     alert(`There was an error! ${statusCode}` )
                     return
@@ -161,7 +200,7 @@ const Post = ({ props }) => {
     }
 
     function validateSubmit() {
-        if (name === "" || brand === "" || description === "" || price === null || imageUrls.length === 0 || productUrls.length === 0) {
+        if (name === "" || brand === "" || price === null) {
             return false
         } 
         return true
@@ -170,7 +209,6 @@ const Post = ({ props }) => {
     // Handler to handle select change
     const handleSelectChange = (index, event) => {
         const value = event.target.value;
-        alert(value);
         const newProductUrls2 = [...productUrls2];
         // newProductUrls2[index].isOthers = value === 'Others';
         newProductUrls2[index].brand = value;
@@ -256,11 +294,11 @@ const Post = ({ props }) => {
                                                 <option value="walmart">WALMART</option>
                                                 <option value="others">OTHERS</option>
                                             </select>
-                                            {productUrl2 === "others" && <input type="text" value={productUrl2.name} onChange={updateFieldChanged2(index)}  placeholder="Please specify" />}
+                                            {productUrl2.brand === "others" && <input type="text" name="productUrl_name" value={productUrl2.name} onChange={updateFieldChanged2(index)}  placeholder="Please specify" />}
 
                                         </div>
                                         
-                                        <input type="text" name="productUrl" value={productUrl2.url} onChange={updateFieldChanged2(index)}  />
+                                        <input type="text" name="productUrl_url" value={productUrl2.url} onChange={updateFieldChanged2(index)}  />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls2'))}>DELETE</button>
                                     </li>
                                 )
