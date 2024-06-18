@@ -1,21 +1,10 @@
 # TO DO 
-    - Fix this
-        - Fix Favorites too 
-            - Review 
+    1. How should Brand vs Product URL work?
+        - User can select Brand or Other 
+        - Don't let Users fill in with spams
+            - Users can pay me to add their Brand here
+            - You get a free pass if your Brand is established enough obviously. 
 
-        - Post needs update (Submission error. 400 not usre why)
-            - ProductUrls
-                - Add a dropdown option to select a company
-                - Add Others to customize
-
-        - Issue with second product images (id 3) item when it's clicked
-            - check ImageUrls
-                - Show first item or default_image if error
-                - loop the next to see 
-
-        - Implement window.location.reload() when a user sign in. 
-
-        - Work on UX/UI diagram 
 
 # HOW TO MONETIZE?
     - Donation (please help me)

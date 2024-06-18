@@ -14,46 +14,60 @@ const Post = ({ props }) => {
     const user = useSelector(state => state.user) 
 
     const [name, setName] = useState("TEST")
-    const [brand, setBrand] = useState("TEST")
+
+    const [selectedBrand, setSelectedBrand] = useState("")
+    const [otherBrand, setOtherBrand] = useState("")
+
     const [description, setDescription] = useState("TEST")
-    const [price, setPrice] = useState(1)
-    const [pack, setPack] = useState("")
+    const [price, setPrice] = useState(0)
+    const [pack, setPack] = useState(0)
     const [discount, setDiscount] = useState("")
     const [sku, setSku] = useState("")
     const [imageUrls, setImageUrls] = useState(["", ""]);
-    const [productUrls, setProductUrls] = useState(["", ""]);
+    const [productUrls, setProductUrls] = useState([{brand: "", name: "", url: ""}]);
     const [features, setFeatures] = useState(["", ""]);
     const [maintenance, setMaintenance] = useState(["", ""]);
     const [category, setCategory] = useState("NO LOGO");
     const [tag, setTag] = useState([]);
     
-    const [productUrls2, setProductUrls2] = useState([{brand: "", name: "", url: ""}]);
-
-
     const [moreDetails, setMoreDetails] = useState("");
     const [uploadedImages, setUploadedImages] = useState([]);
 
     const updateFieldChanged = index => e => {
-        let newArr = [...productUrls]; // copying the old datas array
-        newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
-        setProductUrls(newArr);
+        const {name, value} = e.target;
+
+        let newArr
+        switch(name) {
+            case 'productUrls': 
+                newArr = [...productUrls]; // copying the old datas array
+                newArr[index].name = e.target.value; // replace e.target.value with whatever you want to change it to
+                setProductUrls(newArr); 
+                break;
+            case 'productUrl_url':
+                newArr = [...productUrls]; // copying the old datas array
+                newArr[index].url = e.target.value; // replace e.target.value with whatever you want to change it to
+                setProductUrls(newArr);   
+                break;
+            case 'imageUrls':
+                newArr = [...imageUrls]; // copying the old datas array
+                newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
+                setImageUrls(newArr);
+                break;
+            case 'features':
+                newArr = [...features]; // copying the old datas array
+                newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
+                setFeatures(newArr);
+                break;
+            case 'maintenance':
+                newArr = [...maintenance]; // copying the old datas array
+                newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
+                setMaintenance(newArr);
+                break;
+            default:
+                break;
+        } 
     }
 
-    const updateFieldChanged2 = index => e => {
-        if (e.target.name === 'productUrl_name') {
-            let newArr = [...productUrls2]; // copying the old datas array
-            newArr[index].name = e.target.value; // replace e.target.value with whatever you want to change it to
-            setProductUrls2(newArr);    
-        } else if (e.target.name === 'productUrl_url') {
-            let newArr = [...productUrls2]; // copying the old datas array
-            newArr[index].url = e.target.value; // replace e.target.value with whatever you want to change it to
-            setProductUrls2(newArr);    
-        } else {
-            let newArr = [...productUrls2]; // copying the old datas array
-            newArr[index].name = e.target.value; // replace e.target.value with whatever you want to change it to
-            setProductUrls2(newArr);
-        }
-    }
     /*
         Add or Remove from a List. 
         If it's already at size 1, it does nothing. 
@@ -78,13 +92,6 @@ const Post = ({ props }) => {
                     current = [...productUrls]
                 }   
                 break
-            case 'productUrls2':
-                if (e.target.name === "delete" && productUrls2.length === 1) {
-                    return
-                } else {
-                    current = [...productUrls2]
-                }   
-                break
             case 'imageUrls':
                 if (e.target.name === "delete" && imageUrls.length === 1) {
                     return
@@ -105,7 +112,13 @@ const Post = ({ props }) => {
 
         // Increment/Decrement the List depending on whether User clicked +/-
         if (e.target.name === "add") {
-            current.push("")
+            
+            if (val1 === 'productUrls') {
+                current.push({brand: "", name: "", url: ""})
+            } else {
+                current.push("");
+            }
+
         } else if (e.target.name === "delete") {
             current.splice(e.target.id, 1)
         }
@@ -118,9 +131,6 @@ const Post = ({ props }) => {
             case 'productUrls':
                 setProductUrls(current)
                 break
-            case 'productUrls2':
-                setProductUrls2(current)
-                break
             case 'imageUrls':
                 setImageUrls(current)
                 break
@@ -131,6 +141,17 @@ const Post = ({ props }) => {
                 break
         }
     }
+
+    const handleBrandChange = (event) => {
+        setSelectedBrand(event.target.value);
+        // Reset otherStore if the selected store is not 'Others'
+        if (event.target.value !== 'Others') {
+            setOtherBrand('');
+        }
+    };
+    const handleOtherBrandChange = (event) => {
+        setOtherBrand(event.target.value);
+    };
 
     // To Do
     // How to solve Choice thing 
@@ -144,45 +165,27 @@ const Post = ({ props }) => {
             const user_type = user.userInfo.details.type_id // for future conditions
 
             const validationResult = validateSubmit()              
-
             if (validationResult === true) {
-                // const newPostData = { 
-                //     Brand: brand, 
-                //     Name: name, 
-                //     Description: description, 
-                //     Price: price, 
-                //     Pack: pack, 
-                //     Discount: discount, 
-                //     Sku: sku, 
-                //     ImageUrls: imageUrls, 
-                //     ProductUrls: productUrls, 
-                //     Features: features, 
-                //     Maintenance: maintenance, 
-                //     Category: category, 
-                //     Tag: tag,
-                //     UploadedBy: "0"
-                // }
-                
-                
+
                 const newPostData = { 
-                    Brand: "WOW", 
-                    Name: "WOWNAME", 
-                    Description: "description", 
-                    Price: 1.99, 
-                    Pack: "1", 
-                    Discount: "discount", 
-                    Sku: "sku", 
-                    ImageUrls: ["1", "2"], 
-                    ProductUrls: ["1", "2"], 
-                    Features: ["1", "2"], 
-                    Maintenance: ["1", "2"], 
-                    Category: "WHITE", 
-                    Tag: ["1", "2"],
+                    Brand: selectedBrand !== 'Others' ? selectedBrand : otherBrand, 
+                    Name: 'name', 
+                    Description: description, 
+                    Price: '123', 
+                    Pack: pack, 
+                    Discount: discount, 
+                    Sku: sku, 
+                    ImageUrls: imageUrls, 
+                    ProductUrls: productUrls, 
+                    Features: features, 
+                    Maintenance: maintenance, 
+                    Category: category, 
+                    Tag: tag,
                     UploadedBy: "0"
                 }
                 
                 const {statusCode, data} = await api.postRequest('/api/product', 
-                    newPostData
+                    newPostData            
                 )
 
                 if (statusCode === 400 || statusCode === 401 || statusCode === 500) {
@@ -200,7 +203,7 @@ const Post = ({ props }) => {
     }
 
     function validateSubmit() {
-        if (name === "" || brand === "" || price === null) {
+        if (name === "" || selectedBrand === "" || price === null) {
             return false
         } 
         return true
@@ -209,22 +212,22 @@ const Post = ({ props }) => {
     // Handler to handle select change
     const handleSelectChange = (index, event) => {
         const value = event.target.value;
-        const newProductUrls2 = [...productUrls2];
+        const newProductUrls = [...productUrls];
         // newProductUrls2[index].isOthers = value === 'Others';
-        newProductUrls2[index].brand = value;
-        setProductUrls2(newProductUrls2);
+        newProductUrls[index].brand = value;
+        setProductUrls(newProductUrls);
     };
 
     function printFormData() {
         console.log('name: ' +name)
-        console.log('brand: ' +brand)
+        console.log('brand: ' + selectedBrand + " - " + otherBrand)
         console.log('description: ' +description)
         console.log('price: ' +price)
         console.log('pack: ' +pack)
         console.log('discount: ' +discount)
         console.log('sku: ' +sku)
         console.log('imageUrls: ' +imageUrls)
-        console.log('productUrls: ' +productUrls)
+        console.log('productUrls: ' + productUrls)
         console.log('features: ' +features)
         console.log('maintenance: ' +maintenance)
         console.log('category: ' +category)
@@ -242,9 +245,19 @@ const Post = ({ props }) => {
                         <input value={name} type="text" name="productName" onChange={e => setName(e.target.value)} />
                     </div>
 
-                    <div className="form__post__section">
-                        <label> <b>Brand</b>: </label>
-                        <input value={brand} type="text" name="brand" onChange={e => setBrand(e.target.value)} />
+                    <div className="form__list">
+                        <label><b>Brand</b></label>
+                        <div style={{background: "yellow"}}>
+                            <select id="select-brand" name="selectedBrand" onChange={(e) => handleBrandChange(e)}>
+                                <option value="amazon">AMAZON</option>
+                                <option value="costco">COSTCO</option>
+                                <option value="walmart">WALMART</option>
+                                <option value="others">OTHERS</option>
+                            </select>
+
+                            <label><b>Provide a Brand name: </b></label>
+                            {selectedBrand === "others" && <input type="text" name="brand" value={otherBrand} onChange={handleOtherBrandChange}  placeholder="Please specify" />}
+                        </div>                                
                     </div>
 
                     <div className="form__post__section">
@@ -272,43 +285,6 @@ const Post = ({ props }) => {
 
                     <div className="form__list">
                         <div className="form__list__top">
-                            <label><b>Links to Product2</b></label>
-                            <button name="add" onClick={(e => handleList(e, 'productUrls2'))}>+</button>
-                        </div>
-
-                        <ul>
-                            <p><b>Ex</b>: https://www.amazon.com/T-Shirt-Assortments..... </p>
-                            {
-                                productUrls2.map((productUrl2, index) => 
-                                    <li className="form__list__item" key={index} >
-                                        
-                                        {/* IP HERE 
-                                           -> productUrls
-                                           Each should include a 
-                                                
-                                        */}
-                                        <div style={{background: "yellow"}}>
-                                            <select id="select-brand" name="selectedBrand" onChange={(e) => handleSelectChange(index, e)}>
-                                                <option value="amazon">AMAZON</option>
-                                                <option value="costco">COSTCO</option>
-                                                <option value="walmart">WALMART</option>
-                                                <option value="others">OTHERS</option>
-                                            </select>
-                                            {productUrl2.brand === "others" && <input type="text" name="productUrl_name" value={productUrl2.name} onChange={updateFieldChanged2(index)}  placeholder="Please specify" />}
-
-                                        </div>
-                                        
-                                        <input type="text" name="productUrl_url" value={productUrl2.url} onChange={updateFieldChanged2(index)}  />
-                                        <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls2'))}>DELETE</button>
-                                    </li>
-                                )
-                            }
-                        </ul>
-                    </div>
-
-
-                    <div className="form__list">
-                        <div className="form__list__top">
                             <label><b>Links to Product</b></label>
                             <button name="add" onClick={(e => handleList(e, 'productUrls'))}>+</button>
                         </div>
@@ -318,25 +294,19 @@ const Post = ({ props }) => {
                             {
                                 productUrls.map((productUrl, index) => 
                                     <li className="form__list__item" key={index} >
-                                        
-                                        {/* IP HERE 
-                                           -> productUrls
-                                           Each should include a 
-                                                
-                                        */}
                                         <div style={{background: "yellow"}}>
-                                            <select id="select-brand" name="selectedBrand">
+                                            <select id="select-brand" name="selectedBrand" onChange={(e) => handleSelectChange(index, e)}>
                                                 <option value="amazon">AMAZON</option>
                                                 <option value="costco">COSTCO</option>
                                                 <option value="walmart">WALMART</option>
                                                 <option value="others">OTHERS</option>
                                             </select>
-                                            
-                                            <input type="text" name="productUrl" value={productUrl} onChange={updateFieldChanged(index)}  />
+                                            {productUrl.brand === "others" && <input type="text" name="productUrl_name" value={productUrl.name} onChange={updateFieldChanged(index)}  placeholder="Please specify" />}
                                         </div>
                                         
-                                        <input type="text" name="productUrl" value={productUrl} onChange={updateFieldChanged(index)}  />
+                                        <input type="text" name="productUrls" value={productUrl.url} onChange={updateFieldChanged(index)}  />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
+
                                     </li>
                                 )
                             }
@@ -353,7 +323,7 @@ const Post = ({ props }) => {
                             {
                                 imageUrls.map((image, index) => 
                                     <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="name" value={image} onChange={updateFieldChanged(index)}  />
+                                        {index} <input type="text" name="imageUrls" value={image} onChange={updateFieldChanged(index)}  />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'imageUrls'))}>DELETE</button>
                                     </li>
                                 )
@@ -372,7 +342,7 @@ const Post = ({ props }) => {
                             {
                                 features.map((feature, index) => 
                                     <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="name" value={feature} onChange={updateFieldChanged(index)}  />
+                                        {index} <input type="text" name="features" value={feature} onChange={updateFieldChanged(index)}  />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'features'))}>DELETE</button>
                                     </li>
                                 )
