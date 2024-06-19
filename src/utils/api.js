@@ -44,9 +44,7 @@ const postRequest = async (path, body) => {
     };
 
     const res = await fetch(config.baseURL + path, params);
-    console.log(res)
     const data = await res.text();
-    console.log('wtf')
     return { statusCode: res.status, data };
   } catch (e) {
     console.log(`error in post Request (${path}) :- `, e);

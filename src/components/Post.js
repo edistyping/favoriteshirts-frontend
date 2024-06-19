@@ -1,5 +1,5 @@
 import "./Post.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 
 import { api } from '../utils/api'
@@ -14,6 +14,8 @@ const Post = ({ props }) => {
     const user = useSelector(state => state.user) 
 
     const [name, setName] = useState("TEST")
+
+    const [brands, setBrands] = useState([])
 
     const [selectedBrand, setSelectedBrand] = useState("")
     const [otherBrand, setOtherBrand] = useState("")
@@ -32,6 +34,19 @@ const Post = ({ props }) => {
     
     const [moreDetails, setMoreDetails] = useState("");
     const [uploadedImages, setUploadedImages] = useState([]);
+
+
+    useEffect(() => {
+        async function fetchMyAPI() {
+            var { statusCode, data}  = await api.getRequest('/api/brand')
+            // alert(JSON.stringify(data))
+            var temp = data.map((item) => item.name )
+            setBrands(temp);
+        }
+    
+        fetchMyAPI()
+      }, [])
+    
 
     const updateFieldChanged = index => e => {
         const {name, value} = e.target;
@@ -249,14 +264,12 @@ const Post = ({ props }) => {
                         <label><b>Brand</b></label>
                         <div style={{background: "yellow"}}>
                             <select id="select-brand" name="selectedBrand" onChange={(e) => handleBrandChange(e)}>
-                                <option value="amazon">AMAZON</option>
-                                <option value="costco">COSTCO</option>
-                                <option value="walmart">WALMART</option>
-                                <option value="others">OTHERS</option>
+                                {brands.map((brand, index) => (
+                                <option key={index} value={brand}>
+                                    {brand}
+                                </option>
+                                ))}
                             </select>
-
-                            <label><b>Provide a Brand name: </b></label>
-                            {selectedBrand === "others" && <input type="text" name="brand" value={otherBrand} onChange={handleOtherBrandChange}  placeholder="Please specify" />}
                         </div>                                
                     </div>
 
@@ -295,16 +308,16 @@ const Post = ({ props }) => {
                                 productUrls.map((productUrl, index) => 
                                     <li className="form__list__item" key={index} >
                                         <div style={{background: "yellow"}}>
-                                            <select id="select-brand" name="selectedBrand" onChange={(e) => handleSelectChange(index, e)}>
-                                                <option value="amazon">AMAZON</option>
-                                                <option value="costco">COSTCO</option>
-                                                <option value="walmart">WALMART</option>
-                                                <option value="others">OTHERS</option>
+                                            <select id="select-brand" name="selectedBrand" onChange={(e) => handleBrandChange(e)}>
+                                                {brands.map((brand, index) => (
+                                                <option key={index} value={brand}>
+                                                    {brand}
+                                                </option>
+                                                ))}
                                             </select>
-                                            {productUrl.brand === "others" && <input type="text" name="productUrl_name" value={productUrl.name} onChange={updateFieldChanged(index)}  placeholder="Please specify" />}
                                         </div>
                                         
-                                        <input type="text" name="productUrls" value={productUrl.url} onChange={updateFieldChanged(index)}  />
+                                        <input type="text" name="productUrl_url" value={productUrl.url} onChange={updateFieldChanged(index)}  />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
 
                                     </li>

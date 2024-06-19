@@ -137,8 +137,14 @@ const Product = ( props ) => {
   }
 
   const Urls = () => {
-    const urls = props.productUrls;
+    console.log(JSON.stringify(props.productUrls))
+    // const urls = props.productUrls;
+    // const stores = ["amazon", "walmart", "costco", "target", "jcpenny", "macy", "uniqlo", "jcrew"];
+    console.log(' URL HERE')
+    console.log(props.productUrls.url)
+    const urls = props.productUrls.url;
     const stores = ["amazon", "walmart", "costco", "target", "jcpenny", "macy", "uniqlo", "jcrew"];
+    
     const logos = [logo_amazon, logo_walmart, logo_costco, logo_target, logo_jcpenny, logo_macy, logo_uniqlo, logo_jcrew]; 
     var results = [];
     

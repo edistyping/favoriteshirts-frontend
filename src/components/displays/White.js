@@ -101,7 +101,7 @@ const White = ({}) => {
     return (
         <div>
             <div className='homescreen__products'>
-                { products ? products.map(product => (
+                { products && products.length > 0 ? products.map(product => (
                     <Product
                         key={product.id}
                         id={product.id}
@@ -116,12 +116,15 @@ const White = ({}) => {
                         tags={product.tag}
                         uploadedBy={product.uploadedBy}
                         handleFavorite={handleFavorite}
-                        user={user}
                     /> ))
-                    :
-                    <>
-                        LOADING HERE
-                    </>
+                    : products && products.length === 0 ? 
+                        <>
+                            No Items
+                        </>
+                    : 
+                        <>
+                            LOADING HERE
+                        </>
                 }
             </div>
         </div>

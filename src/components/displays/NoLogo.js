@@ -41,25 +41,31 @@ const NoLogo = ({ }) => {
     return (
         <div>
             <div className='homescreen__products'>
-                {products.map(product => (
-                    <Product
-                        key={product.id}
-                        id={product.id}
-                        description={product.description ? product.description : ""}
-                        name={product.name}
-                        price={product.price}
-                        pack={product.pack}
-                        imageUrls={product.imageUrls}
-                        productUrls={product.productUrls}
-                        features={product.features}
-                        maintenance={product.maintenance}
-                        tags={product.tag}
-                        uploadedBy={product.uploadedBy}
-                        handleFavorite={handleFavorite}
-                        user={user}
-
-                    />
-                ))}
+                { products && products.length > 0 ? products.map(product => (
+                        <Product
+                            key={product.id}
+                            id={product.id}
+                            description={product.description ? product.description : ""}
+                            name={product.name}
+                            price={product.price}
+                            pack={product.pack}
+                            imageUrls={product.imageUrls}
+                            productUrls={product.productUrls}
+                            features={product.features}
+                            maintenance={product.maintenance}
+                            tags={product.tag}
+                            uploadedBy={product.uploadedBy}
+                            handleFavorite={handleFavorite}
+                        /> ))
+                        : products && products.length === 0 ? 
+                            <>
+                                No Items
+                            </>
+                        : 
+                            <>
+                                LOADING HERE
+                            </>
+                    }
             </div>
         </div>
 
