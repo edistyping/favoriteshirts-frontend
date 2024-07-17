@@ -26,12 +26,6 @@ const getRequest = async (path) => {
 };
 
 const postRequest = async (path, body) => {
-  console.log('   postRequest() called....')
-  console.log(body)
-  console.log(getToken())
-  console.log(config.baseURL + path)
-  console.log(JSON.stringify(body))
-  console.log("----------------------------")
   try {
     console.log(" try()")
     const params = {
@@ -74,6 +68,30 @@ const deleteRequest = async (path, body) => {
   }
 };
 
+const patchRequest = async (path, body) => {
+  alert("   patchRequest() " + path);
+  alert(body)
+  console.log("   patchRequest()")
+
+  try {
+
+    const params = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + getToken(),
+      },
+      body: JSON.stringify(body),
+    };
+
+    const res = await fetch(config.baseURL + path, params);
+    const data = await res.text();
+    return { statusCode: res.status, data };
+  } catch (e) {
+    alert("   error in patch")
+    console.log(`error in patch Request (${path}) :- `, e);
+  }
+};
 
 const putRequest = async (path, body) => {
   console.log('   putRequest() called....')
@@ -99,6 +117,7 @@ export const api = {
     getRequest,
     postRequest,
     deleteRequest,
-    putRequest
+    putRequest,
+    patchRequest
 };
   

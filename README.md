@@ -1,10 +1,21 @@
 # TO DO 
-    1. How should Brand vs Product URL work?
-        - User can select Brand or Other 
-        - Don't let Users fill in with spams
-            - Users can pay me to add their Brand here
-            - You get a free pass if your Brand is established enough obviously. 
+    - patchProduct in api.js is not working
+        - productAction.js -> updateProduct calls it thu 
 
+        
+    1. Add "Edit My Post" page
+        ShowMyPosts 
+            - Get all Posts in MyPosts page 
+                - Retrieve info from /api/User/posts
+            Select a post
+                - Edit a Post page 
+                    Change 
+                    - /api/patch/product/{id}
+
+    2. Add 'Edit My Profile" page
+            - /api/patch/user/{id}
+
+    3. Make 'Post a Deal' button public. If Guest clicks it, then 
 
 # HOW TO MONETIZE?
     - Donation (please help me)

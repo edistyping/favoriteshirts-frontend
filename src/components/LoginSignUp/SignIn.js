@@ -25,7 +25,6 @@ function SignIn() {
       setLoading(false)
       if (statusCode === 400 || statusCode === 500 || statusCode === 403) {
         setLoading(false)
-        alert(data)
         return
       }
       const {token} = JSON.parse(data)

@@ -137,11 +137,12 @@ const Product = ( props ) => {
   }
 
   const Urls = () => {
-    console.log(JSON.stringify(props.productUrls))
+
     // const urls = props.productUrls;
     // const stores = ["amazon", "walmart", "costco", "target", "jcpenny", "macy", "uniqlo", "jcrew"];
-    console.log(' URL HERE')
-    console.log(props.productUrls.url)
+    // alert(JSON.stringify(props))
+    // console.log(' URL HERE')
+    // console.log(props.productUrls.url)
     const urls = props.productUrls.url;
     const stores = ["amazon", "walmart", "costco", "target", "jcpenny", "macy", "uniqlo", "jcrew"];
     
@@ -211,7 +212,7 @@ const Product = ( props ) => {
           </div>
 
           <div className="product__body" onClick={() => handleOpen(props.id)}>
-            <img loading="lazy" src={imageSrcs.length > 0 ? imageSrcs[0] : default_shirt} onError={() => handleImageError(0)}  alt="main" />
+            <img loading="lazy" src={imageSrcs && imageSrcs.length > 0 ? imageSrcs[0] : default_shirt} onError={() => handleImageError(0)}  alt="main" />
             <div className="product__body__container">
                 <p>RATES  COMMENTS</p>
             </div>
@@ -242,7 +243,7 @@ const Product = ( props ) => {
         >
       <Box sx={ModalStyle}>
         
-        {imageSrcs.map((image, i) => {
+        {imageSrcs && imageSrcs.map((image, i) => {
           return <img loading="lazy" key={i} src={image} onError={() => handleImageError(i)} style={{ height: "100px", width: "100px"}} alt="additional_images" />
         })}
 

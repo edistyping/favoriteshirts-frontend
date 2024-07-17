@@ -72,11 +72,11 @@ const Navbar = ({click}) => {
         <Link to="/nologo">No Logo</Link>
         <Link to="/special">Special</Link>
         <Link to="/favorite">Favorites</Link>
-      </ul>
 
-      <ul className="navbar__category" style={{background: "lightblue" }}>
         <Link to="/post">Post a Deal</Link>
       </ul>
+
+
 
       <ul className='navbar__links'>
         {!user.userInfo.isLogin ? (
@@ -85,9 +85,12 @@ const Navbar = ({click}) => {
           </li>
         ) : (
           <li>
+            
+            <Link to="/myposts">My Posts</Link>
             <button onClick={_handleLogout}>Logout</button>
           </li>
         )}
+
         {/*
           <li>
             <Link to="/advertise">Advertise Your Shirt</Link>
@@ -97,6 +100,7 @@ const Navbar = ({click}) => {
             <Link to="/recommendation">Click for Recommendation!</Link>
           </li>
         */}
+
       </ul>
 
 

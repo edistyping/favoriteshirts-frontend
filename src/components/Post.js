@@ -17,6 +17,8 @@ const Post = ({ props }) => {
 
     const [brands, setBrands] = useState([])
 
+    const [brand, setBrand] = useState("")
+
     const [selectedBrand, setSelectedBrand] = useState("")
     const [otherBrand, setOtherBrand] = useState("")
 
@@ -28,13 +30,12 @@ const Post = ({ props }) => {
     const [imageUrls, setImageUrls] = useState(["", ""]);
     const [productUrls, setProductUrls] = useState([{brand: "", name: "", url: ""}]);
     const [features, setFeatures] = useState(["", ""]);
-    const [maintenance, setMaintenance] = useState(["", ""]);
+    const [maintenances, setMaintenances] = useState(["", ""]);
     const [category, setCategory] = useState("NO LOGO");
     const [tag, setTag] = useState([]);
     
     const [moreDetails, setMoreDetails] = useState("");
     const [uploadedImages, setUploadedImages] = useState([]);
-
 
     useEffect(() => {
         async function fetchMyAPI() {
@@ -55,28 +56,28 @@ const Post = ({ props }) => {
         switch(name) {
             case 'productUrls': 
                 newArr = [...productUrls]; // copying the old datas array
-                newArr[index].name = e.target.value; // replace e.target.value with whatever you want to change it to
+                newArr[index].name = value; // replace e.target.value with whatever you want to change it to
                 setProductUrls(newArr); 
                 break;
             case 'productUrl_url':
                 newArr = [...productUrls]; // copying the old datas array
-                newArr[index].url = e.target.value; // replace e.target.value with whatever you want to change it to
+                newArr[index].url = value; // replace e.target.value with whatever you want to change it to
                 setProductUrls(newArr);   
                 break;
             case 'imageUrls':
                 newArr = [...imageUrls]; // copying the old datas array
-                newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
+                newArr[index] = value; // replace e.target.value with whatever you want to change it to
                 setImageUrls(newArr);
                 break;
             case 'features':
                 newArr = [...features]; // copying the old datas array
-                newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
+                newArr[index] = value; // replace e.target.value with whatever you want to change it to
                 setFeatures(newArr);
                 break;
-            case 'maintenance':
-                newArr = [...maintenance]; // copying the old datas array
-                newArr[index] = e.target.value; // replace e.target.value with whatever you want to change it to
-                setMaintenance(newArr);
+            case 'maintenances':
+                newArr = [...maintenances]; // copying the old datas array
+                newArr[index] = value; // replace e.target.value with whatever you want to change it to
+                setMaintenances(newArr);
                 break;
             default:
                 break;
@@ -114,11 +115,11 @@ const Post = ({ props }) => {
                     current = [...imageUrls]
                 }                
                 break
-            case 'maintenance':
-                if (e.target.name === "delete" && maintenance.length === 1) {
+            case 'maintenances':
+                if (e.target.name === "delete" && maintenances.length === 1) {
                     return
                 } else {
-                    current = [...maintenance]
+                    current = [...maintenances]
                 }                
                 break
             default: 
@@ -149,23 +150,22 @@ const Post = ({ props }) => {
             case 'imageUrls':
                 setImageUrls(current)
                 break
-            case 'maintenance':
-                setMaintenance(current)
+            case 'maintenances':
+                setMaintenances(current)
                 break
             default: 
                 break
         }
     }
 
-    const handleBrandChange = (event) => {
-        setSelectedBrand(event.target.value);
-        // Reset otherStore if the selected store is not 'Others'
-        if (event.target.value !== 'Others') {
-            setOtherBrand('');
-        }
-    };
-    const handleOtherBrandChange = (event) => {
-        setOtherBrand(event.target.value);
+    const handleBrandChange = (event, index) => {
+        console.log('       handleBrandChange()...');
+        const newValue = event.target.value;
+        console.log('       newValue: ' + newValue);
+
+        const newProductUrls = [...productUrls];
+        newProductUrls[index].brand = newValue;
+        setProductUrls(newProductUrls);
     };
 
     // To Do
@@ -174,7 +174,6 @@ const Post = ({ props }) => {
         e.preventDefault()
         console.log("       handleSubmit()...")
         console.log(category)
-
         if (user.userInfo.isLogin) { 
             const user_id = user.userInfo.details.id
             const user_type = user.userInfo.details.type_id // for future conditions
@@ -183,7 +182,7 @@ const Post = ({ props }) => {
             if (validationResult === true) {
 
                 const newPostData = { 
-                    Brand: selectedBrand !== 'Others' ? selectedBrand : otherBrand, 
+                    Brand: brand, 
                     Name: 'name', 
                     Description: description, 
                     Price: '123', 
@@ -193,10 +192,10 @@ const Post = ({ props }) => {
                     ImageUrls: imageUrls, 
                     ProductUrls: productUrls, 
                     Features: features, 
-                    Maintenance: maintenance, 
+                    Maintenances: maintenances, 
                     Category: category, 
                     Tag: tag,
-                    UploadedBy: "0"
+                    UserId: user.userInfo.details.user.id
                 }
                 
                 const {statusCode, data} = await api.postRequest('/api/product', 
@@ -218,7 +217,7 @@ const Post = ({ props }) => {
     }
 
     function validateSubmit() {
-        if (name === "" || selectedBrand === "" || price === null) {
+        if (name === "" || brand === "" || price === null) {
             return false
         } 
         return true
@@ -228,7 +227,6 @@ const Post = ({ props }) => {
     const handleSelectChange = (index, event) => {
         const value = event.target.value;
         const newProductUrls = [...productUrls];
-        // newProductUrls2[index].isOthers = value === 'Others';
         newProductUrls[index].brand = value;
         setProductUrls(newProductUrls);
     };
@@ -243,8 +241,8 @@ const Post = ({ props }) => {
         console.log('sku: ' +sku)
         console.log('imageUrls: ' +imageUrls)
         console.log('productUrls: ' + productUrls)
-        console.log('features: ' +features)
-        console.log('maintenance: ' +maintenance)
+        console.log('features: ' + features)
+        console.log('maintenances: ' + maintenances)
         console.log('category: ' +category)
     }
 
@@ -256,14 +254,14 @@ const Post = ({ props }) => {
                     <h2>Share your own or favorite shirt! </h2>
 
                     <div className="form__post__section">
-                        <label> <b>Product Name</b>: </label>
+                        <label> <b>Product (Required)</b>: </label>
                         <input value={name} type="text" name="productName" onChange={e => setName(e.target.value)} />
                     </div>
 
                     <div className="form__list">
-                        <label><b>Brand</b></label>
+                        <label><b>Brand (Required)</b></label>
                         <div style={{background: "yellow"}}>
-                            <select id="select-brand" name="selectedBrand" onChange={(e) => handleBrandChange(e)}>
+                            <select id="select-brand" name="selectedBrand" value={brand} onChange={e => setBrand(e.target.value)}>
                                 {brands.map((brand, index) => (
                                 <option key={index} value={brand}>
                                     {brand}
@@ -274,12 +272,12 @@ const Post = ({ props }) => {
                     </div>
 
                     <div className="form__post__section">
-                        <label> Description (Optional): </label>
+                        <label> Description: </label>
                         <textarea value={description} name="description" onChange={e => setDescription(e.target.value)} />
                     </div>
 
                     <div className="form__post__section">
-                        <label> <b>Price</b>: </label>
+                        <label> <b>Price (Required)</b>: </label>
                         <input value={price} type="number" name="price" onChange={e => setPrice(e.target.value)} />
                     </div>
 
@@ -298,7 +296,7 @@ const Post = ({ props }) => {
 
                     <div className="form__list">
                         <div className="form__list__top">
-                            <label><b>Links to Product</b></label>
+                            <label><b>Links to Product (Required)</b></label>
                             <button name="add" onClick={(e => handleList(e, 'productUrls'))}>+</button>
                         </div>
 
@@ -308,7 +306,7 @@ const Post = ({ props }) => {
                                 productUrls.map((productUrl, index) => 
                                     <li className="form__list__item" key={index} >
                                         <div style={{background: "yellow"}}>
-                                            <select id="select-brand" name="selectedBrand" onChange={(e) => handleBrandChange(e)}>
+                                            <select id="select-brand" name="selectedBrand" value={productUrl.brand} onChange={(e) => handleBrandChange(e, index)}>
                                                 {brands.map((brand, index) => (
                                                 <option key={index} value={brand}>
                                                     {brand}
@@ -328,7 +326,7 @@ const Post = ({ props }) => {
 
                     <div className="form__list">
                         <div className="form__list__top">
-                            <label><b>Images</b></label>
+                            <label><b>Images (Required)</b></label>
                             <button name="add" onClick={(e => handleList(e, 'imageUrls'))}>+</button>
                         </div>
                         <ul>
@@ -365,17 +363,17 @@ const Post = ({ props }) => {
 
                     <div className="form__list">
                         <div className="form__list__top">
-                            <label> Maintenance </label>
-                            <button name="add" onClick={(e => handleList(e, 'maintenance'))}>+</button>
+                            <label> Maintenances </label>
+                            <button name="add" onClick={(e => handleList(e, 'maintenances'))}>+</button>
                         </div>
 
                         <ul>
                             <p><b>Ex:</b> Cold Wash Only</p>
                             {
-                                maintenance.map((item, index) => 
+                                maintenances.map((maintenance, index) => 
                                     <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="name" value={item} onChange={updateFieldChanged(index)}  />
-                                        <button id={index} name="delete" onClick={(e => handleList(e, 'maintenance'))}>DELETE</button>
+                                        {index} <input type="text" name="maintenances" value={maintenance} onChange={updateFieldChanged(index)}  />
+                                        <button id={index} name="delete" onClick={(e => handleList(e, 'maintenances'))}>DELETE</button>
                                     </li>
                                 )
                             }
