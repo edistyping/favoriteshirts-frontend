@@ -25,8 +25,8 @@ function LoginSignUp() {
     if (username.length > 2 && password.length > 2) {
       setLoading(true)
 
-      const {statusCode, data} = await api.postRequest('/api/user/signin', {
-        Email: "",
+      const {statusCode, data} = await api.postRequest('/api/auth/login', {
+        Email: email,
         Username: username,
         Password: password,
       })

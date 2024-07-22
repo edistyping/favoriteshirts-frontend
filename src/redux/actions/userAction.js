@@ -6,7 +6,7 @@ import { type } from '@testing-library/user-event/dist/type'
 
 export const setUserDetails = () => async dispatch => {
   console.log('   setUserDetails()... ')
-  const {statusCode, data} = await api.getRequest(`/api/user/validate`)
+  const {statusCode, data} = await api.getRequest(`/api/auth/verify-token`)
 
   if (statusCode === 400 || statusCode === 401 || statusCode === 500) {
     console.log(    'No user or invalid jwt')
@@ -17,15 +17,11 @@ export const setUserDetails = () => async dispatch => {
     return
   }
 
-  const user = data; 
-  console.log(user)
-  console.log('   ending()... ')
-
   dispatch({
     type: actionTypes.SET_USER,
     payload: {
       isLogin: true,
-      details: {...user}
+      details: {...data}
     },
   })
 }

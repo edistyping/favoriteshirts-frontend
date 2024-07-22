@@ -50,11 +50,11 @@ export const getProductsByCategory = (category) => async dispatch => {
   }
 }
 
-export const getProductsByMe = () => async dispatch => {
-  console.log('   getProductsByMe() called...');
+export const getProductsByUser = () => async dispatch => {
+  console.log('   getProductsByUser() called...');
   try {
     dispatch({type: actionTypes.GET_PRODUCTS_REQUEST})
-    const {statusCode, data} = await api.getRequest('/api/product/myposts')
+    const {statusCode, data} = await api.getRequest('/api/product/user-products')
 
     console.log(statusCode);
     console.log(data);

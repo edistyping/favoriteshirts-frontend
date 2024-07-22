@@ -4,7 +4,7 @@ import { api } from '../../utils/api'
 
 import Product from '../Product'
 
-import { getProductsByMe, updateProduct, deleteProduct } from '../../redux/actions/productActions'
+import { getProductsByUser, updateProduct, deleteProduct } from '../../redux/actions/productActions'
 
 import { speedDialClasses } from "@mui/material";
 import { json } from "react-router-dom";
@@ -20,7 +20,7 @@ const MyPosts = ({}) => {
     const favorites = useSelector((state) => state.favorites.value)
 
     useEffect(() => {
-        dispatch(getProductsByMe());
+        dispatch(getProductsByUser());
     }, [dispatch])
 
 

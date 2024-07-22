@@ -21,10 +21,10 @@ function SignUp( props ) {
       //   username,
       //   password,
       // })
-      const {statusCode, data} = await api.postRequest('/api/user', {
-          email,
-          username,
-          password,
+      const {statusCode, data} = await api.postRequest('/api/auth/register', {
+          'UserName': username,
+          'Email': email,
+          'Password': password,
       })  
       if (statusCode === 400 || statusCode === 500 || statusCode === 403) {
         setLoading(false)
