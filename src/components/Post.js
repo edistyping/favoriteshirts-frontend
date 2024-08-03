@@ -182,7 +182,7 @@ const Post = ({ props }) => {
             if (validationResult === true) {
 
                 const newPostData = { 
-                    Brand: brand, 
+                    BrandId: 1, 
                     Name: 'name', 
                     Description: description, 
                     Price: '123', 
@@ -195,12 +195,13 @@ const Post = ({ props }) => {
                     Maintenances: maintenances, 
                     Category: category, 
                     Tag: tag,
-                    UserId: user.userInfo.details.user.id
                 }
                 
                 const {statusCode, data} = await api.postRequest('/api/product', 
                     newPostData            
                 )
+
+                console.log("       statusCode: " + statusCode);
 
                 if (statusCode === 400 || statusCode === 401 || statusCode === 500) {
                     console.log("       There was an error submitting the post")
@@ -218,7 +219,7 @@ const Post = ({ props }) => {
 
     function validateSubmit() {
         if (name === "" || brand === "" || price === null) {
-            return false
+            return true
         } 
         return true
     }
@@ -308,9 +309,9 @@ const Post = ({ props }) => {
                                         <div style={{background: "yellow"}}>
                                             <select id="select-brand" name="selectedBrand" value={productUrl.brand} onChange={(e) => handleBrandChange(e, index)}>
                                                 {brands.map((brand, index) => (
-                                                <option key={index} value={brand}>
-                                                    {brand}
-                                                </option>
+                                                    <option key={index} value={brand}>
+                                                        {brand}
+                                                    </option>
                                                 ))}
                                             </select>
                                         </div>
@@ -380,7 +381,7 @@ const Post = ({ props }) => {
                         </ul>
                     </div>
 
-                    <button type="submit" >Submit </button>
+                    <button type="submit" >Submit</button>
                 </form>
                 :
                 <div className="post__denied">

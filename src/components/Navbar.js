@@ -16,6 +16,8 @@ import LoginSignUp from './LoginSignUp/LoginSignUp'
 import home_logo from '../assets/images/home_logo.jpg';
 import favorite_logo from '../assets/images/favorite_logo.jpg';
 
+import { api } from '../utils/api'
+
 import { updateCategory, updateFavorite } from '../redux/counter/categorySlice'
 import { setInitialState, setUserDetails } from '../redux/actions/userAction'
 import { setInitialFavorites } from '../redux/counter/favoritesSlice'
@@ -50,6 +52,18 @@ const Navbar = ({click}) => {
     // history.push('/')
   }
   
+  
+  const _handleLogout2 = async () => {
+    try {
+        await api.postRequest('/api/auth/logout');
+        logout()
+        window.location.reload();
+        // Redirect to login page or homepage after logout
+    } catch (error) {
+        console.error('Logout failed', error);
+    }
+  };
+
   const [open, setOpen] = useState(false)
   function handleOpen(e) {
     setOpen(true);
@@ -87,7 +101,7 @@ const Navbar = ({click}) => {
           <li>
             
             <Link to="/myposts">My Posts</Link>
-            <button onClick={_handleLogout}>Logout</button>
+            <button onClick={_handleLogout2}>Logout</button>
           </li>
         )}
 

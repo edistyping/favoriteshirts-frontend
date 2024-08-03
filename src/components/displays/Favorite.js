@@ -2,13 +2,13 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from 'react-redux'
 import { api } from '../../utils/api'
 
-import { getProducts, getProductsByCategory } from '../../redux/actions/productActions'
+import { getProductsByFavorites } from '../../redux/actions/productActions'
 import { updateFavorites } from '../../redux/counter/favoritesSlice'
 
 import Product from '../Product'
 
-const Favorite = ({  }) => {
-    console.log('Favorite here')
+const Favorite = () => {
+    console.log('Favorite here');
 
     const dispatch = useDispatch()
     
@@ -17,33 +17,21 @@ const Favorite = ({  }) => {
     const response = useSelector(state => state.products)
     const {products, loading, error} = response
 
+    console.log(products);
+
     useEffect(() => {
-        dispatch(getProducts())
+        dispatch(getProductsByFavorites())
     }, [dispatch])
 
     async function handleFavorite(selectedFavorite) {
-        // Update localStorage and Redux/State
-        console.log('   handleFavorite()...')
-        selectedFavorite = Number(selectedFavorite)
-    
-        const isFound = favorites.find((item) => item === selectedFavorite);
-        let newFavorites = []
-    
-        if (isFound) {
-            newFavorites = favorites.filter(favorite => favorite !== selectedFavorite)
-        } else {
-            newFavorites = [...favorites]
-            newFavorites.push(selectedFavorite)
-        }
-        window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
-        dispatch(updateFavorites(newFavorites)) 
+
     }
     
     return (
         <div>
             <div className='homescreen__products'>
-                { favorites.length > 0 ? 
-                    products.filter(product => favorites.includes(Number(product.id))).map(product => 
+                { products && products.length > 0? 
+                    products.map(product => 
                         <>
                             <Product
                                     key={product.id}
@@ -53,13 +41,12 @@ const Favorite = ({  }) => {
                                     price={product.price}
                                     pack={product.pack}
                                     imageUrls={product.imageUrls}
-                                    productUrls={product.productUrls}
+                                    productUrls={[product.productUrls]}
                                     features={product.features}
                                     maintenance={product.maintenance}
                                     tags={product.tag}
                                     uploadedBy={product.uploadedBy}
                                     handleFavorite={handleFavorite}
-                                    user={user}
                                     />
                         </>
                     )

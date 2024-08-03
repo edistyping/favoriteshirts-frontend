@@ -22,13 +22,15 @@ function SignIn() {
         email,
         password,
       })
+      
       setLoading(false)
-      if (statusCode === 400 || statusCode === 500 || statusCode === 403) {
+      if (statusCode === 400 || statusCode === 401 || statusCode === 500 || statusCode === 403) {
         setLoading(false)
         return
       }
-      const {token} = JSON.parse(data)
-      setToken(token)
+      
+      // const {token} = JSON.parse(data)
+      // setToken(token)
       replace('/')
     }
   }, [email, password, replace])

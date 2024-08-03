@@ -13,13 +13,13 @@ const getRequest = async (path) => {
 
   try {
     const res = await fetch(config.baseURL + path, params);
+    console.log(res.status);
     const data = await res.json();
-    console.log(data);
     return { statusCode: res.status, data };
+
   } catch (e) {
     console.error(`error in get Request (${path}) :- `, e);
-    return { statusCode: 400, data: [
-    ] };
+    return { statusCode: 400, data: [] };
   }
 };
 
@@ -35,9 +35,9 @@ const postRequest = async (path, body) => {
   };
 
   try {
-    console.log(" try()")
     const res = await fetch(config.baseURL + path, params);
     const data = await res.text();
+
     return { statusCode: res.status, data };
   } catch (error) {
     console.log(`error in post Request (${path}) :- `, error);
@@ -47,23 +47,17 @@ const postRequest = async (path, body) => {
           await fetch(config.baseURL + '/api/auth/refresh-token');
           const retryResponse = await fetch(config.baseURL + path, params);
           const data = await retryResponse.text();
-          alert('Product posted successfully after token refresh');
           return { statusCode: retryResponse.status, data };
       } catch (refreshError) {
-          console.error(refreshError);
-          alert('Posting product failed after token refresh');
       }
     } else {
           console.error(error);
-          alert('Posting product failed');
     }
   }
 
 };
 
 const deleteRequest = async (path, body) => {
-  console.log('   deleteRequest() called....')
-  console.log(body)
   const params = {
     method: "DELETE",
     headers: {
@@ -75,11 +69,9 @@ const deleteRequest = async (path, body) => {
   try {
     const res = await fetch(config.baseURL + path, params);
     const data = await res.text();
-    console.log(data)
     return { statusCode: res.status, data };
     
   } catch (error) {
-    console.log(`error in post Request (${path}) :- `, error);
     if (error.response && error.response.status === 401) {
       // Refresh token if unauthorized
       try {

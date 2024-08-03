@@ -1,6 +1,23 @@
 # TO DO 
-    - patchProduct in api.js is not working
-        - productAction.js -> updateProduct calls it thu 
+    - Favorite
+
+    - Home 
+        When I go back to Home from Favorites, it error. 
+
+    - Post
+        For ProductUrl, change the default for select/option
+
+    - Update Home 
+        - Show each Category products as a slide in row 
+
+    - Product (single) 
+        - If User is not logged in, remove 'Add New Comment' button and add a placeholder/watermark to the Text input that says "PLEASE LOGIN TO LEAVE A COMMENT"
+        - Show Name, Brand (Name), Description, Price, ImageUrls, Features, Maintenancnes, ProductUrls, 
+        - For showing Images, show one main then others are available to be click to switch below 
+        - Add a X button
+
+    - Sign Up
+        - 
 
         
     1. Add "Edit My Post" page
@@ -22,13 +39,6 @@
     - Membership 
     - Sponsor
 
-# To Fix
-    1. Re-write Favorites functionality
-        - Move handleFavorite to Product component
-    2. NavBar  
-        Problem: It keeps blinking even when a user is logged in
-    3. Admin page 
-    4. Home page update 
 
 
 # COMMMANDS

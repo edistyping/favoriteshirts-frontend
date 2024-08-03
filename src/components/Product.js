@@ -78,8 +78,8 @@ const Product = ( props ) => {
       const {statusCode, data} = await api.postRequest('/api/comment', {
         ProductId: props.id,
         Description: postComment,
-        Username: user.userInfo.details.user.username,
-        Score: 1
+        // Username: user.userInfo.details.user.username,
+        // Score: 1
       })
 
       if ( statusCode === 200 || statusCode === 201) {

@@ -23,7 +23,7 @@ function LoginSignUp() {
 
   const _handleSignIn = useCallback(async () => {
     if (username.length > 2 && password.length > 2) {
-      setLoading(true)
+      setLoading(true);
 
       const {statusCode, data} = await api.postRequest('/api/auth/login', {
         Email: email,
@@ -31,12 +31,12 @@ function LoginSignUp() {
         Password: password,
       })
 
-      setLoading(false)
-      if (statusCode === 400 || statusCode === 500 || statusCode === 403) {
+      setLoading(false);
+      if (statusCode === 400 || statusCode === 401 || statusCode === 403 || statusCode === 404 || statusCode === 500) {
+        alert("Sorry, error!")
         return
       }
-      const data2 = JSON.parse(data)
-      dispatch(setUserSignIn(data2))
+      dispatch(setUserSignIn(JSON.parse(data)));
     }
   }, [username, password, navigate])
 

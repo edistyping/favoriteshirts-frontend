@@ -69,6 +69,11 @@ const Home = () => {
     console.log('   handleFavorite()...')
     selectedFavorite = Number(selectedFavorite)
 
+    const {statusCode, data} = await api.postRequest('/api/favorite/' + selectedFavorite);
+
+    // alert(statusCode)
+    // alert(data);
+
     const isFound = favorites.find((item) => item === selectedFavorite);
     let newFavorites = []
 
@@ -80,7 +85,7 @@ const Home = () => {
     }
     window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
     dispatch(updateFavorites(newFavorites)) 
-}
+  }
 
   return (
     <div className="homescreen">
