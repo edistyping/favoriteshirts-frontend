@@ -21,6 +21,7 @@ const Favorite = () => {
 
     useEffect(() => {
         dispatch(getProductsByFavorites())
+        
     }, [dispatch])
 
     async function handleFavorite(selectedFavorite) {

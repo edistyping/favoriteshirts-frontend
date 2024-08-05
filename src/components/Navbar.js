@@ -1,125 +1,83 @@
-import './Navbar.css'
-import { useState } from "react"
-import {Link, json, useNavigate} from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
-import {useMemo} from 'react'
-
-// https://mui.com/material-ui/react-modal/
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-
-import {logout} from '../utils/localstorage'
-import LoginSignUp from './LoginSignUp/LoginSignUp'
-
-import home_logo from '../assets/images/home_logo.jpg';
-import favorite_logo from '../assets/images/favorite_logo.jpg';
-
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import Modal from 'react-modal';
+import { useDispatch, useSelector } from 'react-redux';
+import Login from './Login';
+import SignUp from './SignUp';
+import './Navbar.css'; // Import the CSS file for styling
 import { api } from '../utils/api'
 
-import { updateCategory, updateFavorite } from '../redux/counter/categorySlice'
-import { setInitialState, setUserDetails } from '../redux/actions/userAction'
-import { setInitialFavorites } from '../redux/counter/favoritesSlice'
-import { useEffect } from 'react'
+import logo from '../assets/images/favorite_logo.jpg'; // Tell webpack this JS file uses this image
 
-const ModalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
+import { setInitialState } from '../redux/actions/userAction'
+// import { signOut } from './authSlice'; // Assuming you have an authSlice for handling authentication
 
-const Navbar = ({click}) => {
+const Navbar = () => {
 
-  // Can use 'selectedCategory' for some marking Active 
-  const selectedCategory = useSelector((state) => state.category.value)
+  const [loginModalIsOpen, setLoginModalIsOpen] = useState(false);
+  const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
 
-  const user = useSelector(state => state.user)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
-  const _handleLogout = () => {
-    dispatch(setInitialState())
-    logout()
-    window.location.reload();
-    //dispatch(setInitialFavorites())
-    // history.push('/')
-  }
-  
-  
-  const _handleLogout2 = async () => {
-    try {
-        await api.postRequest('/api/auth/logout');
-        logout()
-        window.location.reload();
-        // Redirect to login page or homepage after logout
-    } catch (error) {
-        console.error('Logout failed', error);
+  const location = useLocation();
+
+  const openLoginModal = () => setLoginModalIsOpen(true);
+  const closeLoginModal = () => setLoginModalIsOpen(false);
+
+  const openSignUpModal = () => setSignUpModalIsOpen(true);
+  const closeSignUpModal = () => setSignUpModalIsOpen(false);
+
+  const handleSignOut = async () => {
+    const { statusCode, data } = await api.postRequest('/api/auth/logout');    
+    if (statusCode === 200) {
+      dispatch(setInitialState());
+      window.location.reload();
+      //   dispatch(signOut());
     }
   };
 
-  const [open, setOpen] = useState(false)
-  function handleOpen(e) {
-    setOpen(true);
-  }
-  function handleClose(e) {
-    setOpen(false);
-  }
-  
   return (
-    <nav className="navbar">
-
-      <Link className="navbar__logo" to="/">
-        <img height={60} src={home_logo} alt="home logo" />
+    <nav>
+      <Link to="/">
+        <img src={logo} alt="Logo" />
       </Link>
-  
-      <ul className="navbar__category" style={{background: "green" }}>
-        <Link to="/">All</Link>
-        <Link to="/white">White</Link>
-        <Link to="/logo">Logo</Link>
-        <Link to="/nologo">No Logo</Link>
-        <Link to="/special">Special</Link>
-        <Link to="/favorite">Favorites</Link>
 
-        <Link to="/post">Post a Deal</Link>
-      </ul>
+      <Link to="/" className={location.pathname === '/' ? 'active' : ''}>HOME</Link>
+      <Link to="/white" className={location.pathname === '/white' ? 'active' : ''}>WHITE</Link>
+      <Link to="/nologo" className={location.pathname === '/nologo' ? 'active' : ''}>NO LOGO</Link>
+      <Link to="/logo" className={location.pathname === '/logo' ? 'active' : ''}>LOGO</Link>
+      <Link to="/post" className={location.pathname === '/post' ? 'active' : ''}>POST</Link>
+      
+      <Link to="/favorite" className={location.pathname === '/favorite' ? 'active' : ''}>FAVORITE</Link>
 
+      {user.userInfo.isLogin ? (
+        <button onClick={handleSignOut}>Sign Out</button>
+      ) : (
+        <>
+          <button onClick={openLoginModal}>Login</button>
+          <button onClick={openSignUpModal}>Sign Up</button>
+        </>
+      )}
 
+      <Modal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} contentLabel="Login Modal">
+        <Login closeModal={closeLoginModal} />
+      </Modal>
+      
+      <Modal isOpen={signUpModalIsOpen} onRequestClose={closeSignUpModal} contentLabel="Sign Up Modal">
+        <SignUp closeModal={closeSignUpModal} />
+      </Modal>
 
-      <ul className='navbar__links'>
-        {!user.userInfo.isLogin ? (
-          <li>
-           <LoginSignUp/>
-          </li>
-        ) : (
-          <li>
-            
-            <Link to="/myposts">My Posts</Link>
-            <button onClick={_handleLogout2}>Logout</button>
-          </li>
-        )}
-
-        {/*
-          <li>
-            <Link to="/advertise">Advertise Your Shirt</Link>
-          </li>
-        
-          <li className='navbar__recommendation'>
-            <Link to="/recommendation">Click for Recommendation!</Link>
-          </li>
-        */}
-
-      </ul>
-
+      {user.userInfo.isLogin ? 
+        <>
+          <p>Welcome, {user.userInfo.details.username}</p>
+          <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>Profile</Link>      
+          <Link to="/myposts" className={location.pathname === '/post' ? 'active' : ''}>MY POST</Link>
+        </>
+      : <></>}
 
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

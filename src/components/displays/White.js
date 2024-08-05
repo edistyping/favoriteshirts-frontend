@@ -1,110 +1,114 @@
-import { useState, useEffect } from "react";
+import './White.css'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { api } from '../../utils/api'
 
 import Product from '../Product'
 
 import { getProductsByCategory } from '../../redux/actions/productActions'
+import { fetchFavorites, addFavorite, removeFavorite } from '../../redux/counter/favoritesSlice'
 
-import { updateFavorites, updateFavorites2 } from '../../redux/counter/favoritesSlice'
-import { speedDialClasses } from "@mui/material";
+import { api } from '../../utils/api'
+import { current } from '@reduxjs/toolkit'
 
-const White = ({}) => {
-    console.log('White here')
-    const dispatch = useDispatch()
-    const user = useSelector(state => state.user)
-    const response = useSelector(state => state.products)
-    const {products, loading, error} = response
-    const favorites = useSelector((state) => state.favorites.value)
 
-    useEffect(() => {
-        dispatch(getProductsByCategory('WHITE'))
-    }, [dispatch])
+const ModalStyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 800,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
 
-    useEffect(() => {
-        const handleStorageChange = (e) => {
-            console.log("wtf")
-            console.log(e)
-            if (e.key === 'favorites') {
-                // Handle changes to cart items
-                // Dispatch actions to update Redux state
-                var temp = JSON.parse(localStorage.getItem('favorites'))
-                console.log(temp)
-                dispatch(updateFavorites2()) // Redux/State
-            }
-        };
+const White = () => {
+  console.log('   White component...')
+  
+  const dispatch = useDispatch()
 
-        window.addEventListener('storage', handleStorageChange);
-        return () => {
-          window.removeEventListener('storage', handleStorageChange);
-        };
-      }, []);
+  const [products, setProducts] = useState([]);
 
-    async function handleFavorite(selectedFavorite) {
-        // Update localStorage and Redux/State
-        console.log('   handleFavorite()...')
-        selectedFavorite = Number(selectedFavorite)
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const loader = useRef(null);
 
-        const isFound = favorites.find((item) => item === selectedFavorite);
-        let newFavorites = []
+  const user = useSelector(state => state.user)
 
-        if (isFound) {
-            newFavorites = favorites.filter(favorite => favorite !== selectedFavorite)
+  // const favorites = useSelector((state) => state.favorites.value)
+  const { items: favorites, loaded } = useSelector((state) => state.favorites);
+
+  useEffect(() => {
+    console.log('   White() useEffect...')
+
+    if (products){
+      const fetchProducts = async () => {
+        console.log('   White() fetchProducts...')
+
+        const { statusCode, data } = await api.getRequest('/api/product/WHITE', {
+          params: { page, pageSize: 20 }
+        });
+
+        if (statusCode === 404) {
+          setProducts([]);
         } else {
-            newFavorites = [...favorites]
-            newFavorites.push(selectedFavorite)
+          setProducts((prev) => [...prev, ...data]);
         }
-        window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
-        dispatch(updateFavorites(newFavorites)) 
+
+        setHasMore(data.length > 0);
+        dispatch(fetchFavorites(user.userInfo.isLogin));
+      };
+  
+      fetchProducts();
+      // dispatch(fetchFavorites(user.userInfo.isLogin));
     }
 
-    async function handleFavorite2(selectedFavorite) {
-        // Update localStorage and Redux/State
-        console.log('           handleFavorite2()...')
-        selectedFavorite = Number(selectedFavorite)
-        
-        // do separaetly here or update in updateFavorites at the same time?  
-        dispatch(updateFavorites2(selectedFavorite)) // Redux/State
+  }, [user, dispatch])
+
+  const handleObserver = (entities) => {
+    const target = entities[0];
+    if (target.isIntersecting && hasMore) {
+      setPage((prev) => prev + 1);
     }
-    
-    async function handleFavorite3(selectedFavorite) {
-        // Update localStorage and Redux/State
-        console.log('   handleFavorite3()...')
-        selectedFavorite = Number(selectedFavorite)
-        console.log(selectedFavorite)
-        console.log(favorites)
+  };
 
-        const isFound = favorites.find((item) => item === selectedFavorite);
-        let newFavorites = []
-        if (isFound) {
-            console.log('       found')            
-            newFavorites = favorites.filter(favorite => favorite !== selectedFavorite)
-            console.log(newFavorites)
-            window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
-
-        } else if (isFound === false) {
-            console.log('       not found')
-            newFavorites = favorites
-            newFavorites.push(selectedFavorite)
-            console.log(newFavorites)
-            window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
-        } else {
-            console.log('       first')
-            newFavorites = [selectedFavorite]
-            console.log(newFavorites)
-            window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
-        }
-        dispatch(updateFavorites2(newFavorites)) // Redux/State
-        console.log("--------------------------------")
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '20px',
+      threshold: 1.0
+    };
+    const observer = new IntersectionObserver(handleObserver, options);
+    if (loader.current) {
+      observer.observe(loader.current);
     }
+    return () => {
+      if (loader.current) {
+        observer.unobserve(loader.current);
+      }
+    };
+  }, [loader.current, hasMore]);
 
-    return (
-        <div>
+
+  return (
+    <div className="homescreen">
+        { !products ? (
+          <div>
+            <h2>Loading...</h2>
+          </div>
+        ) : (
+          <div>
+            <p>{JSON.stringify(user)}</p>
+            <p>Favorite: {JSON.stringify(favorites)}</p>
+
             <div className='homescreen__products'>
-                { products && products.length > 0 ? products.map(product => (
+              {products.map((product, index) => (
+                <div key={index}>
                     <Product
                         key={product.id}
-                        id={product.id}
+                        id={product.id} 
+                        brand={product.brand}
                         description={product.description ? product.description : ""}
                         name={product.name}
                         price={product.price}
@@ -113,22 +117,20 @@ const White = ({}) => {
                         productUrls={product.productUrls}
                         features={product.features}
                         maintenance={product.maintenance}
+                        category={product.category}
                         tags={product.tag}
                         uploadedBy={product.uploadedBy}
-                        handleFavorite={handleFavorite}
-                    /> ))
-                    : products && products.length === 0 ? 
-                        <>
-                            No Items
-                        </>
-                    : 
-                        <>
-                            LOADING HERE
-                        </>
-                }
+                    />
+                  </div>
+              ))}
             </div>
-        </div>
-    );
-};
+            <div ref={loader} />
 
-export default White;
+        </div>
+        )}
+
+    </div>
+  )
+}
+
+export default White

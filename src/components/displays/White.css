@@ -1,7 +1,6 @@
 .homescreen {
-  min-height: 90vw;
-  height: 100vh;
   max-width: 100%;
+  min-height: 90vh;
   background-color: yellow;
 }
 
@@ -19,12 +18,7 @@
   column-gap: 0;
   row-gap: 2%;
 }
-.homescreen__products > div {
-  border: 1px solid #ccc;
-  padding: 20px;
-  background-color: #fff;
-  text-align: center;
-}
+
 
 @media (max-width: 1232px) {
   .homescreen__products {

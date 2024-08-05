@@ -1,53 +1,39 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import FavoriteService from '../../utils/favoriteService';
 
-import { loadFavorites } from '../../utils/localstorage'
+export const fetchFavorites = createAsyncThunk('favorites/fetchFavorites', async (isLoggedIn) => {
+  return await FavoriteService.getFavorites(isLoggedIn);
+});
 
-export const favoritesSlice = createSlice({
+export const addFavorite = createAsyncThunk('favorites/addFavorite', async ({ productId, isLoggedIn }) => {
+  return await FavoriteService.addFavorite(productId, isLoggedIn);
+});
+
+export const removeFavorite = createAsyncThunk('favorites/removeFavorite', async ({ productId, isLoggedIn }) => {
+  return await FavoriteService.removeFavorite(productId, isLoggedIn);
+});
+
+const favoritesSlice = createSlice({
   name: 'favorites',
   initialState: {
-    value: [],
+    items: [],
+    loaded: false,
   },
-  reducers: {
-    setInitialFavorites: (state) => {
-      console.log('   setInitialFavorites() in redux')
-      var data = loadFavorites()
-      if (Array.isArray(data)) {
-        state.value = data
-      } else {
-        state.value = []
-      }
-    },
-
-    // Just simple update using a provided array
-    updateFavorites: (state, action) => {
-      let currentFavorites = action.payload
-      state.value = currentFavorites
-    },
-
-    // Advanced: Just get the selectedFavorite then add/remove after checking 
-    updateFavorites2: (state, action) => {
-      console.log('   updateFavorites2() in redux slice')
-      console.log('selected: ' + action.payload)
-      console.log(state.value)
-
-      const selectedFavorite = action.payload
-
-      const inCart= state.value.find((item) => item === selectedFavorite);
-      if (inCart) {
-        const currentFavorites = state.value 
-        const newFavorites = currentFavorites.filter(favorite => favorite !== selectedFavorite)
-        state.value = newFavorites;
-      } else {
-        state.value.push(selectedFavorite);
-      }
-
-      // update localStorage here
-    },
-    
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchFavorites.fulfilled, (state, action) => {
+        state.items = action.payload;
+        state.loaded = true;
+      })
+      .addCase(addFavorite.fulfilled, (state, action) => {
+        console.log(action.payload)
+        state.items.push(action.payload);
+      })
+      .addCase(removeFavorite.fulfilled, (state, action) => {
+        state.items = state.items.filter(id => id !== action.payload);
+      });
   },
-})
+});
 
-// Action creators are generated for each case reducer function
-export const { setInitialFavorites, updateFavorites, updateFavorites2 } = favoritesSlice.actions
-
-export default favoritesSlice.reducer
+export default favoritesSlice.reducer;

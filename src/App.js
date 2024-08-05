@@ -14,6 +14,7 @@ import NoLogo from './components/displays/NoLogo'
 import Special from './components/displays/Special'
 import Favorite from './components/displays/Favorite'
 import MyPosts from './components/displays/MyPosts'
+import Profile from './components/displays/Profile'
 
 import ProductDetail from './components/ProductDetail'
 
@@ -24,20 +25,6 @@ import Post from './components/Post'
 import { setInitialFavorites, updateFavorites } from './redux/counter/favoritesSlice'
 import { setUserDetails } from './redux/actions/userAction'
 
-/* To Do
-  1. Create navs 
-    - Home, Navbar (plus Profile page and Favorite page)
-      Home 
-        - Filter Component
-          - Gender, Size, Brand, Length, Material
-        - Body Component
-          - Item Components
-          -> Detail Component (page)
-      Navbar
-        - Home button, Login button&component
-          If Logged In, show profile, favorite, and Logout button 
-          If not, show Login and favorite (add to sessinoStorage)
-*/
 function App() {
 
   console.log('App()...');
@@ -46,8 +33,10 @@ function App() {
   // Initialize user and favorites whenever the app is loaded
   // products will be loaded when each page is loaded  
   useEffect(() => {
+    // Check if accessToken is valid, if so sign in the user 
     dispatch(setUserDetails()) // Do I need this? 
-    dispatch(setInitialFavorites())
+    
+    // dispatch(fetchFavorites()) // Add this to every component
   }, [dispatch]);
 
   return (
@@ -63,9 +52,9 @@ function App() {
 
           <Route exact path="/favorite" element={ <Favorite /> } />
           <Route exact path="/post" element={ <Post/> } />
+          <Route exact path="/profile" element={ <Profile /> } />
 
           <Route exact path="/myposts" element={ <MyPosts/> } />
-
 
           <Route exact path="/product/:id" element={ <ProductDetail/> } />
           <Route exact path="/recommendation" element={ <Recommendation/> } />

@@ -5,19 +5,11 @@ import { useSelector, useDispatch } from 'react-redux'
 import Product from './Product'
 import ProductDetail from './ProductDetail'
 
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-
-import { decrement, increment } from '../redux/counter/counterSlice'
 import { getProducts as listProducts } from '../redux/actions/productActions'
-import { setUserDetails } from '../redux/actions/userAction'
-import { setInitialFavorites, updateFavorites } from '../redux/counter/favoritesSlice'
+import { fetchFavorites, addFavorite, removeFavorite } from '../redux/counter/favoritesSlice'
 
 import { api } from '../utils/api'
 import { current } from '@reduxjs/toolkit'
-
-import { loadFavorites, setFavorites} from '../utils/localstorage'
 
 const ModalStyle = {
   position: 'absolute',
@@ -33,59 +25,29 @@ const ModalStyle = {
 
 const Home = () => {
   console.log('   Home component...')
+  
   const dispatch = useDispatch()
 
-  const [time, setTime] = useState(Date.now());
-
-  // Use Redux 
   const response = useSelector(state => state.products)
   const {products, loading, error} = response
 
   const user = useSelector(state => state.user)
-  const favorites = useSelector((state) => state.favorites.value)
+  const { items: favorites, loaded } = useSelector((state) => state.favorites);
 
   useEffect(() => {
     console.log('   Home() useEffect...')
+
     dispatch(listProducts())
-  }, [dispatch])
 
-  // useEffect(() => {
-  //   const interval = setInterval(async () => {
-  //     if (user.userInfo.isLogin) {
-  //       console.log('ayo')
-  //       console.log(user);
-  //       const user_id = user.userInfo.details.id
-  //       const favorites = loadFavorites() // ISSUE: 'currentFavorites' stays on as the old/original data
-  //       // const {statusCode, data} = await api.postRequest('/api/user/updatefavorites', {user_id, favorites })
-  //     }
-  //   }, 30000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [user]);
+    if (products){
+      // once product loads, get Favorites
+      console.log("(Home) Products are loaded... so getting Favorite");
+      console.log(products);
 
-  async function handleFavorite(selectedFavorite) {
-    // Update localStorage and Redux/State
-    console.log('   handleFavorite()...')
-    selectedFavorite = Number(selectedFavorite)
-
-    const {statusCode, data} = await api.postRequest('/api/favorite/' + selectedFavorite);
-
-    // alert(statusCode)
-    // alert(data);
-
-    const isFound = favorites.find((item) => item === selectedFavorite);
-    let newFavorites = []
-
-    if (isFound) {
-        newFavorites = favorites.filter(favorite => favorite !== selectedFavorite)
-    } else {
-        newFavorites = [...favorites]
-        newFavorites.push(selectedFavorite)
+      dispatch(fetchFavorites(user.userInfo.isLogin));
     }
-    window.localStorage.setItem('favorites', JSON.stringify(newFavorites))
-    dispatch(updateFavorites(newFavorites)) 
-  }
+
+  }, [user, dispatch])
 
   return (
     <div className="homescreen">
@@ -97,28 +59,33 @@ const Home = () => {
           <h2>{error}</h2>
         ) : (
           <div>
-            <p>Welcome to my website! {favorites}</p>
             
-            <p>{JSON.stringify(user)}</p>
-            
+            <div>
+              <p>HOME</p>
+              <p>{JSON.stringify(user)}</p>
+              <p>Favorite: {JSON.stringify(favorites)}</p>
+            </div>
+
             <div className='homescreen__products'>
-              {products.map(product => (
-                <Product
-                    key={product.id}
-                    id={product.id} 
-                    brand={product.brand}
-                    description={product.description ? product.description : ""}
-                    name={product.name}
-                    price={product.price}
-                    pack={product.pack}
-                    imageUrls={product.imageUrls}
-                    productUrls={product.productUrls}
-                    features={product.features}
-                    maintenance={product.maintenance}
-                    tags={product.tag}
-                    uploadedBy={product.uploadedBy}
-                    handleFavorite={handleFavorite}
-                />
+              {products.map((product, index) => (
+                <div key={index}>
+                    <Product
+                        key={product.id}
+                        id={product.id} 
+                        brand={product.brand}
+                        description={product.description ? product.description : ""}
+                        name={product.name}
+                        price={product.price}
+                        pack={product.pack}
+                        imageUrls={product.imageUrls}
+                        productUrls={product.productUrls}
+                        features={product.features}
+                        maintenance={product.maintenance}
+                        category={product.category}
+                        tags={product.tag}
+                        uploadedBy={product.uploadedBy}
+                    />
+                  </div>
               ))}
             </div>
         </div>

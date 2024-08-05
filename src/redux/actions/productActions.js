@@ -89,7 +89,7 @@ export const getProductsByFavorites = (favorites) => async dispatch => {
   console.log('   getProductsByFavorites() called...')
   try {
     dispatch({type: actionTypes.GET_PRODUCTS_REQUEST})
-    const {statusCode, data} = await api.getRequest('/api/favorite') // pass in favorite array
+    const {statusCode, data} = await api.getRequest('/api/favorite/favorite-products') // pass in favorite array
 
     console.log('   getProductsByFavorites() data result: ')
     console.log(statusCode)

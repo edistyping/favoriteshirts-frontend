@@ -6,6 +6,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 
+import { addFavorite, removeFavorite } from '../redux/counter/favoritesSlice'
+
 import { api } from '../utils/api'
 
 // https://mui.com/material-ui/react-modal/
@@ -24,6 +26,8 @@ import logo_jcrew from '../assets/images/logo_jcrew.webp';
 import logo_jcpenny from '../assets/images/logo_jcpenny.png';
 import logo_other from '../assets/images/logo_other.png';
 import default_shirt from '../assets/images/default_shirt.png';
+import { json } from "react-router-dom";
+
 
 const ModalStyle = {
   position: 'absolute',
@@ -46,7 +50,17 @@ const Product = ( props ) => {
   const [postComment, setPostComment] = useState(''); // Declare a state variable...
   const [imageSrcs, setImageSrcs] = useState(props.imageUrls); // Declare a state variable...
   
+  const dispatch = useDispatch();
   const user = useSelector(state => state.user)
+  const { items: favorites, loaded } = useSelector((state) => state.favorites);
+
+  const handleFavorite = (productId) => {
+    if (favorites.includes(productId)) {
+      dispatch(removeFavorite({ productId: productId, isLoggedIn: user.userInfo.isLogin }));
+    } else {
+      dispatch(addFavorite({ productId: productId, isLoggedIn: user.userInfo.isLogin }));
+    }
+  };
 
   const fetchData = async (id) => {
     const {statusCode, data} = await api.getRequest('/api/comment/' + id)
@@ -54,40 +68,39 @@ const Product = ( props ) => {
       setComments(data);
     }
   }
-
   async function handleOpen(product_id) {
     await fetchData(product_id);
     setOpen(true);
   }
+
   function handleClose(e) {
     setOpen(false);
-  }
-  
-  // For handling Favorite/Unfavorite  
-  function handleFavorite(e) {
-    const selectedFavorite = props.id;
-    props.handleFavorite(selectedFavorite);   
   }
   
   async function handleAddComment() {
     console.log('   handleAddComment()....')
 
     if (user.userInfo.isLogin) {
-      console.log(props)
-      console.log(user)
+
       const {statusCode, data} = await api.postRequest('/api/comment', {
         ProductId: props.id,
         Description: postComment,
-        // Username: user.userInfo.details.user.username,
-        // Score: 1
       })
 
       if ( statusCode === 200 || statusCode === 201) {
-        const data0 = JSON.parse(data)
+
+        const newComment = { 
+          id: data.id, 
+          description: postComment, 
+          userName: user.userInfo.details.username,
+          score: 0
+        };
+
         setPostComment('')
-        setComments(oldComments => [...oldComments, data0] );
+        setComments(oldComments => [...oldComments, newComment] );
+
       } else if ( statusCode === 500 ) {
-        alert('There was an issue when adding a comment... (Code 500)')
+        alert('There was an issue when adding a comment... (Code 500)');
       }  
     }
     else {
@@ -100,13 +113,9 @@ const Product = ( props ) => {
 
     // input variable 'id' is comment_id, not user_id
     if (user.userInfo.isLogin) {
-
-      const {statusCode, data} = await api.deleteRequest('/api/comment/' + id, {
-        id: id,
-        user_id: user.userInfo.details.id
-      })
-
-      if ( statusCode === 200 || statusCode === 204 ) {
+      const {statusCode, data} = await api.deleteRequest('/api/comment/' + id, {})
+        
+      if ( statusCode === 200 || statusCode === 201 || statusCode === 204) {
         const updatedComments = [...comments].filter((comment) => comment.id !== id)
         setComments(updatedComments);
         setPostComment('')
@@ -116,23 +125,6 @@ const Product = ( props ) => {
 
     } else {
       alert('not your comment')
-    }
-  }
-
-  async function handleScore(id, e) {
-    console.log('   handleScore()..')
-    const newValue = e.target.name === 'upvote' ? 1 : -1
-
-    // remove comment
-    const {statusCode, data} = await api.putRequest('/api/comment/score', {
-      id: id,
-      user_id: user.userInfo.details.id,
-      value: newValue
-    })
-    if ( statusCode === 200 ) {
-      // get the comment using 'id' and update the score 
-    } else if ( statusCode === 500 ) {
-      alert('error1')
     }
   }
 
@@ -205,10 +197,10 @@ const Product = ( props ) => {
   return (
     <div>
         <div className="proudct__container">
-          {props.id}
           <div className="product__header">
-            <p>Uplaoded By <span>{props.uploadedBy}</span></p>
-            <button onClick={handleFavorite}>Favorite</button>
+            <p>(ID: {props.id}) Uplaoded By <span>{props.uploadedBy}</span></p>
+            <p>{props.category}</p>
+            <button onClick={() => handleFavorite(props.id)}>{favorites.includes(props.id) ? 'Remove from Favorites' : 'Add to Favorites'}!</button>
           </div>
 
           <div className="product__body" onClick={() => handleOpen(props.id)}>
@@ -279,8 +271,6 @@ const Product = ( props ) => {
             placeholder="Please share your comments :D" row={4} cols={40} />
           <button onClick={handleAddComment}>Add New Comment</button>
           
-
-
           { !comments.length ? <p>NO COMMENTS</p> :
           (
             <div className="product__comments__container">
@@ -289,8 +279,11 @@ const Product = ( props ) => {
               <div className="product__comments">
               {comments.map((comment) => 
                   <div className="product__comment">
-                    <p>{comment.description} BY {comment.username}</p>
-                    { user.userInfo.isLogin && comment.username === user.userInfo.details.user.username ? 
+                    <p>
+                      {comment.description} BY {comment.userName} 
+                    </p>
+                    
+                    { user.userInfo.isLogin && comment.userName === user.userInfo.details.username ? 
                         <button onClick={() => handleRemoveComment(comment.id)}>Delete</button>
                         :
                         <></>
