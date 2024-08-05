@@ -4,10 +4,12 @@ import Modal from 'react-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import Login from './Login';
 import SignUp from './SignUp';
-import './Navbar.css'; // Import the CSS file for styling
+
+import './Navbar.css'; // Import the CSS file for styling.
+
 import { api } from '../utils/api'
 
-import logo from '../assets/images/favorite_logo.jpg'; // Tell webpack this JS file uses this image
+import logo from '../assets/images/home_logo.jpg'; // Tell webpack this JS file uses this image
 
 import { setInitialState } from '../redux/actions/userAction'
 // import { signOut } from './authSlice'; // Assuming you have an authSlice for handling authentication
@@ -37,45 +39,61 @@ const Navbar = () => {
     }
   };
 
+  // remove this once done testing.
+  const { items: favorites, loaded } = useSelector((state) => state.favorites);
+
   return (
-    <nav>
-      <Link to="/">
-        <img src={logo} alt="Logo" />
-      </Link>
+    <nav className="navbar">
+      <div className="navbar-left">
 
-      <Link to="/" className={location.pathname === '/' ? 'active' : ''}>HOME</Link>
-      <Link to="/white" className={location.pathname === '/white' ? 'active' : ''}>WHITE</Link>
-      <Link to="/nologo" className={location.pathname === '/nologo' ? 'active' : ''}>NO LOGO</Link>
-      <Link to="/logo" className={location.pathname === '/logo' ? 'active' : ''}>LOGO</Link>
-      <Link to="/post" className={location.pathname === '/post' ? 'active' : ''}>POST</Link>
-      
-      <Link to="/favorite" className={location.pathname === '/favorite' ? 'active' : ''}>FAVORITE</Link>
+        <Link to="/">
+          <img src={logo} alt="Logo" className="navbar-logo"/>
+        </Link>
 
-      {user.userInfo.isLogin ? (
-        <button onClick={handleSignOut}>Sign Out</button>
-      ) : (
-        <>
-          <button onClick={openLoginModal}>Login</button>
-          <button onClick={openSignUpModal}>Sign Up</button>
-        </>
-      )}
+        <Link to="/" className={`${location.pathname === '/' ? 'active' : ''} navbar-link`}>HOME</Link>
+        <Link to="/white" className={`${location.pathname === '/white' ? 'active' : ''} navbar-link`}>WHITE</Link>
+        <Link to="/nologo" className={`${location.pathname === '/nologo' ? 'active' : ''} navbar-link`}>NO LOGO</Link>
+        <Link to="/logo" className={`${location.pathname === '/logo' ? 'active' : ''} navbar-link`}>LOGO</Link>
 
-      <Modal isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} contentLabel="Login Modal">
-        <Login closeModal={closeLoginModal} />
-      </Modal>
-      
-      <Modal isOpen={signUpModalIsOpen} onRequestClose={closeSignUpModal} contentLabel="Sign Up Modal">
-        <SignUp closeModal={closeSignUpModal} />
-      </Modal>
+        <div style={{background: "orange"}}>
+          TESTING....
+          <p>{JSON.stringify(user)}</p>
+          <p>Favorite: {JSON.stringify(favorites)}</p>
+        </div>
 
-      {user.userInfo.isLogin ? 
-        <>
-          <p>Welcome, {user.userInfo.details.username}</p>
-          <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>Profile</Link>      
-          <Link to="/myposts" className={location.pathname === '/post' ? 'active' : ''}>MY POST</Link>
-        </>
-      : <></>}
+      </div>
 
+      <div className="navbar-right">
+
+        <Link to="/post" className={`${location.pathname === '/post' ? 'active' : ''} navbar-link`}>POST</Link>
+        <Link to="/favorite" className={`${location.pathname === '/favorite' ? 'active' : ''} navbar-link`}>FAVORITE</Link>
+
+        {user.userInfo.isLogin ? (
+          <button onClick={handleSignOut} className='navbar-button'>Sign Out</button>
+        ) : (
+          <>
+            <button onClick={openLoginModal} className='navbar-button'>Login</button>
+            <button onClick={openSignUpModal} className='navbar-button'>Sign Up</button>
+          </>
+        )}
+
+        <Modal className="modal" isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} contentLabel="Login Modal">
+          <Login closeModal={closeLoginModal} />
+        </Modal>
+        
+        <Modal className="modal" isOpen={signUpModalIsOpen} onRequestClose={closeSignUpModal} contentLabel="Sign Up Modal">
+          <SignUp closeModal={closeSignUpModal} />
+        </Modal>
+
+        {user.userInfo.isLogin ? 
+          <>
+            <p>Welcome, {user.userInfo.details.username}</p>
+            <Link to="/profile" className={`${location.pathname === '/profile' ? 'active' : ''} navbar-link`}>Profile</Link>      
+            <Link to="/myposts" className={`${location.pathname === '/post' ? 'active' : ''} navbar-link`}>MY POST</Link>
+          </>
+        : <></>}
+
+      </div>
     </nav>
   );
 };

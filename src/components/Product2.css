@@ -1,0 +1,67 @@
+/* Product.js CSS */
+.product {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease;
+}
+
+.product:hover {
+  transform: scale(1.03); /* Slight zoom effect on hover */
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover; /* Ensure the image covers the area */
+}
+
+.product-details {
+  padding: 16px;
+  flex: 1;
+}
+
+.product-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.product-price {
+  font-size: 16px;
+  color: #333;
+}
+
+.product-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.product-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+}
+
+.product-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.product-button.upvote {
+  background-color: #28a745;
+  color: white;
+}
+
+.product-button.downvote {
+  background-color: #dc3545;
+  color: white;
+}

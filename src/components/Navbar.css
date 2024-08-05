@@ -1,22 +1,142 @@
-  nav {
-    display: flex;
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 5vh;
-    border: 3px red solid;
-    background-color: yellowgreen;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  background-color: white;
+  color: black;
+}
 
-    align-items: center;
+.navbar-left,
+.navbar-right {
+  display: flex;
+  align-items: center;
+}
 
-  }
+.navbar-logo {
+  height: 50px;
+  margin-right: 20px;
+}
+.navbar-logo:hover {
+  transform: scale(1.1);
+}
 
-  img {
-    width: 35px;
-    height: 35px;
-    border: solid 3px black;
-  }
+.navbar-link {
+  margin: 0 10px;
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 16px;
+}
 
-  .active {
-    background-color: purple;
-  }
+.navbar-link:hover {
+}
+
+.navbar-button {
+  margin: 0 10px;
+  padding: 5px 10px;
+  background-color: #555;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.navbar-button:hover {
+  background-color: #777;
+}
+.active {
+  font-weight: bold;
+  font-size: 1.1em;
+  border-bottom: 3px solid black;
+}
+
+
+
+
+
+
+
+
+
+
+/* Scoped styles for the modal and its contents */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 33%; /* One-third of viewport width */
+  height: 70%; /* 70% of viewport height */
+  max-width: 600px; /* Maximum width for larger screens */
+  max-height: 500px; /* Maximum height for larger screens */
+  
+  background-color: #fff;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  z-index: 1000;
+}
+
+/* Overlay for the modal background */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Specific styles for the login form inside the modal */
+.modal form {
+  display: flex;
+  flex-direction: column;
+}
+
+.modal h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.modal label {
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.modal input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.modal button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+.modal button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.modal button[type="button"] {
+  background-color: #ccc;
+}
+
+.modal button[type="button"]:hover {
+  background-color: #999;
+}

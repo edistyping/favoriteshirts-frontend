@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-
 import { useDispatch } from 'react-redux';
 import {api} from '../utils/api'
 import { setUserSignIn } from '../redux/actions/userAction'
+
+import './Login.css'; // Import the CSS file for styling
 
 const Login = ({ closeModal }) => {
 

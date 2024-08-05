@@ -7,15 +7,19 @@
     (IP) All
         - Filter
             - Maybe not for Home
-        - Score/Review system 
-            - For each Product
-            - Need a new table "Score" to keep track of which products a User rated 
+        - (IP) Score/Review system 
+            - How should the Client be updated when they rates a vote? 
+
+            - (Done) Add to Product
+                - For Reading initial points and user-select
+                - For upvoting and downvoting calls 
+            - (Done) Need a new table "Score" to keep track of which products a User rated 
                 - Can be called by User only 
                 - Score table: Id, UserId, ProductId, Scoring 
                 - Same as Favorite
-        - Pages
-            - Update formatting
         - Product 
+            - Update formatting
+        - Pages
             - Update formatting
         - Navigation
             - Update formatting

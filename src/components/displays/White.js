@@ -99,9 +99,6 @@ const White = () => {
           </div>
         ) : (
           <div>
-            <p>{JSON.stringify(user)}</p>
-            <p>Favorite: {JSON.stringify(favorites)}</p>
-
             <div className='homescreen__products'>
               {products.map((product, index) => (
                 <div key={index}>
@@ -109,7 +106,7 @@ const White = () => {
                         key={product.id}
                         id={product.id} 
                         brand={product.brand}
-                        description={product.description ? product.description : ""}
+                        description={product.description || ""}
                         name={product.name}
                         price={product.price}
                         pack={product.pack}

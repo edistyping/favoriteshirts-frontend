@@ -45,14 +45,57 @@ const Product = ( props ) => {
 
   console.log('Product')
   
+  const [votes, setVotes] = useState({ upvotes: 0, downvotes: 0 });
+  const [userVote, setUserVote] = useState(null);
+
   const [open, setOpen] = useState(false)
   const [comments, setComments] = useState([])
   const [postComment, setPostComment] = useState(''); // Declare a state variable...
   const [imageSrcs, setImageSrcs] = useState(props.imageUrls); // Declare a state variable...
   
-  const dispatch = useDispatch();
   const user = useSelector(state => state.user)
   const { items: favorites, loaded } = useSelector((state) => state.favorites);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Fetch votes for the product
+    const fetchVotes = async () => {
+      const { statusCode, data } = await api.getRequest(`/api/vote/${props.id}`);
+      // alert(data);
+
+      setVotes(data);
+    };
+    // Fetch user vote for the product
+    const fetchUserVote = async () => {
+      try {
+        const { statusCode, data } = await api.getRequest(`/api/vote/vote-user/${props.id}`);
+        var result = data.voteType === undefined || data.voteType === null ? "" : data.voteType === 1 ? "upvote" : "downvote";
+        setUserVote(result); // Assume response has { voteType: 'upvote' | 'downvote' | null }
+      } catch (error) {
+        console.error("Error fetching user vote:", error);
+      }
+    };
+
+    fetchVotes();
+    fetchUserVote();
+  }, [props.id]);
+
+  const handleVote = async (voteType) => {
+    const { statusCode, data } = await api.postRequest('/api/vote', {
+      productId: props.id,
+      voteType: voteType
+    });
+
+    // If update is successful, 
+    // upvote, downvote, or undo. 
+    if (statusCode === 200) {
+      
+    }
+
+    // Fetch updated votes TODO
+    // const updatedVotes = await api.getRequest(`/api/product/${props.id}/votes`);
+    // setVotes(updatedVotes.data);
+  };
 
   const handleFavorite = (productId) => {
     if (favorites.includes(productId)) {
@@ -62,14 +105,14 @@ const Product = ( props ) => {
     }
   };
 
-  const fetchData = async (id) => {
+  const fetchComment = async (id) => {
     const {statusCode, data} = await api.getRequest('/api/comment/' + id)
     if(statusCode === 200) {
       setComments(data);
     }
   }
   async function handleOpen(product_id) {
-    await fetchData(product_id);
+    await fetchComment(product_id);
     setOpen(true);
   }
 
@@ -183,9 +226,7 @@ const Product = ( props ) => {
   }
 
   const handleImageError = (index) => {
-    console.log('error here ')
-    console.log(props.brand)
-    console.log(props.imageUrls)
+    // console.log('error here ')
 
     setImageSrcs((prevImageSrcs) => {
       const newImageSrcs = [...prevImageSrcs];
@@ -205,15 +246,42 @@ const Product = ( props ) => {
 
           <div className="product__body" onClick={() => handleOpen(props.id)}>
             <img loading="lazy" src={imageSrcs && imageSrcs.length > 0 ? imageSrcs[0] : default_shirt} onError={() => handleImageError(0)}  alt="main" />
+
             <div className="product__body__container">
-                <p>RATES  COMMENTS</p>
+
+                <div>
+                  <h3>{props.name}</h3>
+                </div>
+                
             </div>
 
-            <h4>{props.name}</h4>
           </div>
 
           <div className="product__info">
-              <p className="product__info__price">${props.price}</p>
+              
+              <h4 className="product__info__price">${props.price}</h4>
+
+              <div className="product__vote">
+                  <p>Score: {votes.upvotes - votes.downvotes}</p>
+                  <div>
+                    <button
+                      className={userVote === 'upvote' ? 'button-highlighted' : 'button-normal'}
+                      onClick={() => handleVote(1)}
+                      >
+                      Upvote
+                    </button>
+                  </div>
+                  <div>
+                    <button
+                      className={userVote === 'downvote' ? 'button-highlighted' : 'button-normal'}
+                      onClick={() => handleVote(-1)}
+                      >
+                      Downvote
+                    </button>
+                  </div>
+                </div>
+
+
               <div className="product__info__tags">
                 {props.tags ? props.tags.map((tag, id) => 
                   <button key={id} className="info_tag">{tag}</button>) : ""
@@ -263,12 +331,12 @@ const Product = ( props ) => {
         </Typography>
 
         <div>
-
           <textarea 
             value={postComment} 
             onChange={e => setPostComment(e.target.value)} 
             name="postComment" 
             placeholder="Please share your comments :D" row={4} cols={40} />
+
           <button onClick={handleAddComment}>Add New Comment</button>
           
           { !comments.length ? <p>NO COMMENTS</p> :
