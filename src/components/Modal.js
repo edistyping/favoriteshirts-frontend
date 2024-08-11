@@ -7,11 +7,13 @@ import { useSelector } from 'react-redux';
 
 const ProductModal = ({ isOpen, onClose, product }) => {
 
-
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [commentLoading, setCommentLoading] = useState(true);    
     const [isExpanded, setIsExpanded] = useState(false);
+
+    const [showCommentButtons, setShowCommentButtons] = useState(false);
+
 
     const user = useSelector(state => state.user)
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -36,26 +38,38 @@ const ProductModal = ({ isOpen, onClose, product }) => {
       }
     };
 
+    const handleToggleComment = (e) => {
+      if (e.target.name === "comment-textarea" && !showCommentButtons ) {
+        setShowCommentButtons(true);
+      } else if (e.target.name === "comment-btn-cancel") {
+        setShowCommentButtons(false);
+      }
+    }
+
     const handleAddComment = async () => {
       try {
-        
-        const {statusCode, data} = await api.postRequest('/api/comment', {
-          productId: product.id,
-          description: newComment,
-        });
-      
-      const tempComment = {
-        id: product.id,
-        description: data.description, 
-        userName: user.userInfo.details.username, 
-        score: data.score
-      }
+        if (user.userInfo.isLogin) {
 
-      setComments([...comments, tempComment]);
-      setNewComment('');
-
-      } catch (error) {
-      console.error('Error adding comment:', error);
+          const {statusCode, data} = await api.postRequest('/api/comment', {
+            productId: product.id,
+            description: newComment,
+          });
+          
+          const tempComment = {
+            id: product.id,
+            description: data.description, 
+            userName: user.userInfo.details.username, 
+            score: data.score
+          }
+          
+          setComments([...comments, tempComment]);
+          setNewComment('');
+        } else {
+          alert("Please log in!");
+        }
+          
+        } catch (error) {
+          console.error('Error adding comment:', error);
       }
     };
 
@@ -109,6 +123,37 @@ const ProductModal = ({ isOpen, onClose, product }) => {
       );
     };
 
+    // Check productUrls.brand or productUrls.name then display correct image 
+    const DisplayProductUrlsLogo = () => {
+      return (
+        <div className='body-left-productUrls'>
+          { 
+            product.productUrls.map((product, index) =>  {
+              const brandName = product.brand.toLowerCase().replace(/ /g, '_');
+              let logoSrc 
+              if (brandName) {
+                logoSrc = require(`../assets/images/logo_${brandName}.png`);
+              } else {
+                logoSrc = require(`../assets/images/logo_default.png`);
+              }
+
+                return (
+                  <div className="productUrl-container" key={index}>
+                    <a href={product.url} target="_blank" >
+                      <img 
+                        src={logoSrc} width={45} height={45} 
+                        onError={(e) => e.target.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSThwbC9UmRbjp7lUDtGkv0_5b_noXgQF7V3w&s'} 
+                        alt="Issue reading logo"
+                        />
+                    </a>
+                </div>
+              )
+          })
+          }
+        </div>
+      )
+    }
+
     return (
         <Modal
           isOpen={isOpen}
@@ -123,19 +168,10 @@ const ProductModal = ({ isOpen, onClose, product }) => {
           <div className="modal-body">
 
             <div className="modal-body-left">
-              <img src={product.imageUrls[0]} alt={product.name} className="modal-image" />
-              <div className='body-left-productUrls'>
-                { 
-                  product.productUrls.map((product, index) => (
-                    <div key={index}>
-                      <p>{product.brand}! </p>
-                      <a href={product.url} target="_blank" >
-                        <img src="https://static.thenounproject.com/png/4778723-200.png" width={40} height={40} />
-                      </a>
-                    </div>
-                  ))
-                }
+              <div className="modal-image-container">
+                <img src={product.imageUrls[0]} alt={product.name} className="modal-image" />
               </div>
+              <DisplayProductUrlsLogo/>
             </div>
             
             <div className="modal-body-right">
@@ -164,43 +200,52 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                 <DisplayTagDetails name="Tags" items={product.tags} />
               </div>
 
-
               <div className="comments-section">
-                { isLoggedIn && (
                     <div className="comment-add-container">
                       <textarea
                           value={newComment}
+                          name="comment-textarea"
                           onChange={(e) => setNewComment(e.target.value)}
-                          placeholder="Add a comment"
+                          onClick={handleToggleComment}
+                          placeholder="Click to add a comment (Please log in)!"
                       />
 
-                      <div className="comment-add-btns">
-                        <button onClick={handleAddComment}>Post</button>
-                        <button >Cancel (Remove two buttons)</button>
-                      </div>
-                    </div>
-                )}
-                { commentLoading === true ? 
-                  <>
-                    LOADING
-                  </> 
-                  : 
-                    comments.map(comment => (
-                    <div key={comment.id} className="comment-container">
-                        <div className="comment-writing-container">
-                          <p className="comment-username"><strong>{comment.userName}</strong></p>
-                          <p className="comment-description">
-                            {comment.description}
-
-                            { user.userInfo.isLogin && comment.userName === user.userInfo.details.username && 
-                                <span style={{color: "orange", marginLeft: "8px", }} onClick={() => handleRemoveComment(comment.id)}>Delete</span>
-                            }
-                          </p>
+                      { showCommentButtons && 
+                        <div className="comment-add-btns-container">
+                          <button name="comment-btn-post" class="comment-btn-post" onClick={handleAddComment}>Post</button>
+                          <button name="comment-btn-cancel" class="comment-btn-cancel" onClick={handleToggleComment}>Cancel</button>
                         </div>
-
- 
+                      }
                     </div>
-                ))}
+                
+                <div className="comments-main-container" >
+                  { commentLoading === true ? 
+                    <>
+                      LOADING
+                    </> 
+                    : 
+                      comments.length <= 0 ?
+                        <></>
+                        : 
+                        <div className  ="comments-container">
+                          {comments.map(comment => (
+                          <div key={comment.id} className="comment-container">
+                              <div className="comment-writing-container">
+                                <p className="comment-username"><strong>{comment.userName}</strong></p>
+                                <p className="comment-description">
+                                  {comment.description}
+
+                                  { user.userInfo.isLogin && comment.userName === user.userInfo.details.username && 
+                                      <span style={{color: "orange", marginLeft: "8px", }} onClick={() => handleRemoveComment(comment.id)}>Delete</span>
+                                    }
+                                </p>
+                              </div>
+                          </div>
+                          ))}
+                        </div>
+                    }
+                </div>
+
               </div>
 
             </div>

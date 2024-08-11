@@ -103,7 +103,7 @@ const White = () => {
   }, [selectedProduct, isModalOpen]);
 
   return (
-    <div className="homescreen">
+    <div className="white-page-container">
         { !products ? (
           <div>
             <h2>Loading...</h2>
@@ -111,12 +111,12 @@ const White = () => {
         ) : (
           <div>
             
-            <div style={{background:"lime"}}>
+            <div style={{background:"darkgrey"}}>
               <p>{products.length}</p>
               <p>Filter will be here</p>
             </div>
 
-            <div className='homescreen__products'>
+            <div className='white__products'>
               {products.map((product, index) => (
                   <Product
                     key={product.id}

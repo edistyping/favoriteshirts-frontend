@@ -1,5 +1,11 @@
 # TO DO
     - Modal.js page 
+        - Fix scrolling bar 
+
+    - Finish White page
+        - Make it clean
+            - Refer to Slickdeals 
+
 
     BUG
         - Products will get added/duplicate randomly

@@ -1,7 +1,7 @@
-p, h1, h2, h3, h4 {
-  margin: 0;
-  padding: 0;
-}
+  p, h1, h2, h3, h4 {
+    margin: 0;
+    padding: 0;
+  }
 
 .proudct__container {
     border: solid 10px grey;
@@ -10,7 +10,7 @@ p, h1, h2, h3, h4 {
 
     width: 500px;
     height: 550px;
-    background: red;
+    background: rgb(51, 48, 48);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
     margin: 0 auto;
     display: flex;
@@ -36,7 +36,7 @@ p, h1, h2, h3, h4 {
     font-style: italic;
   }
   .product__header button {
-    background-color: whitesmoke;
+    background-color: rgb(185, 14, 14);
     margin: auto 2% auto 0;
     height: 100%;
   }

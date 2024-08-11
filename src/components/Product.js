@@ -10,13 +10,13 @@ import { addFavorite, removeFavorite } from '../redux/counter/favoritesSlice'
 
 import { api } from '../utils/api'
 
-import logo_amazon from '../assets/images/logo_amazon.webp';
+import logo_amazon from '../assets/images/logo_amazon.png';
 import logo_costco from '../assets/images/logo_costco.png';
 import logo_target from '../assets/images/logo_target.png';
-import logo_walmart from '../assets/images/logo_walmart.webp';
+import logo_walmart from '../assets/images/logo_walmart.png';
 import logo_macy from '../assets/images/logo_macy.png';
 import logo_uniqlo from '../assets/images/logo_uniqlo.png';
-import logo_jcrew from '../assets/images/logo_jcrew.webp';
+import logo_jcrew from '../assets/images/logo_jcrew.png';
 import logo_jcpenny from '../assets/images/logo_jcpenny.png';
 import logo_other from '../assets/images/logo_other.png';
 import default_shirt from '../assets/images/default_shirt.png';

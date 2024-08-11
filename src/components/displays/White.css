@@ -1,75 +1,16 @@
-.homescreen {
+.white-page-container {
   max-width: 100%;
   min-height: 90vh;
   background-color: yellow;
 }
 
-.homescreen__title {
-  font-size: 1.5rem;
-  color: #171717;
-  margin: 0 0 0 2%;
-}
 
-.homescreen__products {
-  background-color: red;
+.white__products {
+  background-color: rgb(0, 0, 0);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  padding: 1%;
 
-  column-gap: 0;
-  row-gap: 2%;
-}
-
-
-@media (max-width: 1232px) {
-  .homescreen__products {
-    grid-template-columns: repeat(2, auto);
-  }
-}
-
-@media (max-width: 950px) {
-  .homescreen__products {
-    grid-template-columns: repeat(2, auto);
-  }
-}
-
-@media (max-width: 630px) {
-  .homescreen__products {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-.modal-overlay {
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.modal-content {
-  background: white;
-  border-radius: 8px;
-  padding: 20px;
-  max-width: 600px;
-  margin: auto;
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  font-size: 1.5em;
-  cursor: pointer;
-}
-
-.modal-image {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-.modal-details {
-  margin-top: 10px;
+  column-gap: 1%;
+  row-gap: 1%;
 }
