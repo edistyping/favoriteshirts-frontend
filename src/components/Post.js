@@ -40,9 +40,15 @@ const Post = ({ props }) => {
     useEffect(() => {
         async function fetchMyAPI() {
             var { statusCode, data}  = await api.getRequest('/api/brand')
-            // alert(JSON.stringify(data))
+
             var temp = data.map((item) => item.name )
-            setBrands(temp);
+
+            setBrands(data);
+            setBrand(data[0]);
+            setProductUrls((prevProductUrls) => prevProductUrls.map((product) => ({
+                ...product, 
+                brand: data[0].name
+            })));
         }
     
         fetchMyAPI()
@@ -158,11 +164,9 @@ const Post = ({ props }) => {
         }
     }
 
-    const handleBrandChange = (event, index) => {
-        console.log('       handleBrandChange()...');
+    const handleProductUrlsChange = (event, index) => {
+        console.log('       handleProductUrlsChange()...');
         const newValue = event.target.value;
-        console.log('       newValue: ' + newValue);
-
         const newProductUrls = [...productUrls];
         newProductUrls[index].brand = newValue;
         setProductUrls(newProductUrls);
@@ -182,10 +186,10 @@ const Post = ({ props }) => {
             if (validationResult === true) {
 
                 const newPostData = { 
-                    BrandId: 1, 
-                    Name: 'name', 
+                    BrandId: brand.id, 
+                    Name: name, 
                     Description: description, 
-                    Price: '123', 
+                    Price: price, 
                     Pack: pack, 
                     Discount: discount, 
                     Sku: sku, 
@@ -197,6 +201,8 @@ const Post = ({ props }) => {
                     Tag: tag,
                 }
                 
+                alert(JSON.stringify(newPostData));
+
                 const {statusCode, data} = await api.postRequest('/api/product', 
                     newPostData            
                 )
@@ -264,8 +270,8 @@ const Post = ({ props }) => {
                         <div style={{background: "yellow"}}>
                             <select id="select-brand" name="selectedBrand" value={brand} onChange={e => setBrand(e.target.value)}>
                                 {brands.map((brand, index) => (
-                                <option key={index} value={brand}>
-                                    {brand}
+                                <option key={index} value={brand.name}>
+                                    {brand.name}
                                 </option>
                                 ))}
                             </select>
@@ -307,10 +313,10 @@ const Post = ({ props }) => {
                                 productUrls.map((productUrl, index) => 
                                     <li className="form__list__item" key={index} >
                                         <div style={{background: "yellow"}}>
-                                            <select id="select-brand" name="selectedBrand" value={productUrl.brand} onChange={(e) => handleBrandChange(e, index)}>
+                                            <select id="select-brand" name="selectedBrand" value={productUrl.brand} onChange={(e) => handleProductUrlsChange(e, index)}>
                                                 {brands.map((brand, index) => (
-                                                    <option key={index} value={brand}>
-                                                        {brand}
+                                                    <option key={index} value={brand.name}>
+                                                        {brand.name}
                                                     </option>
                                                 ))}
                                             </select>

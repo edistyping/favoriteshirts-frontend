@@ -33,8 +33,9 @@ const Navbar = () => {
   const handleSignOut = async () => {
     const { statusCode, data } = await api.postRequest('/api/auth/logout');    
     if (statusCode === 200) {
+      alert('signed out')
       dispatch(setInitialState());
-      window.location.reload();
+      // window.location.reload();
       //   dispatch(signOut());
     }
   };

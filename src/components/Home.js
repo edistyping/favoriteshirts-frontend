@@ -47,7 +47,7 @@ const Home = () => {
       dispatch(fetchFavorites(user.userInfo.isLogin));
     }
 
-  }, [user, dispatch])
+  }, [dispatch])
 
   return (
     <div className="homescreen">
@@ -68,24 +68,10 @@ const Home = () => {
 
             <div className='homescreen__products'>
               {products.map((product, index) => (
-                <div key={index}>
-                    <Product
-                        key={product.id}
-                        id={product.id} 
-                        brand={product.brand}
-                        description={product.description ? product.description : ""}
-                        name={product.name}
-                        price={product.price}
-                        pack={product.pack}
-                        imageUrls={product.imageUrls}
-                        productUrls={product.productUrls}
-                        features={product.features}
-                        maintenance={product.maintenance}
-                        category={product.category}
-                        tags={product.tag}
-                        uploadedBy={product.uploadedBy}
-                    />
-                  </div>
+                  <Product
+                  key={product.id}
+                  product={product} 
+                  />
               ))}
             </div>
         </div>

@@ -1,33 +1,56 @@
-# TO DO 
-    (IP) Home page
-        - Separate by Category
-        - Show only Top 3 or 5 
-            - Require scoring
+# TO DO
+    - Modal.js page 
 
-    (IP) All
+    BUG
+        - Products will get added/duplicate randomly
+            - No clue why this happens 
+
+        - Sign Out does nothing. 
+            - I think Window.reload being called before dispatch() is finished is the reason. 
+
+        - Fix Modal in White
+            - (IP) Sctructure thing more neatly
+            - (IP) Set the default for Option fields. It's coming in Empty 
+            - (IP) Features, Maintenances. don't show if empty. format if so
+            - (IP) Same for Tags 
+
+            - (Backend) Update API so it returns Username 
+            - (Done) Add comment sections 
+
+        - (Done) Upvote/DownVote doesn't change once a User clicks it  
+        - (Done) After adding a comment, Username doesn't show up instantly 
+
+    - Allow user to pick a favorite color when creating a username
+        - For Comment/Post, show their color 
+
+    (IP) All pages
         - Filter
             - Maybe not for Home
-        - (IP) Score/Review system 
-            - How should the Client be updated when they rates a vote? 
-
-            - (Done) Add to Product
-                - For Reading initial points and user-select
-                - For upvoting and downvoting calls 
-            - (Done) Need a new table "Score" to keep track of which products a User rated 
-                - Can be called by User only 
-                - Score table: Id, UserId, ProductId, Scoring 
-                - Same as Favorite
         - Product 
             - Update formatting
         - Pages
-            - Update formatting
-        - Navigation
             - Update formatting
         - Profile
             - Allow users to change Name, Email
             - Delete an Account
             - See and Delete comments
                 - Don't worry about editing or directing to that Product 
+        - (DONE) Navigation
+            - Update formatting
+        - (Done) Score/Review system 
+            - How should the Client be updated when they rates a vote? 
+        - (Done) Add to Product
+            - For Reading initial points and user-select
+            - For upvoting and downvoting calls 
+        - (Done) Need a new table "Score" to keep track of which products a User rated 
+
+    (IP) Home page
+        - Separate by Category
+        - Show only Top 3 or 5 
+    (Future) Filter Bar 
+        - Brand, Size, Gender
+    (Future) Sort
+        - Upvotes, Downvotes 
 
     (DONE) NavBar
         - Links

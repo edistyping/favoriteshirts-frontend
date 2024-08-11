@@ -33,6 +33,7 @@ function App() {
   // Initialize user and favorites whenever the app is loaded
   // products will be loaded when each page is loaded  
   useEffect(() => {
+    
     // Check if accessToken is valid, if so sign in the user 
     dispatch(setUserDetails()) // Do I need this? 
     

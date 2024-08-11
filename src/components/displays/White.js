@@ -4,6 +4,8 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import Product from '../Product'
 
+import Modal from '../Modal'; // Import your Modal component
+
 import { getProductsByCategory } from '../../redux/actions/productActions'
 import { fetchFavorites, addFavorite, removeFavorite } from '../../redux/counter/favoritesSlice'
 
@@ -26,30 +28,30 @@ const ModalStyle = {
 const White = () => {
   console.log('   White component...')
   
-  const dispatch = useDispatch()
-
+  
   const [products, setProducts] = useState([]);
-
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const loader = useRef(null);
+  
+  const dispatch = useDispatch()
 
   const user = useSelector(state => state.user)
-
-  // const favorites = useSelector((state) => state.favorites.value)
   const { items: favorites, loaded } = useSelector((state) => state.favorites);
 
   useEffect(() => {
     console.log('   White() useEffect...')
-
+    
     if (products){
       const fetchProducts = async () => {
         console.log('   White() fetchProducts...')
-
         const { statusCode, data } = await api.getRequest('/api/product/WHITE', {
           params: { page, pageSize: 20 }
         });
-
+        
         if (statusCode === 404) {
           setProducts([]);
         } else {
@@ -61,10 +63,9 @@ const White = () => {
       };
   
       fetchProducts();
-      // dispatch(fetchFavorites(user.userInfo.isLogin));
     }
 
-  }, [user, dispatch])
+  }, [dispatch])
 
   const handleObserver = (entities) => {
     const target = entities[0];
@@ -90,6 +91,16 @@ const White = () => {
     };
   }, [loader.current, hasMore]);
 
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+  useEffect(() => {
+  }, [selectedProduct, isModalOpen]);
 
   return (
     <div className="homescreen">
@@ -99,33 +110,34 @@ const White = () => {
           </div>
         ) : (
           <div>
+            
+            <div style={{background:"lime"}}>
+              <p>{products.length}</p>
+              <p>Filter will be here</p>
+            </div>
+
             <div className='homescreen__products'>
               {products.map((product, index) => (
-                <div key={index}>
-                    <Product
-                        key={product.id}
-                        id={product.id} 
-                        brand={product.brand}
-                        description={product.description || ""}
-                        name={product.name}
-                        price={product.price}
-                        pack={product.pack}
-                        imageUrls={product.imageUrls}
-                        productUrls={product.productUrls}
-                        features={product.features}
-                        maintenance={product.maintenance}
-                        category={product.category}
-                        tags={product.tag}
-                        uploadedBy={product.uploadedBy}
-                    />
-                  </div>
+                  <Product
+                    key={product.id}
+                    product={product} 
+                    openModal={openModal}
+                  />                  
               ))}
             </div>
+
+            {isModalOpen && selectedProduct && (
+              <Modal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                product={selectedProduct}
+                shouldCloseOnOverlayClick={true}
+              />
+            )}
+            
             <div ref={loader} />
-
-        </div>
+          </div>
         )}
-
     </div>
   )
 }
