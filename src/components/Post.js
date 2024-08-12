@@ -177,7 +177,7 @@ const Post = ({ props }) => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         console.log("       handleSubmit()...")
-        console.log(category)
+
         if (user.userInfo.isLogin) { 
             const user_id = user.userInfo.details.id
             const user_type = user.userInfo.details.type_id // for future conditions
@@ -201,6 +201,7 @@ const Post = ({ props }) => {
                     Tag: tag,
                 }
                 
+                console.log(newPostData)
                 alert(JSON.stringify(newPostData));
 
                 const {statusCode, data} = await api.postRequest('/api/product', 

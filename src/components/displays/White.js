@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Product from '../Product'
+import FilterBar from '../FilterBar'
 
 import Modal from '../Modal'; // Import your Modal component
 
@@ -28,11 +29,14 @@ const ModalStyle = {
 const White = () => {
   console.log('   White component...')
   
-  
   const [products, setProducts] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
+  // Test FilterBar (Brand)
+  const [filter, setFilter] = useState({ brand: "All" });
+  const [brands, setBrands] = useState(["All", "Walmart", "Kirkland", "Hanes"]);
+
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const loader = useRef(null);
@@ -99,8 +103,11 @@ const White = () => {
     setIsModalOpen(false);
     setSelectedProduct(null);
   };
-  useEffect(() => {
-  }, [selectedProduct, isModalOpen]);
+
+  const handleFilter = ( input1 ) => {
+    // Called from Filterbar
+    setFilter({ brand: input1}); 
+  };
 
   return (
     <div className="white-page-container">
@@ -111,19 +118,27 @@ const White = () => {
         ) : (
           <div>
             
-            <div style={{background:"darkgrey"}}>
-              <p>{products.length}</p>
-              <p>Filter will be here</p>
-            </div>
-
+            <FilterBar handleFilter={handleFilter} brands={brands} />
             <div className='white__products'>
-              {products.map((product, index) => (
+              { filter.brand && filter.brand !== "All" ? 
+                products.filter(product => product.brand === filter.brand).map((product, index) => (
                   <Product
-                    key={product.id}
-                    product={product} 
-                    openModal={openModal}
+                  key={product.id}
+                  product={product} 
+                  openModal={openModal}
                   />                  
-              ))}
+                ))
+              :
+                products.map((product, index) => (
+                  <Product
+                  key={product.id}
+                  product={product} 
+                  openModal={openModal}
+                  />                  
+                ))
+              }
+              
+            
             </div>
 
             {isModalOpen && selectedProduct && (

@@ -1,3 +1,5 @@
+import './SignUp.css'
+
 import React, { useState } from 'react';
 
 import { api } from '../utils/api'
@@ -7,6 +9,8 @@ import { setUserSignIn } from '../redux/actions/userAction'
 const SignUp = ({ closeModal }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [favoritecolor, setFavoritecolor] = useState('');
+
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -20,6 +24,7 @@ const SignUp = ({ closeModal }) => {
       Email: email,
       Username: username,
       Password: password,
+      FavoriteColor: favoritecolor
     })
     if (statusCode === 400 || statusCode === 401 || statusCode === 403 || statusCode === 404 || statusCode === 500) {
       alert("Sorry, error!")
@@ -50,6 +55,10 @@ const SignUp = ({ closeModal }) => {
         <div>
           <label>Confirm Password</label>
           <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+        </div>
+        <div>
+          <label>Choose Your Favorite Color</label>
+          <input type="favoritecolor" value={favoritecolor} onChange={(e) => setFavoritecolor(e.target.value)} required />
         </div>
         <button type="submit">Sign Up</button>
         <button type="button" onClick={closeModal}>Cancel</button>

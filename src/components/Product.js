@@ -23,7 +23,7 @@ import default_shirt from '../assets/images/default_shirt.png';
 
 const Product = ({ product, openModal } ) => {
 
-  console.log('Product');
+  console.log('Product component');
   
   const [votes, setVotes] = useState({ upvotes: 0, downvotes: 0 });
   const [userVote, setUserVote] = useState(null);
@@ -176,66 +176,90 @@ const Product = ({ product, openModal } ) => {
       return newImageSrcs;
     });
   }
+  
+  // Check productUrls.brand or productUrls.name then display correct image 
+  const DisplayProductUrlsLogo = () => {
+    return (
+      <div className='body-left-productUrls'>
+        { 
+          product.productUrls.map((product, index) =>  {
+            const brandName = product.brand.toLowerCase().replace(/ /g, '_');
+            let logoSrc 
+            if (brandName) {
+              logoSrc = require(`../assets/images/logo_${brandName}.png`);
+            } else {
+              logoSrc = require(`../assets/images/logo_default.png`);
+            }
+
+            return (
+              <div className="productUrl-container" key={index}>
+                <a href={product.url} target="_blank" >
+                  <img 
+                    src={logoSrc} width={45} height={45} 
+                    onError={(e) => e.target.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSThwbC9UmRbjp7lUDtGkv0_5b_noXgQF7V3w&s'} 
+                    alt="Issue reading logo"
+                    />
+                </a>
+            </div>
+          )
+        })
+        }
+      </div>
+    )
+  }
 
   return (
-    <div>
         <div className="proudct__container">
+          
           <div className="product__header">
-            <p>(ID: {product.id}) Uplaoded By <span>{product.uploadedBy}</span></p>
-            <p>{product.category}</p>
+            <p>{product.brand} - Uplaoded By <span>{product.userName}</span></p>
             <button onClick={() => handleFavorite(product.id)}>{favorites.includes(product.id) ? 'Remove from Favorites' : 'Add to Favorites'}!</button>
           </div>
 
           <div className="product__body" onClick={() => openModal(product)} >
             <img loading="lazy" src={imageSrcs && imageSrcs.length > 0 ? imageSrcs[0] : default_shirt} onError={() => handleImageError(0)}  alt="main" />
-
-            <div className="product__body__container">
-
-                <div>
-                  <h3>{product.name}</h3>
-                </div>
-            </div>
-
           </div>
 
           <div className="product__info">
-              
-              <h4 className="product__info__price">${product.price}</h4>
+
+            <div className="product__info__name">
+              <h3 >{product.name}</h3>
+            </div>
+
+            <div className="product__details">
+                
+              <h4 className="product__price">${product.price}</h4>
 
               <div className="product__vote">
-                  <p>Score: {votes.upvotes - votes.downvotes}</p>
-                  <div>
-                    <button
-                      className={userVote === 'upvote' ? 'button-highlighted' : 'button-normal'}
-                      onClick={() => handleVote(1)}
-                      >
-                      Upvote
-                    </button>
-                  </div>
-                  <div>
-                    <button
-                      className={userVote === 'downvote' ? 'button-highlighted' : 'button-normal'}
-                      onClick={() => handleVote(-1)}
-                      >
-                      Downvote
-                    </button>
-                  </div>
-                </div>
 
+                <p>{votes.upvotes - votes.downvotes}</p>
 
-              <div className="product__info__tags">
-                {product.tags ? product.tags.map((tag, id) => 
-                  <button key={id} className="info_tag">{tag}</button>) : ""
-                }
+                <button
+                  className={userVote === 'upvote' ? 'button-highlighted' : 'button-normal'}
+                  onClick={() => handleVote(1)}
+                  >
+                  &#128077;	
+                </button>
+
+                <button
+                  className={userVote === 'downvote' ? 'button-highlighted' : 'button-normal'}
+                  onClick={() => handleVote(-1)}
+                  >
+                  &#128078;
+                </button>
+
               </div>
+              
+            </div>
+
           </div>                   
 
           <div className="product__links">
-              <Urls key={product.id}/>
+              <DisplayProductUrlsLogo />
           </div>
+
         </div>
 
-    </div>
   );
 };
 

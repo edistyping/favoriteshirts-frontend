@@ -1,0 +1,45 @@
+
+
+.filter-main-container {
+    display: flex;
+
+    align-items: center;
+    padding: 8px;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+
+}
+.filter-container label {
+    margin: auto 0;
+}
+.filter-container select {
+    margin: auto 0 auto 2%;
+    width: 200px;
+
+    text-align: center;
+    border: 1px solid #ccc;
+    font-weight: 700;
+}
+.filter-container option {
+}
+
+.filter-btn-container {
+    display: flex;
+    
+    align-items: center; /* Centers the button vertically */
+    justify-content: center; /* Centers the button horizontally */
+
+    margin: 0 0 0 1%;
+}
+.filter-btn-container button {
+    font-weight: 700;
+    font-size: 0.8rem;
+    line-height: 0.5rem;
+    margin: 0;
+}
+.filter-btn-container button:hover {
+    background-color: grey;
+}

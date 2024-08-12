@@ -1,11 +1,10 @@
 # TO DO
-    - Modal.js page 
-        - Fix scrolling bar 
+    - Post.js is having error when uploading
+        - Probably option/select ones 
 
-    - Finish White page
-        - Make it clean
-            - Refer to Slickdeals 
+    - Finish White/Product
 
+    - Fix SignOut
 
     BUG
         - Products will get added/duplicate randomly

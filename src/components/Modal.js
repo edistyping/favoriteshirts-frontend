@@ -24,6 +24,8 @@ const ProductModal = ({ isOpen, onClose, product }) => {
         // Check if the user is logged in
         const loggedIn = user.userInfo.isLogin;
         setIsLoggedIn(loggedIn);
+
+        console.log(product);
       }
     }, [product]);
 
@@ -236,7 +238,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
                                   {comment.description}
 
                                   { user.userInfo.isLogin && comment.userName === user.userInfo.details.username && 
-                                      <span style={{color: "orange", marginLeft: "8px", }} onClick={() => handleRemoveComment(comment.id)}>Delete</span>
+                                      <span style={{color: "orange", marginLeft: "8px" }} onClick={() => handleRemoveComment(comment.id)}>Delete</span>
                                     }
                                 </p>
                               </div>

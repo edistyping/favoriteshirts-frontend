@@ -10,7 +10,7 @@
     max-width: 1500px; /* Maximum width for larger screens */
     max-height: 1000px; /* Maximum height for larger screens */
     
-    background-color: rgb(56, 44, 40);
+    background-color: rgb(10, 9, 9);
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
@@ -30,8 +30,6 @@
   .modal-header h2 {
     margin: 0 auto;
   }
-  
-
   
   .modal-body {
     display: flex;
@@ -78,9 +76,16 @@
     width: 40%;
     height: auto;
     background-color: black;
-    overflow-y: scroll;
-
+    overflow-y: auto;
+    -ms-overflow-style: none;  /* Hide scrollbar for IE and Edge */
+    scrollbar-width: none;  /* Hide scrollbar for Firefox */
   }
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .modal-body-right::-webkit-scrollbar {
+    display: none;
+  }
+  
+
   .modal-details {
     margin: 0;
     background-color: black;

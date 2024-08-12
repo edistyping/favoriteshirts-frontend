@@ -56,8 +56,7 @@ const Navbar = () => {
         <Link to="/nologo" className={`${location.pathname === '/nologo' ? 'active' : ''} navbar-link`}>NO LOGO</Link>
         <Link to="/logo" className={`${location.pathname === '/logo' ? 'active' : ''} navbar-link`}>LOGO</Link>
 
-        <div style={{background: "orange"}}>
-          TESTING....
+        <div style={{color: "white", background: user.userInfo.details.favoritecolor ? "#" + user.userInfo.details.favoritecolor : "orange", }}>
           <p>{JSON.stringify(user)}</p>
           <p>Favorite: {JSON.stringify(favorites)}</p>
         </div>
