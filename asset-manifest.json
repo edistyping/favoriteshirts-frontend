@@ -1,23 +1,26 @@
 {
   "files": {
-    "main.css": "/favoriteshirts-frontend/static/css/main.2c87a119.css",
-    "main.js": "/favoriteshirts-frontend/static/js/main.482444dc.js",
+    "main.css": "/favoriteshirts-frontend/static/css/main.57f2a90c.css",
+    "main.js": "/favoriteshirts-frontend/static/js/main.3c3336bf.js",
+    "static/media/logo_fruit_of_the_loom.png": "/favoriteshirts-frontend/static/media/logo_fruit_of_the_loom.ea65a462d0e47f7a3b33.png",
+    "static/media/logo_default.png": "/favoriteshirts-frontend/static/media/logo_default.6bd657b7a666194aab2c.png",
     "static/media/logo_costco.png": "/favoriteshirts-frontend/static/media/logo_costco.7e81408fc6f4bcf9d78c.png",
-    "static/media/favorite_logo.jpg": "/favoriteshirts-frontend/static/media/favorite_logo.f6d88fe81ec25401cb23.jpg",
-    "static/media/logo_jcpenny.png": "/favoriteshirts-frontend/static/media/logo_jcpenny.ad95c87c7b8c3be84882.png",
+    "static/media/logo_amazon.png": "/favoriteshirts-frontend/static/media/logo_amazon.eedc597c37dcc44fb52b.png",
+    "static/media/logo_walmart.png": "/favoriteshirts-frontend/static/media/logo_walmart.2e6e349dbe143b760a94.png",
     "static/media/logo_target.png": "/favoriteshirts-frontend/static/media/logo_target.15e996bba4fe345683cc.png",
     "static/media/home_logo.jpg": "/favoriteshirts-frontend/static/media/home_logo.c35c1551bddf0c05236b.jpg",
-    "static/media/logo_walmart.webp": "/favoriteshirts-frontend/static/media/logo_walmart.a34494468f3bc06c2920.webp",
-    "static/media/logo_amazon.webp": "/favoriteshirts-frontend/static/media/logo_amazon.7b0e54b31532dfc90d23.webp",
+    "static/media/logo_jcpenny.png": "/favoriteshirts-frontend/static/media/logo_jcpenny.e6a3042f9f22e8d37df4.png",
+    "static/media/logo_hanes.png": "/favoriteshirts-frontend/static/media/logo_hanes.34d61095f034a3325800.png",
+    "static/media/logo_gildan.png": "/favoriteshirts-frontend/static/media/logo_gildan.c6c50b36df4a5ae75729.png",
     "static/media/logo_uniqlo.png": "/favoriteshirts-frontend/static/media/logo_uniqlo.10216a71fe3ca94b41be.png",
     "static/media/logo_other.png": "/favoriteshirts-frontend/static/media/logo_other.aefd7414f8ddddda159b.png",
-    "static/media/logo_jcrew.webp": "/favoriteshirts-frontend/static/media/logo_jcrew.2e111951633b52deee52.webp",
+    "static/media/logo_jcrew.png": "/favoriteshirts-frontend/static/media/logo_jcrew.8322b426012b694ae019.png",
     "index.html": "/favoriteshirts-frontend/index.html",
-    "main.2c87a119.css.map": "/favoriteshirts-frontend/static/css/main.2c87a119.css.map",
-    "main.482444dc.js.map": "/favoriteshirts-frontend/static/js/main.482444dc.js.map"
+    "main.57f2a90c.css.map": "/favoriteshirts-frontend/static/css/main.57f2a90c.css.map",
+    "main.3c3336bf.js.map": "/favoriteshirts-frontend/static/js/main.3c3336bf.js.map"
   },
   "entrypoints": [
-    "static/css/main.2c87a119.css",
-    "static/js/main.482444dc.js"
+    "static/css/main.57f2a90c.css",
+    "static/js/main.3c3336bf.js"
   ]
 }
