@@ -1,0 +1,18 @@
+.nologo-main-container {
+    margin: auto;
+    width: 90%;
+    min-height: 90vh;
+    padding: 0 30px 30px 30px;
+
+    background-color: darkblue;
+    color: white;
+  }
+  
+  .nologo__products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    
+    column-gap: 1%;
+    row-gap: 1%;
+  }
+  

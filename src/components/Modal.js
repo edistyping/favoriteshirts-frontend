@@ -128,7 +128,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     // Check productUrls.brand or productUrls.name then display correct image 
     const DisplayProductUrlsLogo = () => {
       return (
-        <div className='body-left-productUrls'>
+        <div className='model-body-left-productUrls'>
           { 
             product.productUrls.map((product, index) =>  {
               const brandName = product.brand.toLowerCase().replace(/ /g, '_');
@@ -140,7 +140,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
               }
 
                 return (
-                  <div className="productUrl-container" key={index}>
+                  <div className="model-productUrl-container" key={index}>
                     <a href={product.url} target="_blank" >
                       <img 
                         src={logoSrc} width={45} height={45} 
@@ -173,8 +173,10 @@ const ProductModal = ({ isOpen, onClose, product }) => {
               <div className="modal-image-container">
                 <img src={product.imageUrls[0]} alt={product.name} className="modal-image" />
               </div>
+
               <DisplayProductUrlsLogo/>
             </div>
+
             
             <div className="modal-body-right">
 

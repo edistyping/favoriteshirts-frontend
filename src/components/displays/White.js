@@ -7,28 +7,15 @@ import FilterBar from '../FilterBar'
 
 import Modal from '../Modal'; // Import your Modal component
 
-import { getProductsByCategory } from '../../redux/actions/productActions'
-import { fetchFavorites, addFavorite, removeFavorite } from '../../redux/counter/favoritesSlice'
+import { fetchFavorites } from '../../redux/counter/favoritesSlice'
 
 import { api } from '../../utils/api'
 import { current } from '@reduxjs/toolkit'
 
-const ModalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
-
 const White = () => {
   console.log('   White component...')
   
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
@@ -47,26 +34,25 @@ const White = () => {
 
   useEffect(() => {
     console.log('   White() useEffect...')
-    
-    if (products){
-      const fetchProducts = async () => {
-        console.log('   White() fetchProducts...')
-        const { statusCode, data } = await api.getRequest('/api/product/WHITE', {
-          params: { page, pageSize: 20 }
-        });
-        
-        if (statusCode === 404) {
-          setProducts([]);
-        } else {
-          setProducts((prev) => [...prev, ...data]);
-        }
 
-        setHasMore(data.length > 0);
-        dispatch(fetchFavorites(user.userInfo.isLogin));
-      };
-  
-      fetchProducts();
+    const fetchProducts = async () => {
+      console.log('   White() fetchProducts...')
+      const { statusCode, data } = await api.getRequest('/api/product/WHITE', {
+        params: { page, pageSize: 20 }
+      });
+      
+      if (statusCode === 404) {
+        setProducts([]);
+      } else {
+        setProducts(data);
+      }
+
+      setHasMore(data.length > 0);
+      dispatch(fetchFavorites(user.userInfo.isLogin));
+
     }
+    
+    fetchProducts();
 
   }, [dispatch])
 
@@ -109,7 +95,7 @@ const White = () => {
   };
 
   return (
-    <div className="white-page-container">
+    <div className="white-main-container">
         { !products ? (
           <div>
             <h2>Loading...</h2>
@@ -119,27 +105,29 @@ const White = () => {
 
             <FilterBar handleFilter={handleFilter} brands={brands} />
             
-            <div className='white__products'>
-              { filter.brand && filter.brand !== "All" ? 
-                products.filter(product => product.brand === filter.brand).map((product, index) => (
-                  <Product
-                  key={product.id}
-                  product={product} 
-                  openModal={openModal}
-                  />                  
-                ))
+            { products.length === 0 ? 
+              <p>SORRY! THERE ARE NO ITEMS AT THIS TIME</p>
               :
-                products.map((product, index) => (
-                  <Product
-                  key={product.id}
-                  product={product} 
-                  openModal={openModal}
-                  />                  
-                ))
-              }
-              
-            
-            </div>
+              <div className='white__products'>
+                { filter.brand && filter.brand !== "All" ? 
+                  products.filter(product => product.brand === filter.brand).map((product, index) => (
+                    <Product
+                    key={product.id}
+                    product={product} 
+                    openModal={openModal}
+                    />                  
+                  ))
+                :
+                  products.map((product, index) => (
+                    <Product
+                    key={product.id}
+                    product={product} 
+                    openModal={openModal}
+                    />                  
+                  ))
+                }
+              </div>
+            }
 
             {isModalOpen && selectedProduct && (
               <Modal

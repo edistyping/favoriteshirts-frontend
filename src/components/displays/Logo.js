@@ -1,67 +1,57 @@
-import './White.css'
+import './Logo.css'
 import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Product from '../Product'
+import FilterBar from '../FilterBar'
+import Modal from '../Modal'; // Import your Modal component
 
-import { getProductsByCategory } from '../../redux/actions/productActions'
-import { fetchFavorites, addFavorite, removeFavorite } from '../../redux/counter/favoritesSlice'
+import { fetchFavorites } from '../../redux/counter/favoritesSlice'
 
 import { api } from '../../utils/api'
-import { current } from '@reduxjs/toolkit'
-
-
-const ModalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const Logo = () => {
   console.log('   Logo component...')
   
-  const dispatch = useDispatch()
+  const [products, setProducts] = useState(null);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  // Test FilterBar (Brand)
+  const [filter, setFilter] = useState({ brand: "All" });
+  const [brands, setBrands] = useState(["All", "Walmart", "Kirkland", "Hanes"]);
 
-  const [products, setProducts] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const loader = useRef(null);
+  
+  const dispatch = useDispatch()
 
   const user = useSelector(state => state.user)
-
   const { items: favorites, loaded } = useSelector((state) => state.favorites);
 
   useEffect(() => {
     console.log('   Logo() useEffect...')
+    
+    const fetchProducts = async () => {
+      console.log('   Logo() fetchProducts...')
+      const { statusCode, data } = await api.getRequest('/api/product/LOGO', {
+        params: { page, pageSize: 20 }
+      });
+      
+      if (statusCode === 404) {
+        setProducts([]);
+      } else {
+        setProducts(data);
+      }
 
-    if (products){
-      const fetchProducts = async () => {
-        console.log('   Logo() fetchProducts...')
+      setHasMore(data.length > 0);
+      dispatch(fetchFavorites(user.userInfo.isLogin));
+    };
 
-        const { statusCode, data } = await api.getRequest('/api/product/LOGO', {
-          params: { page, pageSize: 20 }
-        });
+    fetchProducts();
 
-        if (statusCode === 404) {
-          setProducts([]);
-        } else {
-          setProducts((prev) => [...prev, ...data]);
-        }
-
-        setHasMore(data.length > 0);
-        dispatch(fetchFavorites(user.userInfo.isLogin));
-      };
-  
-      fetchProducts();
-    }
-
-  }, [user, dispatch])
+  }, [dispatch])
 
   const handleObserver = (entities) => {
     const target = entities[0];
@@ -87,45 +77,67 @@ const Logo = () => {
     };
   }, [loader.current, hasMore]);
 
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setIsModalOpen(true);
+  };
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedProduct(null);
+  };
+
+  const handleFilter = ( input1 ) => {
+    // Called from Filterbar
+    setFilter({ brand: input1}); 
+  };
 
   return (
-    <div className="homescreen">
+    <div className="logo-main-container">
         { !products ? (
           <div>
             <h2>Loading...</h2>
           </div>
         ) : (
           <div>
-            <p>{JSON.stringify(user)}</p>
-            <p>Favorite: {JSON.stringify(favorites)}</p>
 
-            <div className='homescreen__products'>
-              {products.map((product, index) => (
-                <div key={index}>
+            <FilterBar handleFilter={handleFilter} brands={brands} />
+            
+            { products.length === 0 ? 
+              <p>SORRY! THERE ARE NO ITEMS AT THIS TIME</p>
+              :
+              <div className='logo__products'>
+                { filter.brand && filter.brand !== "All" ? 
+                  products.filter(product => product.brand === filter.brand).map((product, index) => (
                     <Product
-                        key={product.id}
-                        id={product.id} 
-                        brand={product.brand}
-                        description={product.description ? product.description : ""}
-                        name={product.name}
-                        price={product.price}
-                        pack={product.pack}
-                        imageUrls={product.imageUrls}
-                        productUrls={product.productUrls}
-                        features={product.features}
-                        maintenance={product.maintenance}
-                        category={product.category}
-                        tags={product.tag}
-                        uploadedBy={product.uploadedBy}
-                    />
-                  </div>
-              ))}
-            </div>
+                    key={product.id}
+                    product={product} 
+                    openModal={openModal}
+                    />                  
+                  ))
+                :
+                  products.map((product, index) => (
+                    <Product
+                    key={product.id}
+                    product={product} 
+                    openModal={openModal}
+                    />                  
+                  ))
+                }
+              </div>
+            }
+
+            {isModalOpen && selectedProduct && (
+              <Modal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                product={selectedProduct}
+                shouldCloseOnOverlayClick={true}
+              />
+            )}
+            
             <div ref={loader} />
-
-        </div>
+          </div>
         )}
-
     </div>
   )
 }

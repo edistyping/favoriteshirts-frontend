@@ -60,20 +60,17 @@ const Home = () => {
         ) : (
           <div>
             
-            <div>
-              <p>HOME</p>
+            <div style={{ background: "teal", }}>
+              <p>WELCOME HOME!</p>
               <p>{JSON.stringify(user)}</p>
               <p>Favorite: {JSON.stringify(favorites)}</p>
             </div>
 
-            <div className='homescreen__products'>
-              {products.map((product, index) => (
-                  <Product
-                  key={product.id}
-                  product={product} 
-                  />
-              ))}
+            <div>
+              <p>MAIN CONTENT HERE</p> 
+              <p>CHECK OUT SOME TRENDING PRODUCTS!</p>
             </div>
+
         </div>
         )}
 

@@ -1,13 +1,12 @@
-.white-page-container {
+.white-main-container {
   margin: auto;
-
   width: 90%;
-
   min-height: 90vh;
-  
-  background: rgb(20, 20, 20);
-}
+  padding: 0 30px 30px 30px;
 
+  background-color: black;
+  color: white;
+}
 
 .white__products {
   display: grid;
@@ -16,5 +15,4 @@
   column-gap: 1%;
   row-gap: 1%;
 
-  background-color: red;
 }

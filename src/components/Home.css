@@ -2,7 +2,7 @@
   min-height: 90vw;
   height: 100vh;
   max-width: 100%;
-  background-color: yellow;
+  background-color: rgb(21, 94, 84);
 }
 
 .homescreen__title {
@@ -18,28 +18,4 @@
 
   column-gap: 0;
   row-gap: 2%;
-}
-.homescreen__products > div {
-  border: 1px solid #ccc;
-  padding: 20px;
-  background-color: #fff;
-  text-align: center;
-}
-
-@media (max-width: 1232px) {
-  .homescreen__products {
-    grid-template-columns: repeat(2, auto);
-  }
-}
-
-@media (max-width: 950px) {
-  .homescreen__products {
-    grid-template-columns: repeat(2, auto);
-  }
-}
-
-@media (max-width: 630px) {
-  .homescreen__products {
-    grid-template-columns: 1fr;
-  }
 }

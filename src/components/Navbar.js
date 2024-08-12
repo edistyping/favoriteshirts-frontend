@@ -89,7 +89,7 @@ const Navbar = () => {
           <>
             <p>Welcome, {user.userInfo.details.username}</p>
             <Link to="/profile" className={`${location.pathname === '/profile' ? 'active' : ''} navbar-link`}>Profile</Link>      
-            <Link to="/myposts" className={`${location.pathname === '/post' ? 'active' : ''} navbar-link`}>MY POST</Link>
+            <Link to="/myposts" className={`${location.pathname === '/myposts' ? 'active' : ''} navbar-link`}>MY POST</Link>
           </>
         : <></>}
 

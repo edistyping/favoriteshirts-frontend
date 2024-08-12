@@ -1,10 +1,19 @@
 # TO DO
-    - Post.js is having error when uploading
-        - Probably option/select ones 
 
-    - Finish White/Product
+    - Post.js
+        - Error when uploading
+            - Probably option/select ones 
+
+    - Home, Post, Favorite, Profile, My Post
+        - Formatting 
+
 
     - Fix SignOut
+
+    - Favorites page
+        - imageUrls error for some reason
+    
+    - 
 
     BUG
         - Products will get added/duplicate randomly
@@ -13,8 +22,8 @@
         - Sign Out does nothing. 
             - I think Window.reload being called before dispatch() is finished is the reason. 
 
-        - Fix Modal in White
-            - (IP) Sctructure thing more neatly
+        - (IP) Fix Modal in White
+            - Sctructure thing more neatly
             - (IP) Set the default for Option fields. It's coming in Empty 
             - (IP) Features, Maintenances. don't show if empty. format if so
             - (IP) Same for Tags 
@@ -24,6 +33,10 @@
 
         - (Done) Upvote/DownVote doesn't change once a User clicks it  
         - (Done) After adding a comment, Username doesn't show up instantly 
+
+        - (Done )When a Page is selected, fix that message thing
+            - Need a Loading variable
+                loading, products (null, 0, 0+)
 
     - Allow user to pick a favorite color when creating a username
         - For Comment/Post, show their color 
