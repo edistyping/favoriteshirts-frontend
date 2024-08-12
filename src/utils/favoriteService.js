@@ -64,6 +64,11 @@ const FavoriteService = {
     },
   
     getFavoritesFromLocalStorage: () => {
+      console.log(" mokko")
+      
+      var temp = JSON.parse(localStorage.getItem('favorites')) || [];
+      console.log(temp)
+      
       return JSON.parse(localStorage.getItem('favorites')) || [];
     },
   

@@ -83,31 +83,30 @@
   }
   
   .product__info__name {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: black;
+    height: 50%;
+    background-color: yellow;
+    padding-left: 2%;
 
-    /* HERE TEST 
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    
-    */
-  }
-  .product__info__name h3 {
+    overflow: hidden;
+    text-overflow: ellipsis;
 
   }
-
   
   .product__details {
     display: flex;
     width: 100%;
-
-    background-color: orange;
+    height: 50%;
+    
+    background-color: blue;
+    align-items: center;
     
   }
 
   .product__price {
-    font-size: 1.1rem;
-
+    font-size: 1.2rem;
+    padding-left: 2%;
   }
 
   .product__vote {

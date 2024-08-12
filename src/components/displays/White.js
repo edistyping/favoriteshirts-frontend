@@ -13,7 +13,6 @@ import { fetchFavorites, addFavorite, removeFavorite } from '../../redux/counter
 import { api } from '../../utils/api'
 import { current } from '@reduxjs/toolkit'
 
-
 const ModalStyle = {
   position: 'absolute',
   top: '50%',
@@ -117,8 +116,9 @@ const White = () => {
           </div>
         ) : (
           <div>
-            
+
             <FilterBar handleFilter={handleFilter} brands={brands} />
+            
             <div className='white__products'>
               { filter.brand && filter.brand !== "All" ? 
                 products.filter(product => product.brand === filter.brand).map((product, index) => (

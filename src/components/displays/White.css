@@ -2,7 +2,9 @@
   margin: auto;
 
   width: 90%;
+
   min-height: 90vh;
+  
   background: rgb(20, 20, 20);
 }
 
@@ -10,8 +12,9 @@
 .white__products {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  padding: 1%;
-
+  
   column-gap: 1%;
-  row-gap: 2%;
+  row-gap: 1%;
+
+  background-color: red;
 }
