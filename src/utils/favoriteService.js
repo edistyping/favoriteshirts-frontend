@@ -62,7 +62,7 @@ const FavoriteService = {
         return FavoriteService.removeFavoriteFromLocalStorage(productId);
       }
     },
-  
+
     getFavoritesFromLocalStorage: () => {
       console.log(" mokko")
       

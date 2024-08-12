@@ -1,45 +1,40 @@
 # TO DO
-
+    - Upon sign out, what should we do with Favorites state? 
+        - Clear the state variable, localStorage
+            
     - Post.js
         - Error when uploading
-            - Probably option/select ones 
+            - double check inputs 
 
-    - Home, Post, Favorite, Profile, My Post
-        - Formatting 
-
-
-    - Fix SignOut
-
-    - Favorites page
-        - imageUrls error for some reason
-    
-    - 
+    - Update formatting for Home, Post, Favorite, Profile, MyPost components
+        - Post 
+        - Favorite
+            - Add/Remove an item 
+        - Profile
+            - Change Email, Name, Favorite Color, Delete Account
+        - MyPost
+            - Remove, Edit
+        - Home
 
     BUG
-        - Products will get added/duplicate randomly
-            - No clue why this happens 
-
-        - Sign Out does nothing. 
-            - I think Window.reload being called before dispatch() is finished is the reason. 
-
-        - (IP) Fix Modal in White
+        - (Done) Fix Modal in White
             - Sctructure thing more neatly
-            - (IP) Set the default for Option fields. It's coming in Empty 
-            - (IP) Features, Maintenances. don't show if empty. format if so
-            - (IP) Same for Tags 
-
+            - Set the default for Option fields. It's coming in Empty 
+            - Features, Maintenances. don't show if empty. format if so
+        - (Done) Add comment sections 
             - (Backend) Update API so it returns Username 
-            - (Done) Add comment sections 
 
+        - (Done) Sign Out does nothing. 
+            - I think Window.reload being called before dispatch() is finished is the reason. 
         - (Done) Upvote/DownVote doesn't change once a User clicks it  
+        - (Done) Products will get added/duplicate randomly
+            = UseEffect() 
         - (Done) After adding a comment, Username doesn't show up instantly 
-
-        - (Done )When a Page is selected, fix that message thing
+        - (Done) When a Page is selected, fix that message thing
             - Need a Loading variable
                 loading, products (null, 0, 0+)
-
-    - Allow user to pick a favorite color when creating a username
-        - For Comment/Post, show their color 
+        - (Done) Allow user to pick a favorite color when creating a username
+            - For Comment/Post, show their color 
 
     (IP) All pages
         - Filter

@@ -13,25 +13,25 @@ const Post = ({ props }) => {
     // Issue here: When refresh, this becomes not logged in
     const user = useSelector(state => state.user) 
 
-    const [name, setName] = useState("TEST")
+    const [name, setName] = useState("")
 
     const [brands, setBrands] = useState([])
 
-    const [brand, setBrand] = useState("")
+    const [brand, setBrand] = useState("Walmart")
 
     const [selectedBrand, setSelectedBrand] = useState("")
     const [otherBrand, setOtherBrand] = useState("")
 
-    const [description, setDescription] = useState("TEST")
+    const [description, setDescription] = useState("")
     const [price, setPrice] = useState(0)
     const [pack, setPack] = useState(0)
     const [discount, setDiscount] = useState("")
     const [sku, setSku] = useState("")
     const [imageUrls, setImageUrls] = useState(["", ""]);
-    const [productUrls, setProductUrls] = useState([{brand: "", name: "", url: ""}]);
+    const [productUrls, setProductUrls] = useState([{brand: "Walmart", name: "", url: ""}]);
     const [features, setFeatures] = useState(["", ""]);
     const [maintenances, setMaintenances] = useState(["", ""]);
-    const [category, setCategory] = useState("NO LOGO");
+    const [category, setCategory] = useState("NOLOGO");
     const [tag, setTag] = useState([]);
     
     const [moreDetails, setMoreDetails] = useState("");
@@ -182,30 +182,32 @@ const Post = ({ props }) => {
             const user_id = user.userInfo.details.id
             const user_type = user.userInfo.details.type_id // for future conditions
 
-            const validationResult = validateSubmit()              
+            const newPostData = { 
+                BrandId: brand.id, 
+                Name: name, 
+                Description: description, 
+                Price: price, 
+                Pack: pack, 
+                Discount: discount, 
+                Sku: sku, 
+                ImageUrls: imageUrls, 
+                ProductUrls: productUrls, 
+                Features: features, 
+                Maintenances: maintenances, 
+                Category: category, 
+                Tag: tag,
+            }
+
+            const updatedPostData = validateData(newPostData);
+            const validationResult = validateSubmit(updatedPostData)              
             if (validationResult === true) {
 
-                const newPostData = { 
-                    BrandId: brand.id, 
-                    Name: name, 
-                    Description: description, 
-                    Price: price, 
-                    Pack: pack, 
-                    Discount: discount, 
-                    Sku: sku, 
-                    ImageUrls: imageUrls, 
-                    ProductUrls: productUrls, 
-                    Features: features, 
-                    Maintenances: maintenances, 
-                    Category: category, 
-                    Tag: tag,
-                }
                 
-                console.log(newPostData)
-                alert(JSON.stringify(newPostData));
+                console.log(updatedPostData)
+                alert(JSON.stringify(updatedPostData));
 
                 const {statusCode, data} = await api.postRequest('/api/product', 
-                    newPostData            
+                    updatedPostData            
                 )
 
                 console.log("       statusCode: " + statusCode);
@@ -224,8 +226,25 @@ const Post = ({ props }) => {
         }
     }
 
-    function validateSubmit() {
-        if (name === "" || brand === "" || price === null) {
+
+    function validateData(newData) {
+        console.log("       validateData()...");
+
+        var result = newData;
+        result.Features = features.filter(feature => feature !== '');
+        result.Maintenances = maintenances.filter(maintenance => maintenance !== '');
+        result.ImageUrls = imageUrls.filter(imageUrl => imageUrl !== '');
+        result.ProductUrls = productUrls.filter(productUrl => productUrl.url !== '');
+        
+        alert(result.productUrls)
+        return result;
+    }
+    function validateSubmit(newData) {
+        // check productUrls, images, features, maintenaces 
+        // remove from array if empty. if final is empty, then jnust empty array
+        console.log("       validateSubmit()...");
+
+        if (newData.Name === "" || newData.Brand === "" ) {
             return true
         } 
         return true
@@ -295,7 +314,7 @@ const Post = ({ props }) => {
                             <div>
                                 <select name="category" value={category} onChange={e => setCategory(e.target.value)} >
                                     <option value="WHITE">WHITE</option>
-                                    <option value="NO LOGO">NO LOGO</option>
+                                    <option value="NOLOGO">NO LOGO</option>
                                     <option value="LOGO">LOGO</option>
                                 </select>
                             </div>
