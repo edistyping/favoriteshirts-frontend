@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/favoriteshirts-frontend/static/css/main.57f2a90c.css",
-    "main.js": "/favoriteshirts-frontend/static/js/main.3c3336bf.js",
+    "main.js": "/favoriteshirts-frontend/static/js/main.c20ac074.js",
     "static/media/logo_fruit_of_the_loom.png": "/favoriteshirts-frontend/static/media/logo_fruit_of_the_loom.ea65a462d0e47f7a3b33.png",
     "static/media/logo_default.png": "/favoriteshirts-frontend/static/media/logo_default.6bd657b7a666194aab2c.png",
     "static/media/logo_costco.png": "/favoriteshirts-frontend/static/media/logo_costco.7e81408fc6f4bcf9d78c.png",
@@ -17,10 +17,10 @@
     "static/media/logo_jcrew.png": "/favoriteshirts-frontend/static/media/logo_jcrew.8322b426012b694ae019.png",
     "index.html": "/favoriteshirts-frontend/index.html",
     "main.57f2a90c.css.map": "/favoriteshirts-frontend/static/css/main.57f2a90c.css.map",
-    "main.3c3336bf.js.map": "/favoriteshirts-frontend/static/js/main.3c3336bf.js.map"
+    "main.c20ac074.js.map": "/favoriteshirts-frontend/static/js/main.c20ac074.js.map"
   },
   "entrypoints": [
     "static/css/main.57f2a90c.css",
-    "static/js/main.3c3336bf.js"
+    "static/js/main.c20ac074.js"
   ]
 }
