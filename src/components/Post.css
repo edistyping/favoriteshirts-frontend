@@ -1,54 +1,59 @@
-  p {
-    margin: 0;
-  }
 
   .form__container {
-    
     display: flex;
-    min-height: 90vh;
- 
+    color: white;
+
+    background-color: green;
   }
 
   .form__post {
     display: flex;
     flex-direction: column;
-    border: 5px solid blueviolet;
+    justify-content: center;
+    
+    margin: 2% auto;
+
+    border: 5px solid darkblue;
   }
 
   .form__post__section {
     display: flex;
     flex-direction: column;
+  }
 
-    margin-bottom: 20px;
+  .form__list__brand {
+    height: auto;
+  }
+  .select__container {
+    display: flex;
+  }
+  .select__container select {
+      min-width: 200px;
+      text-align: center;
+      border: 1px solid #ccc;
+      font-weight: 700;
   }
 
   .form__list {
-    border: solid 5px black;
     height: auto;
-
-    margin-bottom: 20px;
 
   }
   .form__list__top {
     display: flex;
-    width: auto;
-
+    align-items: center;
   }
   .form__list__top label {
-    width: auto;
     font-size: 1.3em;
-    height: auto;
-    margin: 0;
+    margin: auto 0;
   }
   .form__list__top button{
-    width: 64px;
-  
-    margin: auto 0 auto 15px;
+    width: 32px;
+    margin: auto 0 auto 1%;
+    padding: 0;
   }
   .form__list ul{
     width: 800px;
     margin: 0;
-
   }
   .form__list input[type=text] {
     width: 80%;
@@ -63,8 +68,7 @@
   }
   .form__list__item button {
     background-color: lightskyblue;
-    margin-left: 1%;
-    height: 24px;
+    margin: auto 0 auto 1%;
   }
   .form__post button[type=submit] {
     border: solid 4px black;

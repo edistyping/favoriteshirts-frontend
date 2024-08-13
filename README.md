@@ -1,10 +1,17 @@
 # TO DO
-    - Upon sign out, what should we do with Favorites state? 
-        - Clear the state variable, localStorage
-            
     - Post.js
         - Error when uploading
             - double check inputs 
+        - validateData() seems weird with how filter is returning... 
+
+        
+    - Favorite page
+        -  Needs to read Favorite from localStorage/Cloud
+            - For localStorage guest, how? 
+            
+    - Upon sign out, what should we do with Favorites state? 
+        - Clear the state variable, localStorage
+            
 
     - Update formatting for Home, Post, Favorite, Profile, MyPost components
         - Post 

@@ -17,7 +17,7 @@ const Post = ({ props }) => {
 
     const [brands, setBrands] = useState([])
 
-    const [brand, setBrand] = useState("Walmart")
+    const [brand, setBrand] = useState({})
 
     const [selectedBrand, setSelectedBrand] = useState("")
     const [otherBrand, setOtherBrand] = useState("")
@@ -41,10 +41,10 @@ const Post = ({ props }) => {
         async function fetchMyAPI() {
             var { statusCode, data}  = await api.getRequest('/api/brand')
 
-            var temp = data.map((item) => item.name )
-
+            const firstBrand = data[0] ? data[0] : {};
             setBrands(data);
-            setBrand(data[0]);
+            setBrand(firstBrand);
+
             setProductUrls((prevProductUrls) => prevProductUrls.map((product) => ({
                 ...product, 
                 brand: data[0].name
@@ -236,7 +236,11 @@ const Post = ({ props }) => {
         result.ImageUrls = imageUrls.filter(imageUrl => imageUrl !== '');
         result.ProductUrls = productUrls.filter(productUrl => productUrl.url !== '');
         
-        alert(result.productUrls)
+        console.log("Length: " + productUrls.length);
+        console.log(productUrls)
+        console.log(productUrls.filter(productUrl => productUrl.url !== ''))
+        console.log(result.productUrls)
+        console.log("------------------------------------------")
         return result;
     }
     function validateSubmit(newData) {
@@ -251,11 +255,9 @@ const Post = ({ props }) => {
     }
 
     // Handler to handle select change
-    const handleSelectChange = (index, event) => {
-        const value = event.target.value;
-        const newProductUrls = [...productUrls];
-        newProductUrls[index].brand = value;
-        setProductUrls(newProductUrls);
+    const handleSelectChange = (e) => {
+        const selectedBrand = brands.find((b) => b.id === Number(e.target.value));
+        setBrand(selectedBrand);
     };
 
     function printFormData() {
@@ -277,47 +279,48 @@ const Post = ({ props }) => {
         <div className="form__container" >
 
             { user.userInfo.isLogin  ? 
+
                 <form className="form__post" encType='multipart/form-data' onSubmit={handleSubmit}>
+                    
                     <h2>Share your own or favorite shirt! </h2>
 
                     <div className="form__post__section">
-                        <label> <b>Product (Required)</b>: </label>
+                        <label><b>Product (Required)</b> </label>
                         <input value={name} type="text" name="productName" onChange={e => setName(e.target.value)} />
                     </div>
 
                     <div className="form__list">
-                        <label><b>Brand (Required)</b></label>
-                        <div style={{background: "yellow"}}>
-                            <select id="select-brand" name="selectedBrand" value={brand} onChange={e => setBrand(e.target.value)}>
-                                {brands.map((brand, index) => (
-                                <option key={index} value={brand.name}>
-                                    {brand.name}
-                                </option>
+                        <label><b>Brand</b></label>
+
+                        <div className="select__container">
+                            <select id="select-brand" name="selectedBrand" onChange={handleSelectChange}> 
+                                {brands.map((brand) => (
+                                    <option key={brand.id} value={brand.id}>
+                                        {brand.name}
+                                    </option>
                                 ))}
                             </select>
                         </div>                                
                     </div>
 
                     <div className="form__post__section">
-                        <label> Description: </label>
+                        <label><b>Description</b> </label>
                         <textarea value={description} name="description" onChange={e => setDescription(e.target.value)} />
                     </div>
 
                     <div className="form__post__section">
-                        <label> <b>Price (Required)</b>: </label>
+                        <label> <b>Price</b></label>
                         <input value={price} type="number" name="price" onChange={e => setPrice(e.target.value)} />
                     </div>
 
-                    <div className="form__post__section">
-                        <div className="form__select">
-                            <label> Category {category} </label> 
-                            <div>
+                    <div className="form__list">
+                        <label> Category</label> 
+                        <div className="select__container">
                                 <select name="category" value={category} onChange={e => setCategory(e.target.value)} >
                                     <option value="WHITE">WHITE</option>
                                     <option value="NOLOGO">NO LOGO</option>
                                     <option value="LOGO">LOGO</option>
                                 </select>
-                            </div>
                         </div>
                     </div>
 
@@ -328,11 +331,11 @@ const Post = ({ props }) => {
                         </div>
 
                         <ul>
-                            <p><b>Ex</b>: https://www.amazon.com/T-Shirt-Assortments..... </p>
                             {
                                 productUrls.map((productUrl, index) => 
                                     <li className="form__list__item" key={index} >
-                                        <div style={{background: "yellow"}}>
+
+                                        <div className="form__list__select">
                                             <select id="select-brand" name="selectedBrand" value={productUrl.brand} onChange={(e) => handleProductUrlsChange(e, index)}>
                                                 {brands.map((brand, index) => (
                                                     <option key={index} value={brand.name}>
@@ -341,10 +344,9 @@ const Post = ({ props }) => {
                                                 ))}
                                             </select>
                                         </div>
-                                        
-                                        <input type="text" name="productUrl_url" value={productUrl.url} onChange={updateFieldChanged(index)}  />
-                                        <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
 
+                                        <input type="text" name="productUrl_url" value={productUrl.url} onChange={updateFieldChanged(index)} placeholder="https://www.amazon.com/T-Shirt-Assortments....." />
+                                        <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
                                     </li>
                                 )
                             }
@@ -357,11 +359,10 @@ const Post = ({ props }) => {
                             <button name="add" onClick={(e => handleList(e, 'imageUrls'))}>+</button>
                         </div>
                         <ul>
-                            <p><b>Ex</b>: https://m.media-amazon.com/images/...png</p>
                             {
                                 imageUrls.map((image, index) => 
                                     <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="imageUrls" value={image} onChange={updateFieldChanged(index)}  />
+                                        {index} <input type="text" name="imageUrls" value={image} onChange={updateFieldChanged(index)} placeholder="https://m.media-amazon.com/images/...png"  />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'imageUrls'))}>DELETE</button>
                                     </li>
                                 )
@@ -376,11 +377,10 @@ const Post = ({ props }) => {
                         </div>
 
                         <ul>
-                            <p><b>Ex:</b> Soft, breathable cotton </p>
                             {
                                 features.map((feature, index) => 
                                     <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="features" value={feature} onChange={updateFieldChanged(index)}  />
+                                        {index} <input type="text" name="features" value={feature} onChange={updateFieldChanged(index)} placeholder="Soft, breathable cotton"  />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'features'))}>DELETE</button>
                                     </li>
                                 )
@@ -395,11 +395,10 @@ const Post = ({ props }) => {
                         </div>
 
                         <ul>
-                            <p><b>Ex:</b> Cold Wash Only</p>
                             {
                                 maintenances.map((maintenance, index) => 
                                     <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="maintenances" value={maintenance} onChange={updateFieldChanged(index)}  />
+                                        {index} <input type="text" name="maintenances" value={maintenance} onChange={updateFieldChanged(index)} placeholder="Cold Wash Only" />
                                         <button id={index} name="delete" onClick={(e => handleList(e, 'maintenances'))}>DELETE</button>
                                     </li>
                                 )
@@ -414,7 +413,6 @@ const Post = ({ props }) => {
                     <img height={200} width={200} src={LockIcon} alt="lock icon"  />
                     <p>Sorry, please sign up share your favorite shirts!</p>
                     <p>IT'S FREE!</p>
-                    <Link to='/'>BACK TO HOME</Link>
                 </div>
             }
 

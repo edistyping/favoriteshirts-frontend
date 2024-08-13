@@ -28,6 +28,7 @@ import { setUserDetails } from './redux/actions/userAction'
 function App() {
 
   console.log('App()...');
+  console.log(process.env.NODE_ENV);
   const dispatch = useDispatch()
 
   // Initialize user and favorites whenever the app is loaded
