@@ -1,9 +1,10 @@
+import './Login.css'; // Import the CSS file for styling
+
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {api} from '../utils/api'
 import { setUserSignIn } from '../redux/actions/userAction'
 
-import './Login.css'; // Import the CSS file for styling
 
 const Login = ({ closeModal }) => {
 
@@ -35,16 +36,10 @@ const Login = ({ closeModal }) => {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
+    <div className="login__form">
       <form onSubmit={handleSubmit}>
+        <h2>Login</h2>
 
-        {/*
-        <div>
-          <label>Email</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-        </div>
-        */}
         <div>
           <label>Username</label>
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
@@ -54,6 +49,7 @@ const Login = ({ closeModal }) => {
           <label>Password</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
+        
         <button type="submit">Login</button>
         <button type="button" onClick={closeModal}>Cancel</button>
       </form>

@@ -284,12 +284,12 @@ const Post = ({ props }) => {
                     
                     <h2>Share your own or favorite shirt! </h2>
 
-                    <div className="form__post__section">
-                        <label><b>Product (Required)</b> </label>
+                    <div className="form__item__container">
+                        <label><b>Product</b> </label>
                         <input value={name} type="text" name="productName" onChange={e => setName(e.target.value)} />
                     </div>
 
-                    <div className="form__list">
+                    <div className="form__item__container">
                         <label><b>Brand</b></label>
 
                         <div className="select__container">
@@ -303,17 +303,17 @@ const Post = ({ props }) => {
                         </div>                                
                     </div>
 
-                    <div className="form__post__section">
+                    <div className="form__item__container">
                         <label><b>Description</b> </label>
                         <textarea value={description} name="description" onChange={e => setDescription(e.target.value)} />
                     </div>
 
-                    <div className="form__post__section">
+                    <div className="form__item__container">
                         <label> <b>Price</b></label>
                         <input value={price} type="number" name="price" onChange={e => setPrice(e.target.value)} />
                     </div>
 
-                    <div className="form__list">
+                    <div className="form__item__container">
                         <label> Category</label> 
                         <div className="select__container">
                                 <select name="category" value={category} onChange={e => setCategory(e.target.value)} >
@@ -324,8 +324,8 @@ const Post = ({ props }) => {
                         </div>
                     </div>
 
-                    <div className="form__list">
-                        <div className="form__list__top">
+                    <div className="form__item__container">
+                        <div className="form__item__top">
                             <label><b>Links to Product (Required)</b></label>
                             <button name="add" onClick={(e => handleList(e, 'productUrls'))}>+</button>
                         </div>
@@ -333,45 +333,49 @@ const Post = ({ props }) => {
                         <ul>
                             {
                                 productUrls.map((productUrl, index) => 
-                                    <li className="form__list__item" key={index} >
+                                    <li key={index} >
 
-                                        <div className="form__list__select">
-                                            <select id="select-brand" name="selectedBrand" value={productUrl.brand} onChange={(e) => handleProductUrlsChange(e, index)}>
-                                                {brands.map((brand, index) => (
-                                                    <option key={index} value={brand.name}>
-                                                        {brand.name}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                        <select id="select-brand" name="selectedBrand" value={productUrl.brand} onChange={(e) => handleProductUrlsChange(e, index)}>
+                                            {brands.map((brand, index) => (
+                                                <option key={index} value={brand.name}>
+                                                    {brand.name}
+                                                </option>
+                                            ))}
+                                        </select>
+
+                                        <div className="form__item__list">
+                                            <input type="text" name="productUrl_url" value={productUrl.url} onChange={updateFieldChanged(index)} placeholder="https://www.amazon.com/T-Shirt-Assortments....." />
+                                            <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
                                         </div>
-
-                                        <input type="text" name="productUrl_url" value={productUrl.url} onChange={updateFieldChanged(index)} placeholder="https://www.amazon.com/T-Shirt-Assortments....." />
-                                        <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
+                                    
                                     </li>
                                 )
                             }
                         </ul>
                     </div>
 
-                    <div className="form__list">
-                        <div className="form__list__top">
-                            <label><b>Images (Required)</b></label>
+                    <div className="form__item__container">
+                        <div className="form__item__top">
+                            <label><b>Images</b></label>
                             <button name="add" onClick={(e => handleList(e, 'imageUrls'))}>+</button>
                         </div>
                         <ul>
                             {
                                 imageUrls.map((image, index) => 
-                                    <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="imageUrls" value={image} onChange={updateFieldChanged(index)} placeholder="https://m.media-amazon.com/images/...png"  />
-                                        <button id={index} name="delete" onClick={(e => handleList(e, 'imageUrls'))}>DELETE</button>
+                                    <li key={index} >
+
+                                        <div className="form__item__list">
+                                            <input type="text" name="imageUrls" value={image} onChange={updateFieldChanged(index)} placeholder="https://m.media-amazon.com/images/...png"  />
+                                            <button id={index} name="delete" onClick={(e => handleList(e, 'imageUrls'))}>DELETE</button>
+                                        </div>
                                     </li>
                                 )
                             }
                         </ul>
                     </div>
 
-                    <div className="form__list">
-                        <div className="form__list__top">
+                    <div className="form__item__container">
+                        <div className="form__item__top">
                             <label> Features </label>
                             <button name="add" onClick={(e => handleList(e, 'features'))}>+</button>
                         </div>
@@ -379,17 +383,20 @@ const Post = ({ props }) => {
                         <ul>
                             {
                                 features.map((feature, index) => 
-                                    <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="features" value={feature} onChange={updateFieldChanged(index)} placeholder="Soft, breathable cotton"  />
-                                        <button id={index} name="delete" onClick={(e => handleList(e, 'features'))}>DELETE</button>
+                                    <li key={index} >
+                                        
+                                        <div className="form__item__list">
+                                            <input type="text" name="features" value={feature} onChange={updateFieldChanged(index)} placeholder="Soft, breathable cotton"  />
+                                            <button id={index} name="delete" onClick={(e => handleList(e, 'features'))}>DELETE</button>
+                                        </div>
                                     </li>
                                 )
                             }
                         </ul>
                     </div>
 
-                    <div className="form__list">
-                        <div className="form__list__top">
+                    <div className="form__item__container">
+                        <div className="form__item__top">
                             <label> Maintenances </label>
                             <button name="add" onClick={(e => handleList(e, 'maintenances'))}>+</button>
                         </div>
@@ -397,9 +404,12 @@ const Post = ({ props }) => {
                         <ul>
                             {
                                 maintenances.map((maintenance, index) => 
-                                    <li className="form__list__item" key={index} >
-                                        {index} <input type="text" name="maintenances" value={maintenance} onChange={updateFieldChanged(index)} placeholder="Cold Wash Only" />
-                                        <button id={index} name="delete" onClick={(e => handleList(e, 'maintenances'))}>DELETE</button>
+                                    <li key={index} >
+                                        
+                                        <div className="form__item__list">
+                                            <input type="text" name="maintenances" value={maintenance} onChange={updateFieldChanged(index)} placeholder="Cold Wash Only" />
+                                            <button id={index} name="delete" onClick={(e => handleList(e, 'maintenances'))}>DELETE</button>
+                                        </div>
                                     </li>
                                 )
                             }

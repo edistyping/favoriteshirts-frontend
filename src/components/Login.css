@@ -1,18 +1,16 @@
 
-
 /* Styling the form */
-form {
+.login__form {
   display: flex;
   flex-direction: column;
+  color: white;
 }
 
-h2 {
-  margin-bottom: 20px;
+.login__form h2 {
   text-align: center;
 }
-
-label {
-  margin-bottom: 8px;
+.login__form label {
+  color: red;
   font-weight: bold;
 }
 

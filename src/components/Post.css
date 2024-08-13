@@ -1,3 +1,6 @@
+  button, label, input, ul {
+    margin: 0;
+  }
 
   .form__container {
     display: flex;
@@ -7,18 +10,29 @@
   }
 
   .form__post {
+    width: 40%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     
     margin: 2% auto;
 
-    border: 5px solid darkblue;
+    border: 2px solid darkblue;
+    box-sizing: border-box;
   }
 
-  .form__post__section {
+  .form__item__container {
     display: flex;
     flex-direction: column;
+    margin: 0 0 2% 0;
+  }
+  .form__item__container ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  .form__item__container li {
   }
 
   .form__list__brand {
@@ -28,63 +42,35 @@
     display: flex;
   }
   .select__container select {
-      min-width: 200px;
+      min-width: 100px;
       text-align: center;
       border: 1px solid #ccc;
       font-weight: 700;
   }
 
-  .form__list {
-    height: auto;
-
-  }
-  .form__list__top {
+  .form__item__top {
+    background-color: rebeccapurple;
     display: flex;
     align-items: center;
   }
-  .form__list__top label {
-    font-size: 1.3em;
-    margin: auto 0;
-  }
-  .form__list__top button{
-    width: 32px;
-    margin: auto 0 auto 1%;
-    padding: 0;
-  }
-  .form__list ul{
-    width: 800px;
-    margin: 0;
-  }
-  .form__list input[type=text] {
-    width: 80%;
-    font-size: 1em;
-  }
 
-  .form__list__item {
+  .form__item__list {
+    display: flex;
+    width: 100%;
   }
-  .form__list__item input[type=text] {
+  .form__item__list input {
     width: 80%;
-    height: 24px;
   }
-  .form__list__item button {
-    background-color: lightskyblue;
-    margin: auto 0 auto 1%;
-  }
-  .form__post button[type=submit] {
-    border: solid 4px black;
-    height: 60px;
-    width: 200px;
-    font-size: 24px;
-    margin: auto;
-
+  .form__item__list button {
+    width: 20%;
   }
 
   .post__denied {
     display: flex;
     flex-direction: column;
     margin: auto;
+    justify-content: center;
     align-items: center;
-    
   }
   .post__denied p {
     font-size: 3em;
