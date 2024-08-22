@@ -37,8 +37,10 @@ const Login = ({ closeModal }) => {
 
   return (
     <div className="login__form">
+      
+      <h2>Login</h2>
+
       <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
 
         <div>
           <label>Username</label>
@@ -53,9 +55,8 @@ const Login = ({ closeModal }) => {
         <div className='login__btn__container'>
           <button type="submit">Login</button>
           <button type="button" onClick={closeModal}>Cancel</button>
-
-          <p>Sign Up!</p>
         </div>
+        
       </form>
     </div>
   );
