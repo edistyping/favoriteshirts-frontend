@@ -1,8 +1,10 @@
 # TO DO
     - Post.js
-        - Error when uploading
-            - double check inputs 
-        - validateData() seems weird with how filter is returning... 
+        - validateInput() 
+
+        - Visual updates 
+            - Login
+                - User vs Guest 
 
         
     - Favorite page

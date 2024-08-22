@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import './Modal.css'; // Import CSS for modal styling
+import './ProductModal.css'; // Import CSS for modal styling
 
 import { api } from '../utils/api';
 import { useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
+
       if (product) {
         fetchComments();
         // Check if the user is logged in
@@ -165,7 +166,6 @@ const ProductModal = ({ isOpen, onClose, product }) => {
           shouldCloseOnOverlayClick={true}
           ariaHideApp={false}
         >
-
           
           <div className="modal-body">
 
@@ -176,7 +176,6 @@ const ProductModal = ({ isOpen, onClose, product }) => {
 
               <DisplayProductUrlsLogo/>
             </div>
-
             
             <div className="modal-body-right">
 

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import Product from '../Product'
 import FilterBar from '../FilterBar'
-import Modal from '../Modal'; // Import your Modal component
+import ProductModal from '../ProductModal'; // Import your Modal component
 
 import { fetchFavorites } from '../../redux/counter/favoritesSlice'
 
@@ -127,7 +127,7 @@ const Logo = () => {
             }
 
             {isModalOpen && selectedProduct && (
-              <Modal
+              <ProductModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 product={selectedProduct}

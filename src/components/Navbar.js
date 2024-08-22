@@ -78,11 +78,11 @@ const Navbar = () => {
           </>
         )}
 
-        <Modal className="modal" isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} contentLabel="Login Modal">
+        <Modal className="login__modal" isOpen={loginModalIsOpen} onRequestClose={closeLoginModal} contentLabel="Login Modal">
           <Login closeModal={closeLoginModal} />
         </Modal>
         
-        <Modal className="modal" isOpen={signUpModalIsOpen} onRequestClose={closeSignUpModal} contentLabel="Sign Up Modal">
+        <Modal className="signup__modal" isOpen={signUpModalIsOpen} onRequestClose={closeSignUpModal} contentLabel="Sign Up Modal">
           <SignUp closeModal={closeSignUpModal} />
         </Modal>
 

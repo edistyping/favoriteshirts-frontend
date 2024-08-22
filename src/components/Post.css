@@ -2,11 +2,13 @@
     margin: 0;
   }
 
-  .form__container {
+  .post__form__container {
     display: flex;
     color: white;
-
+    height: 100%;
     background-color: green;
+    
+    flex-grow: 1;
   }
 
   .form__post {

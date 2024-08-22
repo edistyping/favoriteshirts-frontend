@@ -43,8 +43,8 @@ function App() {
 
   return (
     <HashRouter>
-      <Navbar/>
       <main>
+        <Navbar/>
         <Routes>
           <Route exact path="/" element={ <Home/> } />
           <Route exact path="/white" element={ <White /> } />
@@ -52,8 +52,8 @@ function App() {
           <Route exact path="/logo" element={ <Logo /> } />
           <Route exact path="/special" element={ <Special /> } />
 
-          <Route exact path="/favorite" element={ <Favorite /> } />
           <Route exact path="/post" element={ <Post/> } />
+          <Route exact path="/favorite" element={ <Favorite /> } />
           <Route exact path="/profile" element={ <Profile /> } />
 
           <Route exact path="/myposts" element={ <MyPosts/> } />

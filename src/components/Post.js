@@ -235,12 +235,7 @@ const Post = ({ props }) => {
         result.Maintenances = maintenances.filter(maintenance => maintenance !== '');
         result.ImageUrls = imageUrls.filter(imageUrl => imageUrl !== '');
         result.ProductUrls = productUrls.filter(productUrl => productUrl.url !== '');
-        
-        console.log("Length: " + productUrls.length);
-        console.log(productUrls)
-        console.log(productUrls.filter(productUrl => productUrl.url !== ''))
-        console.log(result.productUrls)
-        console.log("------------------------------------------")
+
         return result;
     }
     function validateSubmit(newData) {
@@ -276,7 +271,7 @@ const Post = ({ props }) => {
     }
 
     return (
-        <div className="form__container" >
+        <div className="post__form__container" >
 
             { user.userInfo.isLogin  ? 
 

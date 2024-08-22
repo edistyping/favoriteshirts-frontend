@@ -5,7 +5,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import Product from '../Product'
 import FilterBar from '../FilterBar'
 
-import Modal from '../Modal'; // Import your Modal component
+import ProductModal from '../ProductModal'; // Import your Modal component
+// import Modal from 'react-modal';
 
 import { fetchFavorites } from '../../redux/counter/favoritesSlice'
 
@@ -19,6 +20,10 @@ const White = () => {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
+
+  const [signUpModalIsOpen, setSignUpModalIsOpen] = useState(false);
+  const closeSignUpModal = () => setSignUpModalIsOpen(false);
+
   // Test FilterBar (Brand)
   const [filter, setFilter] = useState({ brand: "All" });
   const [brands, setBrands] = useState(["All", "Walmart", "Kirkland", "Hanes"]);
@@ -130,14 +135,15 @@ const White = () => {
             }
 
             {isModalOpen && selectedProduct && (
-              <Modal
+              <ProductModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
                 product={selectedProduct}
                 shouldCloseOnOverlayClick={true}
               />
             )}
-            
+          
+
             <div ref={loader} />
           </div>
         )}

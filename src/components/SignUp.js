@@ -37,7 +37,7 @@ const SignUp = ({ closeModal }) => {
   };
 
   return (
-    <div>
+    <div className='signup__form'>
       <h2>Sign Up</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -60,8 +60,11 @@ const SignUp = ({ closeModal }) => {
           <label>Choose Your Favorite Color</label>
           <input type="favoritecolor" value={favoritecolor} onChange={(e) => setFavoritecolor(e.target.value)} required />
         </div>
-        <button type="submit">Sign Up</button>
-        <button type="button" onClick={closeModal}>Cancel</button>
+
+        <div className='signup__btn__container'>
+          <button type="submit">Sign Up</button>
+          <button type="button" onClick={closeModal}>Cancel</button>
+        </div>
       </form>
     </div>
   );

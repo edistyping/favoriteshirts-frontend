@@ -1,4 +1,87 @@
+  
+  .signup__modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20%;
+    height: 40%; /* 80% of viewport height */
+    
+    max-width: 1000px; /* Maximum width for larger screens */
+    max-height: 1000px; /* Maximum height for larger screens */
+    
+    background-color: red;
+    color: blue;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    z-index: 1000;
+    
+  }
 
-label {
-    color: white;
+/* Styling the form */
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  color: white;
+
+  justify-content: space-evenly;
+  height: 100%;
+}
+
+.signup__form h2 {
+  text-align: center;
+}
+.signup__form label {
+  font-weight: bold;
+}
+
+input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.signup__btn__container {
+  display: flex;
+  flex-direction: column;
+  
+  justify-content: space-evenly;
+
+  background-color: yellow;
+  padding: 15px;
+}
+.signup__btn__container p {
+  color: #007bff;
+}
+
+
+button {
+  padding: 10px 20px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: #007bff;
+  color: white;
+}
+
+button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+button[type="button"] {
+  background-color: #ccc;
+}
+
+button[type="button"]:hover {
+  background-color: #999;
 }
