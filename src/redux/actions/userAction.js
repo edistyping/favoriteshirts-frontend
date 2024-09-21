@@ -9,26 +9,28 @@ export const setUserDetails = () => async dispatch => {
   console.log('   setUserDetails()... ')
   const {statusCode, data} = await api.getRequest(`/api/auth/validate`)
   // const {statusCode, data} = await api.postRequest(`/api/auth/refresh-token`)
-
+  
   if (statusCode === 400 || statusCode === 401 || statusCode === 500) {
-    console.log(    'No user or invalid jwt')
-    // removeToken();
+    console.log(    'setUserDetails failed... setting to initial!');
+
     dispatch({
       type: actionTypes.SET_INITIAL_STATE,
     })
-    return
+    
+    return false 
+
+  } else { 
+    console.log(    'setUserDetails success... User initiated!');
+
+    dispatch({
+      type: actionTypes.SET_USER,
+      payload: {
+        isLogin: true,
+        details: {...data}
+      },
+    })
+    return true 
   }
-
-  console.log(data)
-  console.log('   ending...()... ')
-
-  dispatch({
-    type: actionTypes.SET_USER,
-    payload: {
-      isLogin: true,
-      details: {...data}
-    },
-  })
 }
 
 export const setUserSignIn = (data) => async dispatch => {

@@ -6,12 +6,11 @@
     transform: translate(-50%, -50%);
 
     width: 20%;
-    min-height: 40%; /* 80% of viewport height */
-    
+        
     max-width: 1000px; /* Maximum width for larger screens */
     max-height: 800px; /* Maximum height for larger screens */
     
-    background-color: yellowgreen;
+    background-color: rgb(49, 54, 38);
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
@@ -26,7 +25,6 @@
   color: white;
 
   height: 100%;
-  border: solid 5px blue;
   
 }
 
@@ -34,12 +32,10 @@
   text-align: center;
 }
 .login__form label {
-  color: red;
   font-weight: bold;
 }
 
-form {
-  background-color: orange;
+.login__form form {
 
   display: flex;
   flex-direction: column;
@@ -50,14 +46,8 @@ form {
 
 }
 
-input {
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
+.form__input__container{ 
+  padding: 2% 0;
 }
 
 .login__btn__container {
@@ -66,13 +56,14 @@ input {
   
   justify-content: space-evenly;
 
-  border: 5px red solid;
   padding: 15px;
 }
 .login__btn__container p {
   color: #007bff;
 }
-
+.login__btn__container button {
+  margin: 2%;
+}
 
 button {
   padding: 10px 20px;

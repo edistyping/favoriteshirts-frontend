@@ -210,9 +210,8 @@ const Product = ({ product, openModal } ) => {
 
   return (
         <div className="proudct__container">
-          
           <div className="product__header">
-            <p>{product.brand} - Uplaoded By <span>{product.userName}</span></p>
+            <p>{product.id} {product.brand} - Uplaoded By <span>{product.userName}</span></p>
             <button onClick={() => handleFavorite(product.id)}>{favorites.includes(product.id) ? 'Remove from Favorites' : 'Add to Favorites'}!</button>
           </div>
 

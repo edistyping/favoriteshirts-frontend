@@ -67,9 +67,6 @@ export const getProductsByUser = () => async dispatch => {
     dispatch({type: actionTypes.GET_PRODUCTS_REQUEST})
     const {statusCode, data} = await api.getRequest('/api/product/user-products')
 
-    console.log(statusCode);
-    console.log(data);
-
     dispatch({
       type: actionTypes.GET_PRODUCTS_SUCCESS,
       payload: data,
@@ -86,30 +83,43 @@ export const getProductsByUser = () => async dispatch => {
 }
 
 export const getProductsByFavorites = (favorites) => async dispatch => {
-  console.log('   getProductsByFavorites() called...')
+  console.log('\n\n   getProductsByFavorites() called...')
+  console.log(favorites);
+  console.log("favorite Length: " + Array.isArray(favorites));
   try {
     dispatch({type: actionTypes.GET_PRODUCTS_REQUEST})
-    const {statusCode, data} = await api.getRequest('/api/favorite/favorite-products') // pass in favorite array
 
-    console.log('   getProductsByFavorites() data result: ')
-    console.log(statusCode)
-    console.log(data)
+    if (favorites.length > 0) {
+      console.log("Calling favorites!");
+      const { statusCode, data } = await api.postRequest('/api/favorite/favorite-products'
+        , favorites
+      ) 
+      
+      dispatch({
+        type: actionTypes.GET_PRODUCTS_SUCCESS,
+        payload: data,
+      })
 
-    dispatch({
-      type: actionTypes.GET_PRODUCTS_SUCCESS,
-      payload: data,
-    })
+    } else {
+
+      dispatch({
+        type: actionTypes.GET_PRODUCTS_FAIL,
+        payload:
+        []
+      })
+
+    }
   } catch (error) {
+
     dispatch({
       type: actionTypes.GET_PRODUCTS_FAIL,
       payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
+        []
     })
-  }
-}
 
+  }
+
+}
 
 export const updateProduct = (id, product) => async dispatch => {
   console.log(`   updateProduct =`);

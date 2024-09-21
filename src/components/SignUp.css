@@ -11,7 +11,7 @@
     max-width: 800px; /* Maximum width for larger screens */
     max-height: 1000px; /* Maximum height for larger screens */
     
-    background-color: red;
+    background-color: black;
     color: blue;
     padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
@@ -31,6 +31,7 @@
   height: 100%;
 }
 
+
 .signup__form h2 {
   text-align: center;
 }
@@ -38,9 +39,12 @@
   font-weight: bold;
 }
 
+.form__input__container{ 
+  padding: 2% 0;
+}
+
 input {
   padding: 10px;
-  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
@@ -51,10 +55,7 @@ input {
 .signup__btn__container {
   display: flex;
   flex-direction: column;
-  
   justify-content: space-evenly;
-
-  background-color: yellow;
   padding: 15px;
 }
 

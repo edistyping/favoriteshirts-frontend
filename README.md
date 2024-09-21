@@ -1,30 +1,13 @@
 # TO DO
-    - Post.js
-        - validateInput() 
-
-        - Visual updates 
-            - Login
-                - User vs Guest 
-
-        
-    - Favorite page
-        -  Needs to read Favorite from localStorage/Cloud
-            - For localStorage guest, how? 
-            
-    - Upon sign out, what should we do with Favorites state? 
-        - Clear the state variable, localStorage
-            
-
-    - Update formatting for Home, Post, Favorite, Profile, MyPost components
-        - Post 
-        - Favorite
-            - Add/Remove an item 
-        - Profile
-            - Change Email, Name, Favorite Color, Delete Account
-        - MyPost
-            - Remove, Edit
-        - Home
-
+    - Read product data as a local state variable, not redux variable 
+    - Update favorite (and others) 
+        - check if Favorite exists 
+            - If yes, fetch products 
+                - Display loading
+                - Display products
+            - If no, don't fetch products
+                - Display None
+                
     BUG
         - (Done) Fix Modal in White
             - Sctructure thing more neatly

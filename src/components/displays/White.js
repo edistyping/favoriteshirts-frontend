@@ -8,8 +8,6 @@ import FilterBar from '../FilterBar'
 import ProductModal from '../ProductModal'; // Import your Modal component
 // import Modal from 'react-modal';
 
-import { fetchFavorites } from '../../redux/counter/favoritesSlice'
-
 import { api } from '../../utils/api'
 import { current } from '@reduxjs/toolkit'
 
@@ -34,11 +32,7 @@ const White = () => {
   
   const dispatch = useDispatch()
 
-  const user = useSelector(state => state.user)
-  const { items: favorites, loaded } = useSelector((state) => state.favorites);
-
   useEffect(() => {
-    console.log('   White() useEffect...')
 
     const fetchProducts = async () => {
       console.log('   White() fetchProducts...')
@@ -53,12 +47,9 @@ const White = () => {
       }
 
       setHasMore(data.length > 0);
-      dispatch(fetchFavorites(user.userInfo.isLogin));
-
     }
     
     fetchProducts();
-
   }, [dispatch])
 
   const handleObserver = (entities) => {

@@ -9,8 +9,8 @@ export default function productsReducer(state = { products: [] }, action) {
       };
     case actionTypes.GET_PRODUCTS_SUCCESS:
       return {
-        products: action.payload,
         loading: false,
+        products: action.payload,
       };
     case actionTypes.GET_PRODUCTS_FAIL:
       return {

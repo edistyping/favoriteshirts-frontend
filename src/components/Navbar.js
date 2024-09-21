@@ -36,8 +36,6 @@ const Navbar = () => {
       alert('signed out')
       
       dispatch(setInitialState());
-      // window.location.reload();
-      //   dispatch(signOut());
     }
   };
 
@@ -58,7 +56,7 @@ const Navbar = () => {
         <Link to="/logo" className={`${location.pathname === '/logo' ? 'active' : ''} navbar-link`}>LOGO</Link>
 
         <div style={{color: "white", background: user.userInfo.details.favoritecolor ? "#" + user.userInfo.details.favoritecolor : "orange", }}>
-          <p>{JSON.stringify(user)}</p>
+          <p>{JSON.stringify(user)}</p> <br/>
           <p>Favorite: {JSON.stringify(favorites)}</p>
         </div>
 

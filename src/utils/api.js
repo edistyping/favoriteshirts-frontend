@@ -32,7 +32,10 @@ const getRequest = async (path) => {
 };
 
 const postRequest = async (path, body) => {
-
+  console.log("     postRequest()....");
+  console.log(path);
+  console.log(body);
+  console.log('-----------------------------')
   const params = {
     method: "POST",
     headers: {
@@ -46,10 +49,10 @@ const postRequest = async (path, body) => {
     const res = await fetch(config.baseURL + path, params);
     const data = await res.json();
 
-    console.log("     postRequest() ran successfully...")
+    console.log(config.baseURL + path);
     console.log(res.status);
     console.log(data);
-    console.log("-------------------------------------")
+    console.log("     postRequest() ran successfully...")
 
     return { statusCode: res.status, data };
   } catch (error) {

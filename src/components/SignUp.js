@@ -42,27 +42,27 @@ const SignUp = ({ closeModal }) => {
       
       <form onSubmit={handleSubmit}>
 
-        <div>
-          <label>Username</label>
+      <div className='form__input__container'>
+        <label>Username</label>
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
         </div>
 
-        <div>
+        <div className='form__input__container'>
           <label>Email</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
         </div>
 
-        <div>
+        <div className='form__input__container'>
           <label>Password</label>
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
 
-        <div>
+        <div className='form__input__container'>
           <label>Confirm Password</label>
           <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
         </div>
 
-        <div>
+        <div className='form__input__container'>
           <label>Choose Your Favorite Color</label>
           <input type="favoritecolor" value={favoritecolor} onChange={(e) => setFavoritecolor(e.target.value)} required />
         </div>

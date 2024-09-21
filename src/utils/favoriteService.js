@@ -3,8 +3,7 @@ import { api } from '../utils/api'
 
 const FavoriteService = {
     getFavorites: async (isLoggedIn) => {
-      console.log("   FavoriteService() --> getFavorites()")
-      console.log(isLoggedIn)
+      alert(isLoggedIn)
       if (isLoggedIn) {
         console.log("   (FavoriteService) LOGGED IN")
 
@@ -17,7 +16,6 @@ const FavoriteService = {
 
       } else {
         console.log("   (FavoriteService) NOT LOGGED IN")
-
         return FavoriteService.getFavoritesFromLocalStorage();
       }
     },
@@ -64,7 +62,7 @@ const FavoriteService = {
     },
 
     getFavoritesFromLocalStorage: () => {
-      console.log(" mokko")
+      console.log(" mokko getFavoritesFromLocalStorage"());
       
       var temp = JSON.parse(localStorage.getItem('favorites')) || [];
       console.log(temp)
