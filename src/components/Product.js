@@ -21,9 +21,10 @@ import logo_jcpenny from '../assets/images/logo_jcpenny.png';
 import logo_other from '../assets/images/logo_other.png';
 import default_shirt from '../assets/images/default_shirt.png';
 
-const Product = ({ product, openModal } ) => {
+const Product = ({ product, isFavorite, onToggleFavorite, openModal } ) => {
 
   console.log('Product component');
+  console.log(isFavorite);
   
   const [votes, setVotes] = useState({ upvotes: 0, downvotes: 0 });
   const [userVote, setUserVote] = useState(null);
@@ -31,7 +32,7 @@ const Product = ({ product, openModal } ) => {
   const [imageSrcs, setImageSrcs] = useState(product.imageUrls); // Declare a state variable...
   
   const user = useSelector(state => state.user)
-  const { items: favorites, loaded } = useSelector((state) => state.favorites);
+  // const { items: favorites, loaded } = useSelector((state) => state.favorites);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -105,13 +106,13 @@ const Product = ({ product, openModal } ) => {
 
   };
 
-  const handleFavorite = (productId) => {
-    if (favorites.includes(productId)) {
-      dispatch(removeFavorite({ productId: productId, isLoggedIn: user.userInfo.isLogin }));
-    } else {
-      dispatch(addFavorite({ productId: productId, isLoggedIn: user.userInfo.isLogin }));
-    }
-  };
+  // const handleFavorite = (productId) => {
+  //   if (favorites.includes(productId)) {
+  //     dispatch(removeFavorite({ productId: productId, isLoggedIn: user.userInfo.isLogin }));
+  //   } else {
+  //     dispatch(addFavorite({ productId: productId, isLoggedIn: user.userInfo.isLogin }));
+  //   }
+  // };
 
   const fetchComment = async (id) => {
     const {statusCode, data} = await api.getRequest('/api/comment/' + id)
@@ -212,7 +213,11 @@ const Product = ({ product, openModal } ) => {
         <div className="proudct__container">
           <div className="product__header">
             <p>{product.id} {product.brand} - Uplaoded By <span>{product.userName}</span></p>
-            <button onClick={() => handleFavorite(product.id)}>{favorites.includes(product.id) ? 'Remove from Favorites' : 'Add to Favorites'}!</button>
+            
+            <button onClick={onToggleFavorite}>
+                {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+            </button>
+
           </div>
 
           <div className="product__body" onClick={() => openModal(product)} >

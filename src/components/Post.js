@@ -329,7 +329,6 @@ const Post = ({ props }) => {
                             {
                                 productUrls.map((productUrl, index) => 
                                     <li key={index} >
-
                                         <select id="select-brand" name="selectedBrand" value={productUrl.brand} onChange={(e) => handleProductUrlsChange(e, index)}>
                                             {brands.map((brand, index) => (
                                                 <option key={index} value={brand.name}>
@@ -342,7 +341,6 @@ const Post = ({ props }) => {
                                             <input type="text" name="productUrl_url" value={productUrl.url} onChange={updateFieldChanged(index)} placeholder="https://www.amazon.com/T-Shirt-Assortments....." />
                                             <button id={index} name="delete" onClick={(e => handleList(e, 'productUrls'))}>DELETE</button>
                                         </div>
-                                    
                                     </li>
                                 )
                             }
@@ -354,6 +352,7 @@ const Post = ({ props }) => {
                             <label><b>Images</b></label>
                             <button name="add" onClick={(e => handleList(e, 'imageUrls'))}>+</button>
                         </div>
+                        
                         <ul>
                             {
                                 imageUrls.map((image, index) => 

@@ -2,8 +2,8 @@
 import { api } from '../utils/api'
 
 const FavoriteService = {
+
     getFavorites: async (isLoggedIn) => {
-      alert(isLoggedIn)
       if (isLoggedIn) {
         console.log("   (FavoriteService) LOGGED IN")
 
@@ -16,7 +16,8 @@ const FavoriteService = {
 
       } else {
         console.log("   (FavoriteService) NOT LOGGED IN")
-        return FavoriteService.getFavoritesFromLocalStorage();
+        var data = FavoriteService.getFavoritesFromLocalStorage();
+        return data
       }
     },
   
@@ -62,11 +63,8 @@ const FavoriteService = {
     },
 
     getFavoritesFromLocalStorage: () => {
-      console.log(" mokko getFavoritesFromLocalStorage"());
-      
       var temp = JSON.parse(localStorage.getItem('favorites')) || [];
-      console.log(temp)
-      
+      console.log("     getFavoritesFromLocalStorage()... size: " + temp.length);
       return JSON.parse(localStorage.getItem('favorites')) || [];
     },
   
@@ -84,6 +82,6 @@ const FavoriteService = {
       return productId;
     }
   };
-  
-  export default FavoriteService;
+
+export default FavoriteService;
   

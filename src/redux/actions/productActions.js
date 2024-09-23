@@ -86,7 +86,9 @@ export const getProductsByFavorites = (favorites) => async dispatch => {
   console.log('\n\n   getProductsByFavorites() called...')
   console.log(favorites);
   console.log("favorite Length: " + Array.isArray(favorites));
+
   try {
+    
     dispatch({type: actionTypes.GET_PRODUCTS_REQUEST})
 
     if (favorites.length > 0) {

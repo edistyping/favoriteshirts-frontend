@@ -11,21 +11,39 @@ import { json } from "react-router-dom";
 
 const MyPosts = ({}) => {
     console.log('MyPosts here')
+
     const dispatch = useDispatch()
     const user = useSelector(state => state.user)
-    const response = useSelector(state => state.products)
-    const {products, loading, error} = response
+
+    // Local state for products and loading status
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     
+    const [editingProduct, setEditingProduct] = useState(null);
+    const [expandedRows, setExpandedRows] = useState([]);
+
     // const [products, setProducts] = useState({})
     const favorites = useSelector((state) => state.favorites.value)
 
     useEffect(() => {
-        dispatch(getProductsByUser());
+        // dispatch(getProductsByUser());
+
+        const fetchProductsByUser = async () => {
+            setLoading(true); // Set loading state to true before fetching
+            try {
+                const { statusCode, data } = await api.getRequest('/api/product/user-products');
+                setProducts(data); // Set products in local state
+            } catch (err) {
+                setError('Error fetching products');
+            } finally {
+                setLoading(false); // Set loading state to false after fetching
+            }
+        };
+
+        fetchProductsByUser();
     }, [dispatch])
 
-
-    const [editingProduct, setEditingProduct] = useState(null);
-    const [expandedRows, setExpandedRows] = useState([]);
 
     const handleEditClick = (product) => {
         setEditingProduct(product);
@@ -60,15 +78,21 @@ const MyPosts = ({}) => {
 
     return (
         <div>
+            <h2>Your Products and Comments</h2>
 
-            <h2>Product List</h2>
-            <div className='homescreen__products'>
+            <div style={{background: "lime"}}>
+                <button>Your Posts</button>
+                <button>Your Comments</button>
+            </div>
+
+            <div >
+                <h2>Product List</h2>
+                
                 { products && products.length > 0 ? 
                     <>
                         <table>
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Name</th>
                                     <th>Description</th>
                                     <th>Price</th>
@@ -80,16 +104,15 @@ const MyPosts = ({}) => {
                                 {products && products.map(product => (
                                     <>
                                         <tr key={product.id}>
-                                            <td>{product.id}</td>
                                             <td>{product.name}</td>
                                             <td>{product.description}</td>
                                             <td>{product.price}</td>
                                             <td>
-                                            <button onClick={() => handleEditClick(product)}>Edit</button>
-                                            <button onClick={() => handleDeleteClick(product.id)}>Delete</button>
-                                            <button onClick={() => handleExpandClick(product.id)}>
-                                                {isExpanded(product.id) ? 'Collapse' : 'Expand'}
-                                            </button>
+                                                <button onClick={() => handleEditClick(product)}>Edit</button>
+                                                <button onClick={() => handleDeleteClick(product.id)}>Delete</button>
+                                                <button onClick={() => handleExpandClick(product.id)}>
+                                                    {isExpanded(product.id) ? 'Collapse' : 'Expand'}
+                                                </button>
                                             </td>
                                         </tr>
 
@@ -134,8 +157,10 @@ const MyPosts = ({}) => {
                 }
             </div>
 
-            <h2>Your Comments</h2>
-            <div></div>
+            <div>
+                <h2>Your Comments</h2>
+
+            </div>
         </div>
     );
 };

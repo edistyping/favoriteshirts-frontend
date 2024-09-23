@@ -6,14 +6,22 @@ import Product from '../Product'
 import FilterBar from '../FilterBar'
 import ProductModal from '../ProductModal'; // Import your Modal component
 
-import { fetchFavorites } from '../../redux/counter/favoritesSlice'
+import { addFavorite, removeFavorite } from '../../redux/counter/favoritesSlice'
 
 import { api } from '../../utils/api'
 
 const Logo = () => {
   console.log('   Logo component...')
-  
-  const [products, setProducts] = useState(null);
+
+  const dispatch = useDispatch()
+
+  const user = useSelector(state => state.user)
+
+  // Local state for products and loading status
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   
@@ -24,17 +32,16 @@ const Logo = () => {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const loader = useRef(null);
-  
-  const dispatch = useDispatch()
 
-  const user = useSelector(state => state.user)
   const { items: favorites, loaded } = useSelector((state) => state.favorites);
 
   useEffect(() => {
     console.log('   Logo() useEffect...')
-    
+
     const fetchProducts = async () => {
-      console.log('   Logo() fetchProducts...')
+
+      console.log('   White() fetchProducts...')
+      setLoading(true);
       const { statusCode, data } = await api.getRequest('/api/product/LOGO', {
         params: { page, pageSize: 20 }
       });
@@ -45,10 +52,10 @@ const Logo = () => {
         setProducts(data);
       }
 
+      setLoading(false);
       setHasMore(data.length > 0);
-      dispatch(fetchFavorites(user.userInfo.isLogin));
-    };
-
+    }
+    
     fetchProducts();
 
   }, [dispatch])
@@ -91,27 +98,41 @@ const Logo = () => {
     setFilter({ brand: input1}); 
   };
 
+  // Check if the product is already in favorites
+  const handleFavoriteToggle = (productId) => {
+
+    if (favorites.includes(productId)) {
+        dispatch(removeFavorite({ productId: productId, isLoggedIn: user.userInfo.isLogin }));
+    } else {
+        dispatch(addFavorite({ productId: productId, isLoggedIn: user.userInfo.isLogin }));
+    }
+    // You could update the products state manually here if you need to remove/add from the displayed products
+  };
+
   return (
     <div className="logo-main-container">
-        { !products ? (
-          <div>
-            <h2>Loading...</h2>
-          </div>
-        ) : (
+
           <div>
 
             <FilterBar handleFilter={handleFilter} brands={brands} />
+
+            {/* Display "Empty!" if favorites list is empty */}
+
+            {loading && <p style={{color: "red"}}>Loading...123</p>}
             
-            { products.length === 0 ? 
-              <p>SORRY! THERE ARE NO ITEMS AT THIS TIME</p>
-              :
+            { !loading && products.length === 0 && <p>Empty!</p>}
+            
+            { !loading && products.length > 0 && 
+            
               <div className='logo__products'>
                 { filter.brand && filter.brand !== "All" ? 
                   products.filter(product => product.brand === filter.brand).map((product, index) => (
                     <Product
-                    key={product.id}
-                    product={product} 
-                    openModal={openModal}
+                      key={product.id}
+                      product={product} 
+                      isFavorite={favorites.includes(product.id)}
+                      onToggleFavorite={() => handleFavoriteToggle(product.id)}
+                      openModal={openModal}
                     />                  
                   ))
                 :
@@ -119,6 +140,8 @@ const Logo = () => {
                     <Product
                     key={product.id}
                     product={product} 
+                    isFavorite={favorites.includes(product.id)}
+                    onToggleFavorite={() => handleFavoriteToggle(product.id)}
                     openModal={openModal}
                     />                  
                   ))
@@ -137,7 +160,6 @@ const Logo = () => {
             
             <div ref={loader} />
           </div>
-        )}
     </div>
   )
 }

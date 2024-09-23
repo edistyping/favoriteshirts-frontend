@@ -1,0 +1,16 @@
+
+.profile__container {
+  background-color: grey;
+  margin: auto;
+  width: 80%;
+}
+
+.profile__form {
+  padding: 1%;
+}
+
+.profile__form__section {
+  margin: auto;
+  margin-bottom: 2%;
+  width: 80%;
+}

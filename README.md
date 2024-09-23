@@ -1,14 +1,29 @@
 # TO DO
-    - Read product data as a local state variable, not redux variable 
-    - Update favorite (and others) 
-        - check if Favorite exists 
-            - If yes, fetch products 
-                - Display loading
-                - Display products
-            - If no, don't fetch products
-                - Display None
+    To Do 
+        - Login component
+            - Add change my password 
+
+        - Formatting
+            1. Home
+            2. Post
+            3. Favorite
+            4. Profile
+            5. My Post (IP) 
+                - Add a button to switch between Products and Comments 
+
+                - Products
+                    - Edit
+                        - Edit all info 
+                    - Delete 
+                - Comments
+                    - Delete only 
                 
     BUG
+        - (Done) Read product data as a local state variable, not redux variable
+            - Move 'handleFavoriteClick' outside Product.js 
+            - Update Favorite component so Add/Remove favorite  
+            - 'Add/Remove Favorite' affect Favorite redux variable 
+
         - (Done) Fix Modal in White
             - Sctructure thing more neatly
             - Set the default for Option fields. It's coming in Empty 

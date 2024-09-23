@@ -6,8 +6,7 @@
     display: flex;
     color: white;
     height: 100%;
-    background-color: green;
-    
+    background-color: black;
     flex-grow: 1;
   }
 
@@ -18,15 +17,23 @@
     justify-content: center;
     
     margin: 2% auto;
+    padding: 1%;
 
-    border: 2px solid darkblue;
+    border: 2px solid white;
     box-sizing: border-box;
+  }
+  .form__post h2 {
+    text-align: center;
   }
 
   .form__item__container {
     display: flex;
     flex-direction: column;
     margin: 0 0 2% 0;
+
+  }
+  .form__item__container label {
+    margin-bottom: 5px;
   }
   .form__item__container ul {
     width: 100%;
@@ -35,6 +42,7 @@
     list-style-type: none;
   }
   .form__item__container li {
+    margin-bottom: 1%;
   }
 
   .form__list__brand {
@@ -51,9 +59,19 @@
   }
 
   .form__item__top {
-    background-color: rebeccapurple;
+    background-color: grey;
     display: flex;
     align-items: center;
+
+    margin-bottom: 1%;
+  }
+  .form__item__top button {
+    margin-left: 1%;
+    padding: 5px;
+
+    height: 20px;
+    width: 20px;
+    
   }
 
   .form__item__list {
@@ -64,7 +82,7 @@
     width: 80%;
   }
   .form__item__list button {
-    width: 20%;
+    margin-left: 1%;
   }
 
   .post__denied {

@@ -1,0 +1,13 @@
+.favorite__products {
+  height: 95vh;
+}
+
+.favorite__products__empty {
+  text-align: center;
+  display: flex;
+  height: 100%; 
+}
+.favorite__products__empty p {
+  margin: auto;
+  font-size: 4rem;
+}
