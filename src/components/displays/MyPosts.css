@@ -1,0 +1,37 @@
+
+
+.myposts__container {
+    background-color: grey;
+    
+    min-height: 95vh;
+}
+
+.myposts__container__header {
+
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    background-color: lime;
+}
+
+.myposts__container__header button {
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    background-color: #f0f0f0; /* Default button background */
+}
+
+.myposts__container__header button.active {
+    background-color: #007bff; /* Highlighted background when active */
+    color: white;
+}
+
+.myposts__section {
+}
+
+table {
+    background-color: red;
+    width: 90%;
+    margin: auto;
+}

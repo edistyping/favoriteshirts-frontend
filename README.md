@@ -8,13 +8,12 @@
             2. Post
             3. Favorite
             4. Profile
-            5. My Post (IP) 
-                - Add a button to switch between Products and Comments 
-
+            5. My Post (IP) - Toggle between Posts/Comments 
                 - Products
                     - Edit
                         - Edit all info 
                     - Delete 
+
                 - Comments
                     - Delete only 
                 
