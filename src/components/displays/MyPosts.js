@@ -22,11 +22,12 @@ const MyPosts = ({}) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     
+    const [comments, setComments] = useState([]);
+
     // false == posts, true == comments
     const [toggleContent, setToggleContent] = useState(true); 
 
     const [editingProduct, setEditingProduct] = useState(null);
-    const [expandedRows, setExpandedRows] = useState([]);
 
     // const [products, setProducts] = useState({})
     const favorites = useSelector((state) => state.favorites.value)
@@ -49,14 +50,36 @@ const MyPosts = ({}) => {
         fetchProductsByUser();
     }, [dispatch])
 
+    const handleCommentDelete = async (comment) => {
+        const {statusCode, data} = await api.deleteRequest('/api/comment/' + comment.id);
+        
+        // if successful, update 'products' state variable
+        if (statusCode === 204) {
+            const updatedComments = comments.filter(p => p.id !== comment.id);
+            alert("Delete is successfully made!");
+            setComments(updatedComments);
+        } else {
+            alert("There was a problem with deleting...");
+        }
+    }
 
     const handleEditClick = (product) => {
         setEditingProduct(product);
         // Show edit popup/modal here
-      };
+    };
     
-    const handleDeleteClick = (id) => {
+    const handleDeleteClick = async (product) => {
         // dispatch(deleteProduct(id)); // Dispatch delete action
+        const {statusCode, data} = await api.deleteRequest('/api/product/' + product.id);
+
+        // if successful, update 'products' state variable
+        if (statusCode === 204) {
+            const updatedProducts = products.filter(p => p.id !== product.id);
+            alert("Delete is successfully made!");
+            setProducts(updatedProducts);
+        } else {
+            alert("There was a problem with deleting...");
+        }
     };
 
     const handleUpdate = async (event, updatedProduct) => {
@@ -69,17 +92,41 @@ const MyPosts = ({}) => {
         const {statusCode, data} = await api.patchRequest('/api/product/' + editingProduct.id, transformedData)
 
         // if successful, update 'products' state variable
+        if (statusCode === 200) {
+            const index = products.findIndex(product => product.id === editingProduct.id);
+            if (index !== -1) {
+                const updatedProducts = [...products];
+                updatedProducts[index] = editingProduct;
+                alert("Update is successfully made!");
+                setProducts(updatedProducts);
+                setEditingProduct(null);
+            }
+        } else {
+            alert("There was a problem with updating...");
+        }
 
         setEditingProduct(null); // Close edit popup/modal
     };
 
-    const handleToggle = (value) => {
+    const handleToggle = async (value) => {
         setLoading(true);
 
         if (value === false) {
             // fetch comments 
+            const {statusCode, data} = await api.getRequest('/api/comment/')
+            // id, productId, description, userId, score 
+            if (statusCode === 200){
+                setComments(data);
+            }
+
         } else if (value === true) {
             // fetch products again 
+            const { statusCode, data } = await api.getRequest('/api/product/user-products');
+
+            // id, productId, description, userId, score 
+            if (statusCode === 200){
+                setProducts(data);
+            }
         }
         
         setLoading(false);
@@ -89,49 +136,49 @@ const MyPosts = ({}) => {
     return (
         <div className="myposts__container" >
 
-            <h2>Your Products and Comments</h2>
+            <h2>YOUR HISTORY</h2>
 
             <div className="myposts__container__header" >
-                <button className={toggleContent ? "active" : ""} onClick={() => handleToggle(true)}>Your Posts</button>
-                <button className={!toggleContent ? "active" : ""} onClick={() => handleToggle(false)}>Your Comments</button>
+                <button className={toggleContent ? "active" : ""} onClick={() => handleToggle(true)}>YOUR POSTS</button>
+                <button className={!toggleContent ? "active" : ""} onClick={() => handleToggle(false)}>YOUR COMMENTS</button>
             </div>
 
             { toggleContent ? 
 
                 <div className='myposts__section'>
-                    <h2>Your Posts</h2>
                     
-                    { loading && <>Loading here!</> }
+                    { loading && <>LOADING NOW!</> }
 
                     { !loading && products && products.length > 0 ?
-                        <table>
+
+                        <table className='myposts__table'>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Description</th>
-                                    <th>Price</th>
+                                    <th>NAME</th>
+                                    <th>DESCRIPTION</th>
+                                    <th>BRAND</th>
+                                    <th>PRICE</th>
 
-                                    <th>Actions</th>
+                                    <th>ACTIONS</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 {products && products.map(product => (
-                                    <>
-                                        <tr key={product.id}>
-                                            <td>{product.name}</td>
-                                            <td>{product.description}</td>
-                                            <td>{product.price}</td>
+                                    <tr key={product.id}>
+                                        <td>{product.name}</td>
+                                        <td>{product.description}</td>
+                                        <td>{product.brand}</td>
+                                        <td>{product.price}</td>
 
-                                            <td>
-                                                <button onClick={() => handleEditClick(product)}>Edit</button>
-                                                <button onClick={() => handleDeleteClick(product.id)}>Delete</button>
-                                            </td>
-                                        </tr>
-
-                                    </>
+                                        <td className='myposts__table__btn__container'>
+                                            <button onClick={() => handleEditClick(product)}>EDIT</button>
+                                            <button onClick={() => handleDeleteClick(product)}>DELETE</button>
+                                        </td>
+                                    </tr>
                                 ))}
                             </tbody>
+
                         </table>
                     :
                         <></>
@@ -159,8 +206,35 @@ const MyPosts = ({}) => {
 
             : 
                 <div>
-                    <h2>Your Comments</h2>
-                    
+
+                    { !loading && comments && comments.length > 0 ?
+                        <table className='myposts__table'>
+                            <thead>
+                                <tr>
+                                    <th>DESCRIPTION</th>
+                                    <th>SCORE</th>
+
+                                    <th>ACTIONS</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {comments && comments.map(comment => (
+                                    <>
+                                        <tr key={comment.id}>
+                                            <td>{comment.description}</td>
+                                            <td>{comment.score}</td>
+                                            <td>
+                                                <button onClick={() => handleCommentDelete(comment)}>Delete</button>
+                                            </td>
+                                        </tr>
+                                    </>
+                                ))}
+                            </tbody>
+                        </table>
+                    :
+                        <></>
+                    }
                 </div>
             }
         </div>

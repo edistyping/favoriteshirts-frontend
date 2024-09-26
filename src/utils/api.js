@@ -2,6 +2,8 @@ import { config } from "./config";
 import { getToken } from "./localstorage";
 
 const getRequest = async (path) => {
+  console.log("   getRequest()")
+
   const params = {
     method: "GET",
     headers: {
@@ -12,6 +14,8 @@ const getRequest = async (path) => {
   try {
     const res = await fetch(config.baseURL + path, params);
     const data = await res.json();
+
+    console.log(data);
     return { statusCode: res.status, data };
   } catch (error) {
     console.log(`error in post Request (${path}) :- `, error);
@@ -115,8 +119,9 @@ const deleteRequest = async (path, body) => {
 };
 
 const patchRequest = async (path, body) => {
+
   console.log("   patchRequest()")
-  
+
   const params = {
     method: "PATCH",
     headers: {

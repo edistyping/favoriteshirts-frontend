@@ -1,6 +1,11 @@
-.favorite__products {
-  height: 95vh;
-}
+.favorite__container {
+  margin: auto;
+  width: 90%;
+  min-height: 95vh;
+  padding: 30px 30px 30px 30px;
+
+  background-color: black;
+  color: white;}
 
 .favorite__products__empty {
   text-align: center;
@@ -10,4 +15,14 @@
 .favorite__products__empty p {
   margin: auto;
   font-size: 4rem;
+}
+
+.favorite__products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  
+  column-gap: 1%;
+  row-gap: 1%;
+
+  margin-bottom: 1%;
 }

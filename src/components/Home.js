@@ -1,78 +1,60 @@
 import './Home.css'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import Product from './Product'
-import ProductDetail from './ProductDetail'
-
-import { getProducts as listProducts } from '../redux/actions/productActions'
-import { fetchFavorites, addFavorite, removeFavorite } from '../redux/counter/favoritesSlice'
-
 import { api } from '../utils/api'
-import { current } from '@reduxjs/toolkit'
-
-const ModalStyle = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 800,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const Home = () => {
   console.log('   Home component...')
   
   const dispatch = useDispatch()
 
-  const response = useSelector(state => state.products)
-  const {products, loading, error} = response
-
   const user = useSelector(state => state.user)
   const { items: favorites, loaded } = useSelector((state) => state.favorites);
+
+  // Local state for products and loading status
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const loader = useRef(null);
 
   useEffect(() => {
     console.log('   Home() useEffect...')
 
-    dispatch(listProducts())
+    // fetch top products from backend 
+    // display it by category 
+    const fetchProducts = async () => {
 
-    if (products){
-      // once product loads, get Favorites
-      console.log("(Home) Products are loaded... so getting Favorite");
-      console.log(products);
-
-      dispatch(fetchFavorites(user.userInfo.isLogin));
+      console.log('   Home() fetchProducts...')
+      setLoading(true);
+      const { statusCode, data } = await api.getRequest('/api/product/top-products', {
+        params: { page, pageSize: 20 }
+      });
+      
+      if (statusCode === 404) {
+        setProducts([]);
+      } else {
+        setProducts(data);
+      }
+      setLoading(false);
     }
+    
+    fetchProducts();
 
   }, [dispatch])
 
   return (
     <div className="homescreen">
-        {loading ? (
-          <div>
-            <h2>Loading...</h2>
-          </div>
-        ) : error ? (
-          <h2>{error}</h2>
-        ) : (
-          <div>
-            
-            <div style={{ background: "teal", }}>
-              <p>WELCOME HOME!</p>
-              <p>{JSON.stringify(user)}</p>
-              <p>Favorite: {JSON.stringify(favorites)}</p>
-            </div>
+        
+        {/* Display "Empty!" if favorites list is empty */}
+        {loading && <p>LOADING...</p>}
 
-            <div>
-              <p>MAIN CONTENT HERE</p> 
-              <p>CHECK OUT SOME TRENDING PRODUCTS!</p>
-            </div>
+        { !loading && <p>WELCOME!</p>}
 
-        </div>
-        )}
 
     </div>
   )

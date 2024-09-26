@@ -71,3 +71,26 @@ export const setUserDelete = () => async dispatch => {
   })
   return
 }
+
+export const updateUser = (user, updated_user) => async dispatch => {
+
+  // {"userInfo":{"isLogin":true,"details":{"message":"Login successful","username":"bbb","favoritecolor":"zzz"}}}
+  // {"username": "bbb", "favoritecolor": "zzz"}
+
+  const updatedUser = {
+    ...user, // Spread the original user object
+    userInfo: {
+      ...user.userInfo, // Spread the userInfo object
+      details: {
+        ...user.userInfo.details, // Spread the existing details
+        ...updated_user // Overwrite with updated_user's keys and values
+      }
+    }
+  };
+  
+  dispatch({
+    type: actionTypes.UPDATE_USER,
+    payload: updatedUser
+  })
+
+}

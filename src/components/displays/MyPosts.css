@@ -5,14 +5,14 @@
     
     min-height: 95vh;
 }
-
+.myposts__container h2 {
+    padding: 1%;
+}
 .myposts__container__header {
-
     display: flex;
     justify-content: center;
     gap: 15px;
-
-    background-color: lime;
+    margin-bottom: 1%;
 }
 
 .myposts__container__header button {
@@ -23,15 +23,34 @@
 }
 
 .myposts__container__header button.active {
-    background-color: #007bff; /* Highlighted background when active */
+    background-color: #474747; /* Highlighted background when active */
     color: white;
 }
 
 .myposts__section {
 }
 
-table {
-    background-color: red;
-    width: 90%;
+.myposts__table {
+    width: 80%;
     margin: auto;
+    border-collapse: collapse;
+
+
+}
+.myposts__table th, .myposts__table td {
+    padding: 8px;
+}
+.myposts__table th {
+    background-color: rgb(43, 40, 40);
+    border: 2px solid black;
+}
+
+.myposts__table td {
+    text-align: center;
+    border: 2px solid rgb(77, 77, 77);
+
+}
+
+.myposts__table__btn__container button {
+    margin-right: 2%;
 }

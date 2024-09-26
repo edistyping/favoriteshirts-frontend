@@ -1,22 +1,10 @@
 # TO DO
     To Do 
-        - Login component
-            - Add change my password 
+        - Update so few Components are only accessible when logged in 
+            - MyPost, Profile
 
-        - Formatting
-            1. Home
-            2. Post
-            3. Favorite
-            4. Profile
-            5. My Post (IP) - Toggle between Posts/Comments 
-                - Products
-                    - Edit
-                        - Edit all info 
-                    - Delete 
 
-                - Comments
-                    - Delete only 
-                
+
     BUG
         - (Done) Read product data as a local state variable, not redux variable
             - Move 'handleFavoriteClick' outside Product.js 

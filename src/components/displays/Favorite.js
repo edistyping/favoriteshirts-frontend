@@ -76,7 +76,7 @@ const Favorite = () => {
 
     return (
         <div>
-            <div className='favorite__products'>
+            <div className='favorite__container'>
 
                 {/* Display "Empty!" if favorites list is empty */}
                 {favorites.length === 0 && 
@@ -92,17 +92,20 @@ const Favorite = () => {
                 {error && <p>{error}</p>}
 
                 {/* Display the products once fetched */}
-                {!loading && products.length > 0 && (
-                    products.filter(product => favorites.includes(product.id)).map(product => 
-                        <Product
-                            key={product.id}
-                            product={product} 
-                            isFavorite={favorites.includes(product.id)}
-                            onToggleFavorite={() => handleFavoriteToggle(product.id)}
-                            openModal={openModal}
-                        />      
-                    )
-                )}
+                {!loading && products.length > 0 && 
+                
+                    <div className='favorite__products'>
+                        {products.filter(product => favorites.includes(product.id)).map(product => 
+                            <Product
+                                key={product.id}
+                                product={product} 
+                                isFavorite={favorites.includes(product.id)}
+                                onToggleFavorite={() => handleFavoriteToggle(product.id)}
+                                openModal={openModal}
+                                />      
+                        )}
+                    </div>
+                }
 
                 {isModalOpen && selectedProduct && (
                     <ProductModal
