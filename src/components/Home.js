@@ -31,7 +31,7 @@ const Home = () => {
 
       console.log('   Home() fetchProducts...')
       setLoading(true);
-      const { statusCode, data } = await api.getRequest('/api/product/top-products', {
+      const { statusCode, data } = await api.getRequest('/api/product/', {
         params: { page, pageSize: 20 }
       });
       
