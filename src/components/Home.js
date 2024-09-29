@@ -31,10 +31,14 @@ const Home = () => {
 
       console.log('   Home() fetchProducts...')
       setLoading(true);
-      const { statusCode, data } = await api.getRequest('/api/product/', {
-        params: { page, pageSize: 20 }
-      });
       
+      // const { statusCode, data } = await api.getRequest('/api/product/', {
+        //   params: { page, pageSize: 20 }
+        // });
+        
+      const statusCode = 404;
+      const data = [];
+
       if (statusCode === 404) {
         setProducts([]);
       } else {
@@ -51,7 +55,8 @@ const Home = () => {
     <div className="homescreen">
         
         {/* Display "Empty!" if favorites list is empty */}
-        {loading && <p>LOADING...</p>}
+        { loading && <p>LOADING!</p>}
+
 
         { !loading && <p>WELCOME!</p>}
 

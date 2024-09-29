@@ -117,7 +117,7 @@ const NoLogo = () => {
 
             {/* Display "Empty!" if favorites list is empty */}
 
-            {loading && <p style={{color: "red"}}>Loading...123</p>}
+            {loading && <p style={{color: "red"}}>Loading...</p>}
 
             { !loading && products.length === 0 && <p>Empty!</p>}
 

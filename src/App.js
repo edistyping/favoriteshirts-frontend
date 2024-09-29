@@ -22,6 +22,8 @@ import Advertise from './components/Advertise'
 import Recommendation from './components/Recommendation'
 import Post from './components/Post'
 
+import ProtectedRoute from './utils/ProtectedRoute'; // Import your ProtectedRoute component
+
 import { fetchFavorites } from './redux/counter/favoritesSlice'
 import { setUserDetails } from './redux/actions/userAction'
 
@@ -67,13 +69,13 @@ function App() {
     // dispatch(fetchFavorites(user.userInfo.isLogin));
   }, [dispatch]);
 
-  if (isLoading) {
-    return (
-      <div style={{ color: "red" }}>
-        LOADING!
-      </div>
-    )
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div style={{ color: "red" }}>
+  //       LOADING!
+  //     </div>
+  //   )
+  // }
 
 
   return (
@@ -89,9 +91,16 @@ function App() {
 
           <Route exact path="/post" element={ <Post/> } />
           <Route exact path="/favorite" element={ <Favorite /> } />
-          <Route exact path="/profile" element={ <Profile /> } />
 
-          <Route exact path="/myposts" element={ <MyPosts/> } />
+          {/* */}
+          <Route exact path="/profile" 
+            element={ <ProtectedRoute >
+            <Profile />
+          </ProtectedRoute>} />
+          <Route exact path="/myposts" element={ <ProtectedRoute >
+            <MyPosts />
+          </ProtectedRoute>} />
+
 
           <Route exact path="/product/:id" element={ <ProductDetail/> } />
           <Route exact path="/recommendation" element={ <Recommendation/> } />

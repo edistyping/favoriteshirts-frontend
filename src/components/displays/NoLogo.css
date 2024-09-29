@@ -11,8 +11,7 @@
   .nologo__products {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    
-    column-gap: 1%;
-    row-gap: 1%;
-  }
+    gap: 20px; /* Space between grid items */
+    padding: 10px;
   
+  }

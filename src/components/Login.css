@@ -11,7 +11,7 @@
     max-height: 800px; /* Maximum height for larger screens */
     
     background-color: rgb(49, 54, 38);
-    padding: 20px;
+    padding: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
     z-index: 1000;
