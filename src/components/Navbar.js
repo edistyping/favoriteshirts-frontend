@@ -44,7 +44,9 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
+
       <div className="navbar-left">
+
         <Link to="/">
           <img src={logo} alt="Logo" className="navbar-logo"/>
         </Link>
@@ -53,10 +55,7 @@ const Navbar = () => {
         <Link to="/white" className={`${location.pathname === '/white' ? 'active' : ''} navbar-link`}>WHITE</Link>
         <Link to="/nologo" className={`${location.pathname === '/nologo' ? 'active' : ''} navbar-link`}>NO LOGO</Link>
         <Link to="/logo" className={`${location.pathname === '/logo' ? 'active' : ''} navbar-link`}>LOGO</Link>
-
-        { "Length: " + favorites.length }<br/>
-        { "Items: " + JSON.stringify(favorites)}
-
+      
       </div>
 
       <div className="navbar-right">
@@ -90,6 +89,7 @@ const Navbar = () => {
         : <></>}
 
       </div>
+      
     </nav>
   );
 };
