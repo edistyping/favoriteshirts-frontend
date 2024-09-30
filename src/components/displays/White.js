@@ -114,14 +114,22 @@ const White = () => {
   return (
     <div className="white-main-container">
 
-          <div>
-
             <FilterBar handleFilter={handleFilter} brands={brands} />
             
             {/* Display "Empty!" if favorites list is empty */}
-            {loading && <p style={{color: "red"}}>Loading...</p>}
+            { loading && 
+              <div className='white__loading'>
+                <p>
+                  Loading...
+                </p>
+              </div> 
+            }
 
-            { !loading && products.length === 0 && <p>Empty!</p>}
+            { !loading && products.length === 0 && 
+              <div className='white__loading'>
+                <p>Empty!</p>
+              </div>  
+            }
 
             { !loading && products.length > 0 && 
 
@@ -160,7 +168,6 @@ const White = () => {
             )}
 
             <div ref={loader} />
-          </div>
     </div>
   )
 }

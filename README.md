@@ -1,11 +1,13 @@
 # TO DO
     To Do 
-        - Update so few Components are only accessible when logged in 
-            - MyPost, Profile
-
-
+        1. When ProductDetail/Modal shows up, remove when anywhere else is clicked (like Login/SignUp)
 
     BUG
+        - (Done) Loading + Empty sizing/formatting
+
+        - (Done) Update so few Components are only accessible when logged in 
+            - MyPost, Profile
+
         - (Done) Read product data as a local state variable, not redux variable
             - Move 'handleFavoriteClick' outside Product.js 
             - Update Favorite component so Add/Remove favorite  

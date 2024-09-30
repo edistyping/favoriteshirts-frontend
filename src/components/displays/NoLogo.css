@@ -2,10 +2,23 @@
     margin: auto;
     width: 90%;
     min-height: 95vh;
-    padding: 0 30px 30px 30px;
-
-    background-color: darkblue;
+    height: 95vh;  
     color: white;
+
+    display: flex;
+    flex-direction: column;
+}
+
+  .logo__loading {
+    height: 100%;
+  
+    font-size: 2rem;
+    flex-grow: 1; /* Takes up remaining space below the FilterBar */
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
   }
   
   .nologo__products {

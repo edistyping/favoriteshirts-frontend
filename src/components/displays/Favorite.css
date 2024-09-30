@@ -2,19 +2,21 @@
   margin: auto;
   width: 90%;
   min-height: 95vh;
-  padding: 30px 30px 30px 30px;
+  height: 95vh;  
+  color: white;
 
-  background-color: black;
-  color: white;}
+  display: flex;
+  flex-direction: column;
+}
 
 .favorite__products__empty {
-  text-align: center;
+
+  font-size: 2rem;
+  flex-grow: 1; /* Takes up remaining space below the FilterBar */
+
   display: flex;
-  height: 100%; 
-}
-.favorite__products__empty p {
-  margin: auto;
-  font-size: 4rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .favorite__products {

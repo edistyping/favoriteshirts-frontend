@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
   const user = useSelector((state) => state.user); // Access the user state from Redux
 
   // Check if user is logged in
-  if (!user.login) {
+  if (!user.userInfo.isLogin) {
     return <Navigate to="/" />; // Redirect to home or login page if not logged in
   }
 

@@ -112,16 +112,26 @@ const Logo = () => {
   return (
     <div className="logo-main-container">
 
-          <div>
 
             <FilterBar handleFilter={handleFilter} brands={brands} />
-
+            
             {/* Display "Empty!" if favorites list is empty */}
+            { loading && 
+              <div className='logo__loading'>
+                <p>
+                  Loading...
+                </p>
+              </div> 
+            }
 
-            {loading && <p style={{color: "red"}}>Loading...</p>}
-            
-            { !loading && products.length === 0 && <p>Empty!</p>}
-            
+            { !loading && products.length === 0 && 
+              <div className='logo__loading'>
+                <p>Empty!</p>
+              </div>  
+            }
+
+
+
             { !loading && products.length > 0 && 
             
               <div className='logo__products'>
@@ -159,7 +169,6 @@ const Logo = () => {
             )}
             
             <div ref={loader} />
-          </div>
     </div>
   )
 }
