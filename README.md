@@ -1,6 +1,11 @@
+# Link
+https://edistyping.github.io/favoriteshirts-frontend/
+
 # TO DO
     To Do 
         1. When ProductDetail/Modal shows up, remove when anywhere else is clicked (like Login/SignUp)
+
+        2. Can I improve Add/Remove to favorites? 
 
     BUG
         - (Done) Loading + Empty sizing/formatting

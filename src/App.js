@@ -11,7 +11,6 @@ import Home from './components/Home'
 import White from './components/displays/White'
 import Logo from './components/displays/Logo'
 import NoLogo from './components/displays/NoLogo'
-import Special from './components/displays/Special'
 import Favorite from './components/displays/Favorite'
 import MyPosts from './components/displays/MyPosts'
 import Profile from './components/displays/Profile'
@@ -87,7 +86,6 @@ function App() {
           <Route exact path="/white" element={ <White /> } />
           <Route exact path="/nologo" element={ <NoLogo /> } />
           <Route exact path="/logo" element={ <Logo /> } />
-          <Route exact path="/special" element={ <Special /> } />
 
           <Route exact path="/post" element={ <Post/> } />
           <Route exact path="/favorite" element={ <Favorite /> } />

@@ -53,6 +53,10 @@ const Navbar = () => {
         <Link to="/white" className={`${location.pathname === '/white' ? 'active' : ''} navbar-link`}>WHITE</Link>
         <Link to="/nologo" className={`${location.pathname === '/nologo' ? 'active' : ''} navbar-link`}>NO LOGO</Link>
         <Link to="/logo" className={`${location.pathname === '/logo' ? 'active' : ''} navbar-link`}>LOGO</Link>
+
+        { "Length: " + favorites.length }<br/>
+        { "Items: " + JSON.stringify(favorites)}
+
       </div>
 
       <div className="navbar-right">
